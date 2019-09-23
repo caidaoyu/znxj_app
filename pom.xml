@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>znxj</groupId>
-  <artifactId>znxj</artifactId>
+  <groupId>znxj_app</groupId>
+  <artifactId>znxj_app</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>znxj Maven Webapp</name>
+  <name>znxj_app Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
   <build>
-    <finalName>znxj</finalName>
+    <finalName>znxj_app</finalName>
     <plugins>
       <!-- Mybatis generator代码生成插件 配置 -->
       <plugin>
