@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.EquipmentinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Equipmentinfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="customid" property="customid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="desccontent" property="desccontent" jdbcType="VARCHAR" />
+    <result column="nfcid" property="nfcid" jdbcType="BIGINT" />
+    <result column="areaid" property="areaid" jdbcType="BIGINT" />
+    <result column="areaname" property="areainfo.customid" jdbcType="VARCHAR" />
+    <result column="siteid" property="areainfo.plant" jdbcType="VARCHAR" />
+
+    <result column="nnfcid" jdbcType="BIGINT" property="nfc.id" />
+    <result column="nfcunitcode" property="nfc.unitcode" jdbcType="VARCHAR" />
+    <result column="nfccustomid" property="nfc.customid" jdbcType="VARCHAR" />
+    <result column="nfcdesccontent" property="nfc.desccontent" jdbcType="VARCHAR" />
+    <result column="nfclongitude" property="nfc.longitude" jdbcType="VARCHAR" />
+    <result column="nfclatitude" property="nfc.latitude" jdbcType="VARCHAR" />
+    <result column="nfcenabletime" property="nfc.enabletime" jdbcType="VARCHAR" />
+    <result column="nfcstate" property="nfc.state" jdbcType="VARCHAR" />
+    <result column="nfcremark" property="nfc.remark" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, customid, name, type, longitude, latitude, desccontent, nfcid, areaid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.EquipmentinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from equipmentinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select e.id,e.customid,e.name,e.type,e.longitude,e.latitude,e.desccontent,e.areaid,e.nfcid,
+    n.unitcode nfcunitcode,a.customid areaname,n.customid nfccustomid,n.desccontent nfcdesccontent ,a.plant siteid
+    from equipmentinfo e left join nfcinfo n on e.nfcid=n.id  left join areainfo a on e.areaid=a.id
+    where e.id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="queryequip" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select e.*,n.id nfcid,n.customid nfccustomid,n.desccontent nfcdesccontent,n.unitcode nfcunitcode,
+    n.longitude nfclongitude,n.latitude nfclatitude,n.enabletime nfcenabletime,n.state nfcstate,n.remark nfcremark
+    from equipmentinfo e left join nfcinfo n on e.nfcid=n.id where e.areaid=#{0}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from equipmentinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.EquipmentinfoExample" >
+    delete from equipmentinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Equipmentinfo" >
+    insert into equipmentinfo (id, customid, name, 
+      type, longitude, latitude, 
+      desccontent, nfcid, areaid
+      )
+    values (#{id,jdbcType=BIGINT}, #{customid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{desccontent,jdbcType=VARCHAR}, #{nfcid,jdbcType=BIGINT}, #{areaid,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Equipmentinfo" >
+    insert into equipmentinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customid != null" >
+        customid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="desccontent != null" >
+        desccontent,
+      </if>
+      <if test="nfcid != null" >
+        nfcid,
+      </if>
+      <if test="areaid != null" >
+        areaid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customid != null" >
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="desccontent != null" >
+        #{desccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="nfcid != null" >
+        #{nfcid,jdbcType=BIGINT},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.EquipmentinfoExample" resultType="java.lang.Integer" >
+    select count(*) from equipmentinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update equipmentinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customid != null" >
+        customid = #{record.customid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desccontent != null" >
+        desccontent = #{record.desccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nfcid != null" >
+        nfcid = #{record.nfcid,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaid != null" >
+        areaid = #{record.areaid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update equipmentinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      customid = #{record.customid,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=VARCHAR},
+      desccontent = #{record.desccontent,jdbcType=VARCHAR},
+      nfcid = #{record.nfcid,jdbcType=BIGINT},
+      areaid = #{record.areaid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Equipmentinfo" >
+    update equipmentinfo
+    <set >
+      <if test="customid != null" >
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="desccontent != null" >
+        desccontent = #{desccontent,jdbcType=VARCHAR},
+      </if>
+      <if test="nfcid != null" >
+        nfcid = #{nfcid,jdbcType=BIGINT},
+      </if>
+      <if test="areaid != null" >
+        areaid = #{areaid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Equipmentinfo" >
+    update equipmentinfo
+    set customid = #{customid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      desccontent = #{desccontent,jdbcType=VARCHAR},
+      nfcid = #{nfcid,jdbcType=BIGINT},
+      areaid = #{areaid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findByPageEquipment"  resultMap="BaseResultMap" parameterType="map">
+    select e.id,e.customid,e.name,e.type,e.longitude,e.latitude,e.desccontent,n.unitcode nfcunitcode,a.customid areaname
+    from equipmentinfo e
+    left join nfcinfo n on e.nfcid=n.id
+    left join areainfo a on e.areaid=a.id
+    where 1=1
+    <if test="areaids!=null">
+      and e.areaid in
+      <foreach collection="areaids"  item="siteid" open="(" separator="," close=")" >
+        #{siteid}
+      </foreach>
+    </if>
+    order by e.id desc
+    limit #{page},#{pagesize}
+  </select>
+  <select id="countEquipment"  resultType="int" parameterType="map">
+    select count(e.id) from equipmentinfo e
+    left join areainfo a on e.areaid=a.id where 1=1
+    <if test="areaids!=null">
+    and e.areaid in
+    <foreach collection="areaids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+    </if>
+  </select>
+  <select id="findByPageEquipment2"  resultMap="BaseResultMap" parameterType="map">
+    select e.id,e.customid,e.name,e.type,e.longitude,e.latitude,e.desccontent,n.unitcode nfcunitcode,a.customid areaname
+    from equipmentinfo e
+    left join nfcinfo n on e.nfcid= n.id
+    left join areainfo a on e.areaid=a.id
+    where 1=1
+    and e.areaid in
+    <foreach collection="areaids"  item="areaid" open="(" separator="," close=")" >
+      #{areaid}
+    </foreach>
+    <if test="name!=''">
+      and e.name like #{name}
+    </if>
+    order by e.id desc
+    limit #{page},#{pagesize}
+  </select>
+  <select id="countEquipment2"  resultType="int" parameterType="map">
+    select count(e.id) from equipmentinfo e
+    left join areainfo a on e.areaid=a.id
+    where 1=1
+    and e.areaid in
+    <foreach collection="areaids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+    <if test="name!=''">
+      and e.name like #{name}
+    </if>
+  </select>
+</mapper>

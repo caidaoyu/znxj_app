@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.PowerMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Power" >
+    <id column="persionid" property="persionid" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentid" jdbcType="VARCHAR" />
+    <result column="powerType" property="powertype" jdbcType="VARCHAR" />
+    <result column="permissionname" property="permissionname" jdbcType="VARCHAR" />
+    <result column="permissionsign" property="permissionsign" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    persionid, parentId, powerType, permissionname, permissionsign
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.PowerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from power
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from power
+    where persionid = #{persionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from power
+    where persionid = #{persionid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.PowerExample" >
+    delete from power
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Power" >
+    insert into power (persionid, parentId, powerType, 
+      permissionname, permissionsign)
+    values (#{persionid,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{powertype,jdbcType=VARCHAR}, 
+      #{permissionname,jdbcType=VARCHAR}, #{permissionsign,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Power" >
+    insert into power
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="persionid != null" >
+        persionid,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="powertype != null" >
+        powerType,
+      </if>
+      <if test="permissionname != null" >
+        permissionname,
+      </if>
+      <if test="permissionsign != null" >
+        permissionsign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="persionid != null" >
+        #{persionid,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="powertype != null" >
+        #{powertype,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionname != null" >
+        #{permissionname,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionsign != null" >
+        #{permissionsign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.PowerExample" resultType="java.lang.Integer" >
+    select count(*) from power
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update power
+    <set >
+      <if test="record.persionid != null" >
+        persionid = #{record.persionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        parentId = #{record.parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.powertype != null" >
+        powerType = #{record.powertype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permissionname != null" >
+        permissionname = #{record.permissionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permissionsign != null" >
+        permissionsign = #{record.permissionsign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update power
+    set persionid = #{record.persionid,jdbcType=VARCHAR},
+      parentId = #{record.parentid,jdbcType=VARCHAR},
+      powerType = #{record.powertype,jdbcType=VARCHAR},
+      permissionname = #{record.permissionname,jdbcType=VARCHAR},
+      permissionsign = #{record.permissionsign,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Power" >
+    update power
+    <set >
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="powertype != null" >
+        powerType = #{powertype,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionname != null" >
+        permissionname = #{permissionname,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionsign != null" >
+        permissionsign = #{permissionsign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where persionid = #{persionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Power" >
+    update power
+    set parentId = #{parentid,jdbcType=VARCHAR},
+      powerType = #{powertype,jdbcType=VARCHAR},
+      permissionname = #{permissionname,jdbcType=VARCHAR},
+      permissionsign = #{permissionsign,jdbcType=VARCHAR}
+    where persionid = #{persionid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByRoleid" parameterType="int" resultMap="BaseResultMap">
+    select p.* from power p,roleandpower rp
+    where p.persionid=rp.persionid  and rp.roleid=#{0}
+  </select>
+</mapper>

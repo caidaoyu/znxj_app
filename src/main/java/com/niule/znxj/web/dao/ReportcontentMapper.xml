@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.ReportcontentMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Reportcontent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="areaname" property="areaname" jdbcType="VARCHAR" />
+    <result column="equipname" property="equipname" jdbcType="VARCHAR" />
+    <result column="checkname" property="checkname" jdbcType="VARCHAR" />
+    <result column="checktype" property="checktype" jdbcType="VARCHAR" />
+    <result column="numvalue" property="numvalue" jdbcType="VARCHAR" />
+    <result column="recordname" property="recordname" jdbcType="VARCHAR" />
+    <result column="unitname" property="unitname" jdbcType="VARCHAR" />
+    <result column="reportstate" property="reportstate" jdbcType="VARCHAR" />
+    <result column="errcontent" property="errcontent" jdbcType="VARCHAR" />
+    <result column="areaskip" property="areaskip" jdbcType="INTEGER" />
+    <result column="equipmentskip" property="equipmentskip" jdbcType="INTEGER" />
+    <result column="areaskipdesc" property="areaskipdesc" jdbcType="VARCHAR" />
+    <result column="equipmentskipdesc" property="equipmentskipdesc" jdbcType="VARCHAR" />
+    <result column="operationtime" property="operationtime" jdbcType="VARCHAR" />
+    <result column="reportid" property="reportid" jdbcType="BIGINT" />
+    <result column="lowerwarning" property="lowerwarning" jdbcType="VARCHAR" />
+    <result column="normalmax" property="normalmax" jdbcType="VARCHAR" />
+    <result column="normalmin" property="normalmin" jdbcType="VARCHAR" />
+    <result column="upperwarning" property="upperwarning" jdbcType="VARCHAR" />
+    <result column="video" property="video" jdbcType="VARCHAR" />
+    <result column="audio" property="audio" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="checkvalue" property="checkvalue" jdbcType="VARCHAR" />
+    <result column="enumitem" property="enumitem" jdbcType="VARCHAR" />
+    <result column="equipinouttime" property="equipinouttime" jdbcType="VARCHAR" />
+    <result column="areainouttime" property="areainouttime" jdbcType="VARCHAR" />
+    <result column="reportid" property="reportid" jdbcType="BIGINT" />
+    <result column="taskcode" property="report.taskcode"/>
+    <result column="sitename" property="report.task.site.customid" jdbcType="VARCHAR" />
+    <result column="worker" property="report.worker"/>
+    <result column="tasktype" property="report.tasktype"/>
+    <result column="starttime" property="report.starttime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="report.endtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, areaname, equipname, checkname, checktype, numvalue, recordname, unitname, reportstate,
+    errcontent, areaskip, equipmentskip, areaskipdesc, equipmentskipdesc, operationtime,
+    reportid, lowerwarning, normalmax, normalmin, upperwarning, video, audio, img, checkvalue,
+    enumitem
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.ReportcontentExample" >
+    select c.*,r.taskcode,r.worker,r.tasktype,r.starttime,r.endtime
+    from reportcontent c
+    left join taskreportinfo r on r.id=c.reportid
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from reportcontent
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from reportcontent
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.ReportcontentExample" >
+    delete from reportcontent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Reportcontent" >
+    insert into reportcontent (id, areaname, equipname, 
+      checkname, checktype, numvalue, 
+      recordname, unitname, reportstate, 
+      errcontent, areaskip, equipmentskip, 
+      areaskipdesc, equipmentskipdesc, operationtime, 
+      reportid, lowerwarning, normalmax, 
+      normalmin, upperwarning, video, 
+      audio, img, checkvalue, 
+      enumitem)
+    values (#{id,jdbcType=INTEGER}, #{areaname,jdbcType=VARCHAR}, #{equipname,jdbcType=VARCHAR}, 
+      #{checkname,jdbcType=VARCHAR}, #{checktype,jdbcType=VARCHAR}, #{numvalue,jdbcType=VARCHAR}, 
+      #{recordname,jdbcType=VARCHAR}, #{unitname,jdbcType=VARCHAR}, #{reportstate,jdbcType=VARCHAR}, 
+      #{errcontent,jdbcType=VARCHAR}, #{areaskip,jdbcType=INTEGER}, #{equipmentskip,jdbcType=INTEGER}, 
+      #{areaskipdesc,jdbcType=VARCHAR}, #{equipmentskipdesc,jdbcType=VARCHAR}, #{operationtime,jdbcType=VARCHAR}, 
+      #{reportid,jdbcType=BIGINT}, #{lowerwarning,jdbcType=VARCHAR}, #{normalmax,jdbcType=VARCHAR}, 
+      #{normalmin,jdbcType=VARCHAR}, #{upperwarning,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, 
+      #{audio,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{checkvalue,jdbcType=VARCHAR}, 
+      #{enumitem,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Reportcontent" >
+    insert into reportcontent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="areaname != null" >
+        areaname,
+      </if>
+      <if test="equipname != null" >
+        equipname,
+      </if>
+      <if test="checkname != null" >
+        checkname,
+      </if>
+      <if test="checktype != null" >
+        checktype,
+      </if>
+      <if test="numvalue != null" >
+        numvalue,
+      </if>
+      <if test="recordname != null" >
+        recordname,
+      </if>
+      <if test="unitname != null" >
+        unitname,
+      </if>
+      <if test="reportstate != null" >
+        reportstate,
+      </if>
+      <if test="errcontent != null" >
+        errcontent,
+      </if>
+      <if test="areaskip != null" >
+        areaskip,
+      </if>
+      <if test="equipmentskip != null" >
+        equipmentskip,
+      </if>
+      <if test="areaskipdesc != null" >
+        areaskipdesc,
+      </if>
+      <if test="equipmentskipdesc != null" >
+        equipmentskipdesc,
+      </if>
+      <if test="operationtime != null" >
+        operationtime,
+      </if>
+      <if test="reportid != null" >
+        reportid,
+      </if>
+      <if test="lowerwarning != null" >
+        lowerwarning,
+      </if>
+      <if test="normalmax != null" >
+        normalmax,
+      </if>
+      <if test="normalmin != null" >
+        normalmin,
+      </if>
+      <if test="upperwarning != null" >
+        upperwarning,
+      </if>
+      <if test="video != null" >
+        video,
+      </if>
+      <if test="audio != null" >
+        audio,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="checkvalue != null" >
+        checkvalue,
+      </if>
+      <if test="enumitem != null" >
+        enumitem,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="equipname != null" >
+        #{equipname,jdbcType=VARCHAR},
+      </if>
+      <if test="checkname != null" >
+        #{checkname,jdbcType=VARCHAR},
+      </if>
+      <if test="checktype != null" >
+        #{checktype,jdbcType=VARCHAR},
+      </if>
+      <if test="numvalue != null" >
+        #{numvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="recordname != null" >
+        #{recordname,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null" >
+        #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="reportstate != null" >
+        #{reportstate,jdbcType=VARCHAR},
+      </if>
+      <if test="errcontent != null" >
+        #{errcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="areaskip != null" >
+        #{areaskip,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentskip != null" >
+        #{equipmentskip,jdbcType=INTEGER},
+      </if>
+      <if test="areaskipdesc != null" >
+        #{areaskipdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentskipdesc != null" >
+        #{equipmentskipdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="operationtime != null" >
+        #{operationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="reportid != null" >
+        #{reportid,jdbcType=BIGINT},
+      </if>
+      <if test="lowerwarning != null" >
+        #{lowerwarning,jdbcType=VARCHAR},
+      </if>
+      <if test="normalmax != null" >
+        #{normalmax,jdbcType=VARCHAR},
+      </if>
+      <if test="normalmin != null" >
+        #{normalmin,jdbcType=VARCHAR},
+      </if>
+      <if test="upperwarning != null" >
+        #{upperwarning,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="audio != null" >
+        #{audio,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="checkvalue != null" >
+        #{checkvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="enumitem != null" >
+        #{enumitem,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.ReportcontentExample" resultType="java.lang.Integer" >
+    select count(*) from reportcontent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update reportcontent
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaname != null" >
+        areaname = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equipname != null" >
+        equipname = #{record.equipname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkname != null" >
+        checkname = #{record.checkname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checktype != null" >
+        checktype = #{record.checktype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numvalue != null" >
+        numvalue = #{record.numvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordname != null" >
+        recordname = #{record.recordname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitname != null" >
+        unitname = #{record.unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportstate != null" >
+        reportstate = #{record.reportstate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errcontent != null" >
+        errcontent = #{record.errcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaskip != null" >
+        areaskip = #{record.areaskip,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentskip != null" >
+        equipmentskip = #{record.equipmentskip,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaskipdesc != null" >
+        areaskipdesc = #{record.areaskipdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equipmentskipdesc != null" >
+        equipmentskipdesc = #{record.equipmentskipdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationtime != null" >
+        operationtime = #{record.operationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportid != null" >
+        reportid = #{record.reportid,jdbcType=BIGINT},
+      </if>
+      <if test="record.lowerwarning != null" >
+        lowerwarning = #{record.lowerwarning,jdbcType=VARCHAR},
+      </if>
+      <if test="record.normalmax != null" >
+        normalmax = #{record.normalmax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.normalmin != null" >
+        normalmin = #{record.normalmin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upperwarning != null" >
+        upperwarning = #{record.upperwarning,jdbcType=VARCHAR},
+      </if>
+      <if test="record.video != null" >
+        video = #{record.video,jdbcType=VARCHAR},
+      </if>
+      <if test="record.audio != null" >
+        audio = #{record.audio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkvalue != null" >
+        checkvalue = #{record.checkvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enumitem != null" >
+        enumitem = #{record.enumitem,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update reportcontent
+    set id = #{record.id,jdbcType=INTEGER},
+    areaname = #{record.areaname,jdbcType=VARCHAR},
+    equipname = #{record.equipname,jdbcType=VARCHAR},
+    checkname = #{record.checkname,jdbcType=VARCHAR},
+    checktype = #{record.checktype,jdbcType=VARCHAR},
+    numvalue = #{record.numvalue,jdbcType=VARCHAR},
+    recordname = #{record.recordname,jdbcType=VARCHAR},
+    unitname = #{record.unitname,jdbcType=VARCHAR},
+    reportstate = #{record.reportstate,jdbcType=VARCHAR},
+    errcontent = #{record.errcontent,jdbcType=VARCHAR},
+    areaskip = #{record.areaskip,jdbcType=INTEGER},
+    equipmentskip = #{record.equipmentskip,jdbcType=INTEGER},
+    areaskipdesc = #{record.areaskipdesc,jdbcType=VARCHAR},
+    equipmentskipdesc = #{record.equipmentskipdesc,jdbcType=VARCHAR},
+    operationtime = #{record.operationtime,jdbcType=VARCHAR},
+    reportid = #{record.reportid,jdbcType=BIGINT},
+    lowerwarning = #{record.lowerwarning,jdbcType=VARCHAR},
+    normalmax = #{record.normalmax,jdbcType=VARCHAR},
+    normalmin = #{record.normalmin,jdbcType=VARCHAR},
+    upperwarning = #{record.upperwarning,jdbcType=VARCHAR},
+    video = #{record.video,jdbcType=VARCHAR},
+    audio = #{record.audio,jdbcType=VARCHAR},
+    img = #{record.img,jdbcType=VARCHAR},
+    checkvalue = #{record.checkvalue,jdbcType=VARCHAR},
+    enumitem = #{record.enumitem,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Reportcontent" >
+    update reportcontent
+    <set >
+      <if test="areaname != null" >
+        areaname = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="equipname != null" >
+        equipname = #{equipname,jdbcType=VARCHAR},
+      </if>
+      <if test="checkname != null" >
+        checkname = #{checkname,jdbcType=VARCHAR},
+      </if>
+      <if test="checktype != null" >
+        checktype = #{checktype,jdbcType=VARCHAR},
+      </if>
+      <if test="numvalue != null" >
+        numvalue = #{numvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="recordname != null" >
+        recordname = #{recordname,jdbcType=VARCHAR},
+      </if>
+      <if test="unitname != null" >
+        unitname = #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="reportstate != null" >
+        reportstate = #{reportstate,jdbcType=VARCHAR},
+      </if>
+      <if test="errcontent != null" >
+        errcontent = #{errcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="areaskip != null" >
+        areaskip = #{areaskip,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentskip != null" >
+        equipmentskip = #{equipmentskip,jdbcType=INTEGER},
+      </if>
+      <if test="areaskipdesc != null" >
+        areaskipdesc = #{areaskipdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentskipdesc != null" >
+        equipmentskipdesc = #{equipmentskipdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="operationtime != null" >
+        operationtime = #{operationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="reportid != null" >
+        reportid = #{reportid,jdbcType=BIGINT},
+      </if>
+      <if test="lowerwarning != null" >
+        lowerwarning = #{lowerwarning,jdbcType=VARCHAR},
+      </if>
+      <if test="normalmax != null" >
+        normalmax = #{normalmax,jdbcType=VARCHAR},
+      </if>
+      <if test="normalmin != null" >
+        normalmin = #{normalmin,jdbcType=VARCHAR},
+      </if>
+      <if test="upperwarning != null" >
+        upperwarning = #{upperwarning,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="audio != null" >
+        audio = #{audio,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="checkvalue != null" >
+        checkvalue = #{checkvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="enumitem != null" >
+        enumitem = #{enumitem,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Reportcontent" >
+    update reportcontent
+    set areaname = #{areaname,jdbcType=VARCHAR},
+      equipname = #{equipname,jdbcType=VARCHAR},
+      checkname = #{checkname,jdbcType=VARCHAR},
+      checktype = #{checktype,jdbcType=VARCHAR},
+      numvalue = #{numvalue,jdbcType=VARCHAR},
+      recordname = #{recordname,jdbcType=VARCHAR},
+      unitname = #{unitname,jdbcType=VARCHAR},
+      reportstate = #{reportstate,jdbcType=VARCHAR},
+      errcontent = #{errcontent,jdbcType=VARCHAR},
+      areaskip = #{areaskip,jdbcType=INTEGER},
+      equipmentskip = #{equipmentskip,jdbcType=INTEGER},
+      areaskipdesc = #{areaskipdesc,jdbcType=VARCHAR},
+      equipmentskipdesc = #{equipmentskipdesc,jdbcType=VARCHAR},
+      operationtime = #{operationtime,jdbcType=VARCHAR},
+      reportid = #{reportid,jdbcType=BIGINT},
+      lowerwarning = #{lowerwarning,jdbcType=VARCHAR},
+      normalmax = #{normalmax,jdbcType=VARCHAR},
+      normalmin = #{normalmin,jdbcType=VARCHAR},
+      upperwarning = #{upperwarning,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      audio = #{audio,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      checkvalue = #{checkvalue,jdbcType=VARCHAR},
+      enumitem = #{enumitem,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateCheckValue" parameterType="com.niule.znxj.web.model.Reportcontent" >
+    update reportcontent
+    <set >
+      checkvalue = #{checkvalue,jdbcType=VARCHAR},
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

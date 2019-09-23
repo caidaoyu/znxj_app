@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niule.znxj.web.dao.ClassinfoMapper">
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Classinfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customid" jdbcType="VARCHAR" property="customid" />
+    <result column="classdesc" jdbcType="VARCHAR" property="classdesc" />
+    <result column="workstarttime" jdbcType="TIMESTAMP" property="workstarttime" />
+    <result column="workendtime" jdbcType="TIMESTAMP" property="workendtime" />
+
+    <result column="directorid" jdbcType="BIGINT" property="directorid" />
+    <result column="userid" jdbcType="BIGINT" property="userinfo.id" />
+    <result column="realname" jdbcType="VARCHAR" property="userinfo.realname"/>
+
+
+    <result column="siteareaid" jdbcType="BIGINT" property="siteareaid" />
+    <result column="sitename" jdbcType="VARCHAR" property="site.customid"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, customid, classdesc, workstarttime, workendtime, directorid, siteareaid
+  </sql>
+  <select id="selectByExample" parameterType="com.niule.znxj.web.model.ClassinfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from classinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select c.id,c.customid,c.classdesc,c.directorid,c.workendtime,c.workstarttime,u.realname,s.id as siteareaid,s.customid sitename
+    from classinfo c left join userinfo u on c.directorid=u.id left join siteareainfo s on c.siteareaid=s.id
+    where c.id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="queryusername" resultMap="BaseResultMap" parameterType="int">
+    select id,customid
+    from classinfo where directorid=#{0}
+  </select>
+  <select id="findByPageClass" resultMap="BaseResultMap" parameterType="map">
+    select c.id,c.customid,c.classdesc,c.workendtime,c.workstarttime,u.realname,s.customid sitename
+    from classinfo c left join userinfo u on c.directorid=u.id left join siteareainfo s on c.siteareaid=s.id
+    where 1=1
+   <if test="ids !=null">
+      and c.siteareaid in
+      <foreach collection="ids"  item="siteid" open="(" separator="," close=")" >
+       #{siteid}
+      </foreach>
+   </if>
+    order by c.id desc
+    limit #{page},#{size}
+  </select>
+  <select id="countClass" resultType="int" parameterType="map">
+    select count(id) from classinfo where 1=1
+    <if test="ids !=null">
+      and siteareaid in
+      <foreach collection="ids" item="siteid" open="(" separator="," close=")" >
+       #{siteid}
+      </foreach>
+    </if>
+  </select>
+  <select id="queryCustomid" resultMap="BaseResultMap">
+    select id,customid from classinfo
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from classinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.ClassinfoExample">
+    delete from classinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Classinfo">
+    insert into classinfo (id, customid, classdesc, 
+      workstarttime, workendtime, directorid, 
+      siteareaid)
+    values (#{id,jdbcType=BIGINT}, #{customid,jdbcType=VARCHAR}, #{classdesc,jdbcType=VARCHAR}, 
+      #{workstarttime,jdbcType=TIMESTAMP}, #{workendtime,jdbcType=TIMESTAMP}, #{directorid,jdbcType=BIGINT}, 
+      #{siteareaid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Classinfo">
+    insert into classinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customid != null">
+        customid,
+      </if>
+      <if test="classdesc != null">
+        classdesc,
+      </if>
+      <if test="workstarttime != null">
+        workstarttime,
+      </if>
+      <if test="workendtime != null">
+        workendtime,
+      </if>
+      <if test="directorid != null">
+        directorid,
+      </if>
+      <if test="siteareaid != null">
+        siteareaid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customid != null">
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="classdesc != null">
+        #{classdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="workstarttime != null">
+        #{workstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workendtime != null">
+        #{workendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="directorid != null">
+        #{directorid,jdbcType=BIGINT},
+      </if>
+      <if test="siteareaid != null">
+        #{siteareaid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.ClassinfoExample" resultType="java.lang.Integer">
+    select count(*) from classinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update classinfo
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customid != null">
+        customid = #{record.customid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classdesc != null">
+        classdesc = #{record.classdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workstarttime != null">
+        workstarttime = #{record.workstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.workendtime != null">
+        workendtime = #{record.workendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.directorid != null">
+        directorid = #{record.directorid,jdbcType=BIGINT},
+      </if>
+      <if test="record.siteareaid != null">
+        siteareaid = #{record.siteareaid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update classinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      customid = #{record.customid,jdbcType=VARCHAR},
+      classdesc = #{record.classdesc,jdbcType=VARCHAR},
+      workstarttime = #{record.workstarttime,jdbcType=TIMESTAMP},
+      workendtime = #{record.workendtime,jdbcType=TIMESTAMP},
+      directorid = #{record.directorid,jdbcType=BIGINT},
+      siteareaid = #{record.siteareaid,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Classinfo">
+    update classinfo
+    <set>
+      <if test="customid != null">
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="classdesc != null">
+        classdesc = #{classdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="workstarttime != null">
+        workstarttime = #{workstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workendtime != null">
+        workendtime = #{workendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="directorid != null">
+        directorid = #{directorid,jdbcType=BIGINT},
+      </if>
+      <if test="siteareaid != null">
+        siteareaid = #{siteareaid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Classinfo">
+    update classinfo
+    set customid = #{customid,jdbcType=VARCHAR},
+      classdesc = #{classdesc,jdbcType=VARCHAR},
+      workstarttime = #{workstarttime,jdbcType=TIMESTAMP},
+      workendtime = #{workendtime,jdbcType=TIMESTAMP},
+      directorid = #{directorid,jdbcType=BIGINT},
+      siteareaid = #{siteareaid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="siteclass" resultMap="BaseResultMap" parameterType="map">
+    select c.id,c.customid,c.classdesc,c.workendtime,c.workstarttime,u.realname,s.customid sitename
+    from classinfo c left join userinfo u on c.directorid=u.id left join siteareainfo s on c.siteareaid=s.id
+    where 1=1
+    and c.siteareaid in
+    <foreach collection="ids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+  </select>
+</mapper>

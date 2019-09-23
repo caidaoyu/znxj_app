@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.QuickreportMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Quickreport" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="reportcode" property="reportcode" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="realname" property="u.realname" jdbcType="BIGINT" />
+    <result column="classname" property="group.customid" jdbcType="VARCHAR" />
+    <result column="sitename" property="site.customid" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="audio" property="audio" jdbcType="VARCHAR" />
+    <result column="video" property="video" jdbcType="VARCHAR" />
+    <result column="uploadtime" property="uploadtime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="upLoad" property="upload" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, reportcode, userid, content, img, audio, video, uploadtime, type, state, upLoad
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap"  parameterType="int" >
+    select q.*,u.realname,c.customid classname,s.customid sitename  from quickreport q
+    left join userinfo u on u.id=q.userid
+    left join classinfo c on u.classid=c.id
+    left join siteareainfo s on c.siteareaid=s.id
+    where q.type=#{0} limit #{1},#{2}
+    <!--select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from quickreport
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>-->
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from quickreport
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from quickreport
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.QuickreportExample" >
+    delete from quickreport
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Quickreport" >
+    insert into quickreport (id, reportcode, userid, 
+      content, img, audio, 
+      video, uploadtime, type, 
+      state, upLoad)
+    values (#{id,jdbcType=BIGINT}, #{reportcode,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT}, 
+      #{content,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{audio,jdbcType=VARCHAR}, 
+      #{video,jdbcType=VARCHAR}, #{uploadtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{upload,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Quickreport" >
+    insert into quickreport
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportcode != null" >
+        reportcode,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="audio != null" >
+        audio,
+      </if>
+      <if test="video != null" >
+        video,
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="upload != null" >
+        upLoad,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="reportcode != null" >
+        #{reportcode,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="audio != null" >
+        #{audio,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="upload != null" >
+        #{upload,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="int" resultType="java.lang.Integer">
+    select count(*) from quickreport where type=#{0}
+    <!--select count(*) from quickreport
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>-->
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update quickreport
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.reportcode != null" >
+        reportcode = #{record.reportcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.audio != null" >
+        audio = #{record.audio,jdbcType=VARCHAR},
+      </if>
+      <if test="record.video != null" >
+        video = #{record.video,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadtime != null" >
+        uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.upload != null" >
+        upLoad = #{record.upload,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update quickreport
+    set id = #{record.id,jdbcType=BIGINT},
+      reportcode = #{record.reportcode,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=BIGINT},
+      content = #{record.content,jdbcType=VARCHAR},
+      img = #{record.img,jdbcType=VARCHAR},
+      audio = #{record.audio,jdbcType=VARCHAR},
+      video = #{record.video,jdbcType=VARCHAR},
+      uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      upLoad = #{record.upload,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Quickreport" >
+    update quickreport
+    <set >
+      <if test="reportcode != null" >
+        reportcode = #{reportcode,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="audio != null" >
+        audio = #{audio,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="upload != null" >
+        upLoad = #{upload,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Quickreport" >
+    update quickreport
+    set reportcode = #{reportcode,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      audio = #{audio,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      upLoad = #{upload,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="showQuickreport" resultMap="BaseResultMap"  parameterType="map" >
+      select q.*,u.realname,c.customid classname,s.customid sitename from quickreport q
+      left join userinfo u on u.id=q.userid
+      left join classinfo c on u.classid=c.id
+      left join siteareainfo s on c.siteareaid=s.id
+      where 1=1
+      <if test="reportcode!=null and reportcode!=''">
+        AND( u.realname LIKE #{reportcode} OR c.customid LIKE #{reportcode} OR s.customid LIKE #{reportcode}
+        OR content LIKE #{reportcode} OR q.reportcode LIKE #{reportcode})
+      </if>
+      <if test="time!=null and time!=''">
+          and str_to_date(q.uploadtime,'%Y-%m-%d')=str_to_date(#{time},'%Y-%m-%d')
+      </if>
+      <if test="siteid!=null and siteid!=''">
+        and s.id =#{siteid}
+      </if>
+        and q.type=0 order BY  id desc
+  </select>
+  <!--<select id="showQuickreport2" resultMap="BaseResultMap"  parameterType="int" >-->
+      <!--select q.*,u.realname,c.customid classname,s.customid sitename  from quickreport q-->
+      <!--left join userinfo u on u.id=q.userid-->
+      <!--left join classinfo c on u.classid=c.id-->
+      <!--left join siteareainfo s on c.siteareaid=s.id-->
+      <!--where q.type=0-->
+  <!--</select>-->
+
+</mapper>

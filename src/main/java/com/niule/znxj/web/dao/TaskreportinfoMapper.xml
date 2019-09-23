@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.TaskreportinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Taskreportinfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="taskid" property="taskid" jdbcType="BIGINT" />
+    <result column="donetime" property="donetime" jdbcType="TIMESTAMP" />
+    <result column="uploadedtime" property="uploadedtime" jdbcType="TIMESTAMP" />
+    <result column="uploadtime" property="uploadtime" jdbcType="TIMESTAMP" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="termimalid" property="termimalid" jdbcType="BIGINT" />
+    <result column="tasktype" property="tasktype" jdbcType="INTEGER" />
+    <result column="reportstate" property="reportstate" jdbcType="INTEGER" />
+    <result column="worker" property="worker" jdbcType="VARCHAR" />
+    <result column="operationstate" property="operationstate" jdbcType="INTEGER" />
+    <result column="taskcode" property="taskcode" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="examtime" property="examtime" jdbcType="TIMESTAMP" />
+    <result column="examstate" property="examstate" jdbcType="INTEGER" />
+    <result column="examuser" property="examuser" jdbcType="VARCHAR" />
+
+    <result column="customid" property="task.customid" jdbcType="VARCHAR" />
+    <!--<result column="createtime" property="task.createtime" jdbcType="TIMESTAMP" />-->
+    <!--<result column="createtime" property="task.createtime" jdbcType="TIMESTAMP" />-->
+    <result column="sitename" property="task.site.customid" jdbcType="VARCHAR" />
+    <result column="userid" jdbcType="BIGINT" property="user.id" />
+    <result column="realname" jdbcType="VARCHAR" property="user.realname" />
+    <result column="termimalid" jdbcType="BIGINT" property="ter.id" />
+    <result column="tercustomid" jdbcType="VARCHAR" property="ter.customid" />
+    <result column="state" property="temp.state" jdbcType="INTEGER" />
+    <result column="tempid" property="temp.id" jdbcType="INTEGER" />
+    <result column="tempstate" property="temp.state" jdbcType="INTEGER" />
+    <result column="tempoperationstate" property="temp.operationstate" jdbcType="INTEGER" />
+    <result column="stopstate" property="temp.stopstate" jdbcType="INTEGER" />
+    <result column="temptaskcode" property="temp.taskcode" jdbcType="VARCHAR" />
+    <result column="stopid" property="temp.taskstopinfo.id" jdbcType="INTEGER" />
+    <result column="stopreason" property="temp.taskstopinfo.reason" jdbcType="VARCHAR" />
+    <result column="executetime" property="temp.executetime" jdbcType="VARCHAR" />
+    <result column="temptype" property="temp.type" jdbcType="VARCHAR" />
+    <result column="updatetime" property="temp.updatetime" jdbcType="TIMESTAMP" />
+    <result column="stopcontent" property="temp.taskstopinfo.content" jdbcType="VARCHAR" />
+    <result column="stoptime" property="temp.taskstopinfo.stoptime" jdbcType="TIMESTAMP" />
+    <result column="stopclassname" property="temp.taskstopinfo.classname" jdbcType="VARCHAR" />
+    <result column="stopdirectorname" property="temp.taskstopinfo.directorname" jdbcType="VARCHAR" />
+    <result column="realname" property="temp.user.realname" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.niule.znxj.web.model.TaskreportinfoWithBLOBs" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="logcat" property="logcat" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, taskid, donetime, uploadedtime, uploadtime, userid, termimalid, tasktype, reportstate, 
+    worker, operationstate, taskcode, starttime, endtime, examtime, examstate, examuser
+  </sql>
+  <sql id="Blob_Column_List" >
+    content, logcat
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.niule.znxj.web.model.TaskreportinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from taskreportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.TaskreportinfoExample" >
+    select
+    ter.id,ter.taskid,ter.tasktype,ter.taskcode,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.starttime,ter.endtime,
+    ter.operationstate,temp.taskcode temptaskcode,ter.examtime,ter.examstate,ter.examuser,s.customid sitename,ter.content,temp.type temptype,temp.executetime,temp.id tempid,temp.state tempstate,
+    temp.operationstate tempoperationstate,temp.stopstate,temp.updatetime,
+    temp.operationstate tempoperationstate,temp.stopstate
+    from tasktempinfo temp
+    left join taskreportinfo ter on ter.taskcode=temp.taskcode
+    left join taskplaninfo t on temp.taskid=t.id
+    left join siteareainfo s on s.id=t.siteid
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    and temp.state not in(0,-1,1)
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    order by temp.executetime DESC
+  </select>
+  <select id="selectByExample2" parameterType="map" resultMap="BaseResultMap" >
+    SELECT * FROM taskreportinfo WHERE
+     taskcode LIKE #{taskName}
+     AND DATE_FORMAT(uploadtime, '%Y-%m-%d') BETWEEN #{startTime}
+        AND #{endTime}
+    ORDER BY taskcode DESC
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from taskreportinfo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from taskreportinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.TaskreportinfoExample" >
+    delete from taskreportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.TaskreportinfoWithBLOBs"  useGeneratedKeys="true" keyProperty="id">
+    insert into taskreportinfo (id, taskid, donetime, 
+      uploadedtime, uploadtime, userid, 
+      termimalid, tasktype, reportstate, 
+      worker, operationstate, taskcode, 
+      starttime, endtime, examtime, 
+      examstate, examuser, content, 
+      logcat,areainouttime)
+    values (#{id,jdbcType=BIGINT}, #{taskid,jdbcType=BIGINT}, #{donetime,jdbcType=TIMESTAMP}, 
+      #{uploadedtime,jdbcType=TIMESTAMP}, #{uploadtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=BIGINT}, 
+      #{termimalid,jdbcType=BIGINT}, #{tasktype,jdbcType=INTEGER}, #{reportstate,jdbcType=INTEGER}, 
+      #{worker,jdbcType=VARCHAR}, #{operationstate,jdbcType=INTEGER}, #{taskcode,jdbcType=VARCHAR}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{examtime,jdbcType=TIMESTAMP}, 
+      #{examstate,jdbcType=INTEGER}, #{examuser,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
+      #{logcat,jdbcType=LONGVARCHAR},#{areainouttime,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.TaskreportinfoWithBLOBs"  useGeneratedKeys="true" keyProperty="id">
+    insert into taskreportinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskid != null" >
+        taskid,
+      </if>
+      <if test="donetime != null" >
+        donetime,
+      </if>
+      <if test="uploadedtime != null" >
+        uploadedtime,
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="termimalid != null" >
+        termimalid,
+      </if>
+      <if test="tasktype != null" >
+        tasktype,
+      </if>
+      <if test="reportstate != null" >
+        reportstate,
+      </if>
+      <if test="worker != null" >
+        worker,
+      </if>
+      <if test="operationstate != null" >
+        operationstate,
+      </if>
+      <if test="taskcode != null" >
+        taskcode,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="examtime != null" >
+        examtime,
+      </if>
+      <if test="examstate != null" >
+        examstate,
+      </if>
+      <if test="examuser != null" >
+        examuser,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="logcat != null" >
+        logcat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="taskid != null" >
+        #{taskid,jdbcType=BIGINT},
+      </if>
+      <if test="donetime != null" >
+        #{donetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadedtime != null" >
+        #{uploadedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="termimalid != null" >
+        #{termimalid,jdbcType=BIGINT},
+      </if>
+      <if test="tasktype != null" >
+        #{tasktype,jdbcType=INTEGER},
+      </if>
+      <if test="reportstate != null" >
+        #{reportstate,jdbcType=INTEGER},
+      </if>
+      <if test="worker != null" >
+        #{worker,jdbcType=VARCHAR},
+      </if>
+      <if test="operationstate != null" >
+        #{operationstate,jdbcType=INTEGER},
+      </if>
+      <if test="taskcode != null" >
+        #{taskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examtime != null" >
+        #{examtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examstate != null" >
+        #{examstate,jdbcType=INTEGER},
+      </if>
+      <if test="examuser != null" >
+        #{examuser,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="logcat != null" >
+        #{logcat,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.TaskreportinfoExample" resultType="java.lang.Integer" >
+    select count(*) from taskreportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update taskreportinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.taskid != null" >
+        taskid = #{record.taskid,jdbcType=BIGINT},
+      </if>
+      <if test="record.donetime != null" >
+        donetime = #{record.donetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uploadedtime != null" >
+        uploadedtime = #{record.uploadedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uploadtime != null" >
+        uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.termimalid != null" >
+        termimalid = #{record.termimalid,jdbcType=BIGINT},
+      </if>
+      <if test="record.tasktype != null" >
+        tasktype = #{record.tasktype,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportstate != null" >
+        reportstate = #{record.reportstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.worker != null" >
+        worker = #{record.worker,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationstate != null" >
+        operationstate = #{record.operationstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskcode != null" >
+        taskcode = #{record.taskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starttime != null" >
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.examtime != null" >
+        examtime = #{record.examtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.examstate != null" >
+        examstate = #{record.examstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.examuser != null" >
+        examuser = #{record.examuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.logcat != null" >
+        logcat = #{record.logcat,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update taskreportinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      taskid = #{record.taskid,jdbcType=BIGINT},
+      donetime = #{record.donetime,jdbcType=TIMESTAMP},
+      uploadedtime = #{record.uploadedtime,jdbcType=TIMESTAMP},
+      uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      userid = #{record.userid,jdbcType=BIGINT},
+      termimalid = #{record.termimalid,jdbcType=BIGINT},
+      tasktype = #{record.tasktype,jdbcType=INTEGER},
+      reportstate = #{record.reportstate,jdbcType=INTEGER},
+      worker = #{record.worker,jdbcType=VARCHAR},
+      operationstate = #{record.operationstate,jdbcType=INTEGER},
+      taskcode = #{record.taskcode,jdbcType=VARCHAR},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      examtime = #{record.examtime,jdbcType=TIMESTAMP},
+      examstate = #{record.examstate,jdbcType=INTEGER},
+      examuser = #{record.examuser,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR},
+      logcat = #{record.logcat,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update taskreportinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      taskid = #{record.taskid,jdbcType=BIGINT},
+      donetime = #{record.donetime,jdbcType=TIMESTAMP},
+      uploadedtime = #{record.uploadedtime,jdbcType=TIMESTAMP},
+      uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      userid = #{record.userid,jdbcType=BIGINT},
+      termimalid = #{record.termimalid,jdbcType=BIGINT},
+      tasktype = #{record.tasktype,jdbcType=INTEGER},
+      reportstate = #{record.reportstate,jdbcType=INTEGER},
+      worker = #{record.worker,jdbcType=VARCHAR},
+      operationstate = #{record.operationstate,jdbcType=INTEGER},
+      taskcode = #{record.taskcode,jdbcType=VARCHAR},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      examtime = #{record.examtime,jdbcType=TIMESTAMP},
+      examstate = #{record.examstate,jdbcType=INTEGER},
+      examuser = #{record.examuser,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.TaskreportinfoWithBLOBs" >
+    update taskreportinfo
+    <set >
+      <if test="taskid != null" >
+        taskid = #{taskid,jdbcType=BIGINT},
+      </if>
+      <if test="donetime != null" >
+        donetime = #{donetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadedtime != null" >
+        uploadedtime = #{uploadedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="termimalid != null" >
+        termimalid = #{termimalid,jdbcType=BIGINT},
+      </if>
+      <if test="tasktype != null" >
+        tasktype = #{tasktype,jdbcType=INTEGER},
+      </if>
+      <if test="reportstate != null" >
+        reportstate = #{reportstate,jdbcType=INTEGER},
+      </if>
+      <if test="worker != null" >
+        worker = #{worker,jdbcType=VARCHAR},
+      </if>
+      <if test="operationstate != null" >
+        operationstate = #{operationstate,jdbcType=INTEGER},
+      </if>
+      <if test="taskcode != null" >
+        taskcode = #{taskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examtime != null" >
+        examtime = #{examtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examstate != null" >
+        examstate = #{examstate,jdbcType=INTEGER},
+      </if>
+      <if test="examuser != null" >
+        examuser = #{examuser,jdbcType=VARCHAR},
+      </if>
+--       <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+--       </if>
+    <!--  <if test="logcat != null" >-->
+        logcat = #{logcat,jdbcType=LONGVARCHAR},
+     <!-- </if>-->
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.niule.znxj.web.model.TaskreportinfoWithBLOBs" >
+    update taskreportinfo
+    set taskid = #{taskid,jdbcType=BIGINT},
+      donetime = #{donetime,jdbcType=TIMESTAMP},
+      uploadedtime = #{uploadedtime,jdbcType=TIMESTAMP},
+      uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=BIGINT},
+      termimalid = #{termimalid,jdbcType=BIGINT},
+      tasktype = #{tasktype,jdbcType=INTEGER},
+      reportstate = #{reportstate,jdbcType=INTEGER},
+      worker = #{worker,jdbcType=VARCHAR},
+      operationstate = #{operationstate,jdbcType=INTEGER},
+      taskcode = #{taskcode,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      examtime = #{examtime,jdbcType=TIMESTAMP},
+      examstate = #{examstate,jdbcType=INTEGER},
+      examuser = #{examuser,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      logcat = #{logcat,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Taskreportinfo" >
+    update taskreportinfo
+    set taskid = #{taskid,jdbcType=BIGINT},
+      donetime = #{donetime,jdbcType=TIMESTAMP},
+      uploadedtime = #{uploadedtime,jdbcType=TIMESTAMP},
+      uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=BIGINT},
+      termimalid = #{termimalid,jdbcType=BIGINT},
+      tasktype = #{tasktype,jdbcType=INTEGER},
+      reportstate = #{reportstate,jdbcType=INTEGER},
+      worker = #{worker,jdbcType=VARCHAR},
+      operationstate = #{operationstate,jdbcType=INTEGER},
+      taskcode = #{taskcode,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      examtime = #{examtime,jdbcType=TIMESTAMP},
+      examstate = #{examstate,jdbcType=INTEGER},
+      examuser = #{examuser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findByPageReport" parameterType="map" resultMap="BaseResultMap">
+    select ter.id,ter.taskid,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,
+    ter.operationstate,ter.taskcode,ter.examtime,ter.examstate,ter.examuser,u.realname,term.customid tercustomid,temp.executetime,temp.id tempid,temp.state tempstate,
+    temp.operationstate tempoperationstate,temp.stopstate,temp.updatetime,
+    st.id stopid,st.reason stopreason,st.content stopcontent,st.stoptime stoptime,st.classname stopclassname,st.directorname stopdirectorname,temp.taskcode temptaskcode
+    from tasktempinfo temp
+    left join taskreportinfo ter on ter.taskcode=temp.taskcode
+    left join taskstopinfo st on temp.id=st.tasktempid
+    left join taskplaninfo t on t.id=temp.taskid
+    left join userinfo u on t.directorid=u.id
+    left join terminalinfo term on ter.termimalid=term.id
+    left join siteareainfo s on s.id=t.siteid
+    where temp.type=#{tasktype} and temp.state not in(0,-1,1)
+    and s.id in
+    <foreach collection="ids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+    order by temp.id DESC
+    limit #{page},#{pagesize}
+  </select>
+  <select id="countReport" resultType="int" parameterType="map">
+    select count(temp.id) from tasktempinfo temp
+    left join taskreportinfo ter on ter.taskcode=temp.taskcode
+    left join taskstopinfo st on temp.id=st.tasktempid
+    left join taskplaninfo t on t.id=temp.taskid
+    left join userinfo u on t.directorid=u.id
+    left join terminalinfo term on ter.termimalid=term.id
+    left join siteareainfo s on s.id=t.siteid
+    where temp.type=#{tasktype} and temp.state not in(0,-1,1)
+    and s.id in
+    <foreach collection="ids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+    order by temp.id DESC
+  </select>
+  <select id="findByPageReport2" parameterType="map" resultMap="BaseResultMap">
+    select ter.id,ter.taskid,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,
+    ter.operationstate,ter.taskcode,ter.examtime,ter.examstate,ter.examuser,ter.starttime,ter.endtime, u.realname,term.customid tercustomid,temp.id tempid,temp.state tempstate,
+    temp.operationstate tempoperationstate,temp.stopstate,temp.taskcode temptaskcode,temp.executetime,temp.updatetime,
+    st.id stopid,st.reason stopreason,st.content stopcontent,st.stoptime stoptime,st.classname stopclassname,st.directorname stopdirectorname
+    from tasktempinfo temp
+    left join taskreportinfo ter on ter.taskcode=temp.taskcode
+    left join taskstopinfo st on temp.id=st.tasktempid
+    left join taskplaninfo t on t.id=temp.taskid
+    left join userinfo u on t.directorid=u.id
+    left join terminalinfo term on ter.termimalid=term.id
+    left join siteareainfo s on s.id=t.siteid
+    where temp.type=#{tasktype}
+    and s.id in
+    <foreach collection="ids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+    <if test="taskcode!=null">
+      and t.identifyingid = #{taskcode}
+    </if>
+    <if test="reportstate!=null and reportstate!=''">
+      and ter.reportstate=#{reportstate}
+    </if>
+    <if test="operationstate!=null and operationstate!=''">
+      and  temp.operationstate=#{operationstate}
+    </if>
+    <if test="state!=null and state!=''">
+      and temp.state in
+      <foreach collection="state"  item="state" open="(" separator="," close=")" >
+        #{state}
+    </foreach>
+    </if>
+    <if test="stopstate!=null and stopstate!=''">
+      and temp.stopstate=#{stopstate}
+    </if>
+    <if test="time1!=null and time1!=''">
+      and date_format(temp.executetime, '%Y-%m-%d'
+      ) between #{time1,jdbcType=VARCHAR}  </if>
+    <if test="time2!=null and time2!=''">and #{time2,jdbcType=VARCHAR}</if>
+    order by temp.id DESC
+    limit #{page},#{pagesize}
+
+  </select>
+  <select id="countReport2" resultType="int" parameterType="map">
+    <!--select count(temp.id)-->
+    <!--from tasktempinfo temp-->
+    <!--left join taskreportinfo ter on ter.taskcode=temp.taskcode-->
+    <!--left join taskstopinfo st on temp.id=st.tasktempid-->
+    <!--left join taskplaninfo t on t.id=temp.taskid-->
+    <!--left join userinfo u on t.directorid=u.id-->
+    <!--left join terminalinfo term on ter.termimalid=term.id-->
+    <!--left join siteareainfo s on s.id=t.siteid-->
+    <!--where temp.type=#{tasktype}-->
+    <!--and s.id in-->
+    <!--<foreach collection="ids"  item="siteid" open="(" separator="," close=")" >-->
+      <!--#{siteid}-->
+    <!--</foreach>-->
+    <!--<if test="taskcode!=null">-->
+      <!--and temp.taskcode like #{taskcode}-->
+    <!--</if>-->
+    <!--<if test="reportstate!=null and reportstate!=''">-->
+      <!--and ter.reportstate=#{reportstate}-->
+    <!--</if>-->
+    <!--<if test="operationstate!=null and operationstate!=''">-->
+      <!--and  temp.operationstate=#{operationstate}-->
+    <!--</if>-->
+    <!--<if test="state!=null and state!=''">-->
+      <!--and temp.state=#{state}-->
+    <!--</if>-->
+    <!--<if test="stopstate!=null and stopstate!=''">-->
+      <!--and temp.stopstate=#{stopstate}-->
+    <!--</if>-->
+    <!--<if test="time1!=null and time1!=''">-->
+      <!--and date_format(ter.donetime, '%Y-%m-%d' ) between #{time1,jdbcType=VARCHAR}  </if>-->
+    <!--<if test="time2!=null and time2!=''">and #{time2,jdbcType=VARCHAR}</if>-->
+    <!--order by temp.executetime DESC-->
+    select count(temp.id) from tasktempinfo temp
+    left join taskreportinfo ter on ter.taskcode=temp.taskcode
+    left join taskstopinfo st on temp.id=st.tasktempid
+    left join taskplaninfo t on t.id=temp.taskid
+    left join userinfo u on t.directorid=u.id
+    left join terminalinfo term on ter.termimalid=term.id
+    left join siteareainfo s on s.id=t.siteid
+    where temp.type=#{tasktype}
+    and s.id in
+    <foreach collection="ids"  item="siteid" open="(" separator="," close=")" >
+      #{siteid}
+    </foreach>
+    <if test="taskcode!=null">
+      and t.identifyingid = #{taskcode}
+    </if>
+    <if test="reportstate!=null and reportstate!=''">
+      and ter.reportstate=#{reportstate}
+    </if>
+    <if test="operationstate!=null and operationstate!=''">
+      and  temp.operationstate=#{operationstate}
+    </if>
+    <if test="state!=null and state!=''">
+      and temp.state in
+      <foreach collection="state"  item="state" open="(" separator="," close=")" >
+        #{state}
+      </foreach>
+    </if>
+    <if test="stopstate!=null and stopstate!=''">
+      and temp.stopstate=#{stopstate}
+    </if>
+    <if test="time1!=null and time1!=''">
+      and date_format(temp.executetime, '%Y-%m-%d' ) between #{time1,jdbcType=VARCHAR}  </if>
+    <if test="time2!=null and time2!=''">and #{time2,jdbcType=VARCHAR}</if>
+    order by temp.id DESC
+  </select>
+  <select id="queryByTaskidAndDonetime" resultMap="BaseResultMap">
+    select * from taskreportinfo where taskid=#{0}
+  </select>
+  <select id="queryByState" resultMap="BaseResultMap" parameterType="map">
+    select * from taskreportinfo where 1=1
+    <if test="taskid!=null">and taskid=#{taskid}</if>
+    <if test="reportstate!=null and reportstate!=''">and reportstate=#{reportstate}</if>
+    <if test="donetime!=null">and DATE(donetime)=#{donetime}</if>
+  </select>
+  <!--<select id="gettaskreportlog" resultMap="BaseResultMap" parameterType="map">-->
+  <!--select ter.id,ter.taskid,ter.donetime,ter.logcat,ter.tasktype,ter.reportstate,-->
+  <!--ter.worker,ter.taskcode,ter.starttime,ter.endtime,u.realname,t.customid ,s.customid sitename-->
+  <!--from taskreportinfo ter-->
+  <!--left join taskplaninfo t on ter.taskid=t.id-->
+  <!--left join userinfo u on ter.userid=u.id-->
+  <!--left join siteareainfo s on s.id=t.siteid-->
+  <!--where ter.logcat is not null-->
+  <!--<if test="siteid!=null and siteid!=''">-->
+  <!--s.id=#{siteid}-->
+  <!--</if>-->
+  <!--order by ter.endtime desc-->
+  <!--</select>-->
+  <select id="gettaskreportlog2" resultMap="BaseResultMap" parameterType="map">
+    select ter.id,ter.taskid,ter.donetime,ter.logcat,ter.tasktype,ter.reportstate,
+    ter.worker,ter.taskcode,ter.starttime,ter.endtime,u.realname,t.customid,s.customid sitename from
+    taskreportinfo ter
+    left join taskplaninfo t on ter.taskid=t.id
+    left join userinfo u on ter.userid=u.id
+    left join siteareainfo s on s.id=t.siteid
+    where 1=1
+    <if test="taskname!=null and taskname!=''">
+      and ter.taskcode like #{taskname}
+    </if>
+    <if test="time!=null and time!=''">
+      and  str_to_date(donetime,'%Y-%m-%d')=str_to_date(#{time},'%Y-%m-%d')
+    </if>
+    <if test="siteid!=null and siteid!=''">
+      and   s.id=#{siteid}
+    </if>
+    and ter.logcat is not null
+    order by ter.endtime desc
+  </select>
+  <select id="getreportbytype" resultMap="BaseResultMap" parameterType="int">
+    select ter.id,ter.taskid,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.content,
+    ter.operationstate,ter.taskcode,u.realname,term.customid tercustomid,temp.id tempid,temp.state tempstate,temp.operationstate tempoperationstate,temp.stopstate,
+    st.id stopid,st.reason stopreason,st.content stopcontent,st.stoptime stoptime,st.classname stopclassname,st.directorname stopdirectorname
+    from taskreportinfo ter
+    left join userinfo u on ter.userid=u.id
+    left join terminalinfo term on ter.termimalid=term.id
+    left join tasktempinfo temp on ter.taskcode=temp.taskcode
+    left join taskstopinfo st on temp.id=st.tasktempid
+    where ter.tasktype=#{0}
+  </select>
+  <select id="lineChart" resultType="Map">
+    select month(executetime) time,operationstate,count(id) count
+    from tasktempinfo
+    GROUP BY operationstate,time
+    order by time
+  </select>
+  <select id="lineChartByParam" resultType="Map">
+    select month(ter.executetime) time,ter.operationstate,count(ter.id) count
+    from tasktempinfo ter
+    left join taskplaninfo t on ter.taskid=t.id
+    where 1=1
+    <if test="siteid!=null and siteid!=''">
+      and t.siteid = #{siteid}
+    </if>
+    <if test="tasktype!=null">
+      and ter.type = #{tasktype}
+    </if>
+    <!--<if test="worker!=null and worker!=''">
+        and ter.worker like #{worker}
+    </if>-->
+    <if test="taskid!=null and taskid!=''">
+      and ter.taskid=#{taskid}
+    </if>
+    <if test="time1!=null and time1!=''">
+      and ter.executetime between #{time1,jdbcType=VARCHAR}  </if>
+    <if test="time2!=null and time2!=''">and #{time2,jdbcType=VARCHAR}</if>
+    GROUP BY operationstate,time
+    order by time
+  </select>
+  <select id="AvgTimelineChart"  resultType="Map">
+    select month(tem.executetime) time,tem.taskcode,tem.taskid,report.starttime,report.endtime,count(tem.id) count
+    from tasktempinfo tem
+    left join taskreportinfo report
+    on tem.taskcode=report.taskcode
+    GROUP BY time,tem.taskid
+    order by time
+  </select>
+  <select id="getStaticMachineRateByReport" resultType="Map">
+    select operationstate,count(id) count from tasktempinfo
+    GROUP by operationstate
+    order by count
+  </select>
+  <select id="getMachineRateByParam" resultType="Map">
+    select operationstate,count(ter.id) count
+    from tasktempinfo ter
+    left join taskplaninfo t on ter.taskid=t.id
+    where 1=1
+    <if test="siteid!=null and siteid!=''">
+      and t.siteid = #{siteid}
+    </if>
+    <if test="tasktype!=null">
+      and ter.type = #{tasktype}
+    </if>
+    <!-- <if test="worker!=null and worker!=''">
+       and ter.worker like #{worker}
+     </if>-->
+    <if test="taskid!=null and taskid!=''">
+      and ter.taskid=#{taskid}
+    </if>
+    <if test="time1!=null and time1!=''">
+      and ter.executetime between #{time1,jdbcType=VARCHAR}  </if>
+    <if test="time2!=null and time2!=''">and #{time2,jdbcType=VARCHAR}</if>
+    GROUP by operationstate
+    order by count
+  </select>
+  <select id="reportList2" resultMap="BaseResultMap" parameterType="map">
+    select ter.id,ter.taskid,ter.tasktype,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.starttime,ter.endtime,
+    ter.operationstate,ter.taskcode,s.customid sitename,temp.executetime,temp.state tempstate,
+    temp.operationstate tempoperationstate
+    from taskreportinfo ter
+    left join taskplaninfo t on ter.taskid=t.id
+    left join tasktempinfo temp on ter.taskcode=temp.taskcode
+    left join siteareainfo s on s.id=t.siteid
+    where 1=1
+    <if test="siteid!=null and siteid!=''">
+      and t.siteid = #{siteid}
+    </if>
+    <if test="tasktype!=null and tasktype!=''" >
+      and ter.tasktype = #{tasktype}
+    </if>
+    <if test="worker!=null and worker!=''">
+      and ter.worker like #{worker}
+    </if>
+    <if test="time1!=null and time1!='' and time2!=null and time2!=''">
+      and ter.donetime between #{time1,jdbcType=VARCHAR} and #{time2,jdbcType=VARCHAR} </if>
+    order by ter.donetime DESC
+  </select>
+  <select id="reportList3" resultMap="BaseResultMap" parameterType="map">
+    select ter.id,ter.taskid,ter.tasktype,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.starttime,ter.endtime,
+    ter.operationstate,ter.taskcode,s.customid sitename
+    from taskreportinfo ter
+    left join taskplaninfo t on ter.taskid=t.id
+    left join siteareainfo s on s.id=t.siteid
+    where 1=1
+    <if test="siteid!=null and siteid!=''">
+      and t.siteid = #{siteid}
+    </if>
+    <if test="tasktype!=null and tasktype!=''" >
+      and ter.tasktype = #{tasktype}
+    </if>
+    <if test="worker!=null and worker!=''">
+      and ter.worker like #{worker}
+    </if>
+    <if test="time1!=null and time1!='' and time2!=null and time2!=''">
+      and ter.donetime between #{time1,jdbcType=VARCHAR} and #{time2,jdbcType=VARCHAR} </if>
+    and ter.starttime is not NULL and ter.endtime is not NULL
+    order by ter.donetime DESC
+  </select>
+  <select id="timeChart" resultMap="BaseResultMap" parameterType="Long" >
+    select
+    ter.id,ter.taskid,ter.tasktype,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.starttime,ter.endtime,
+    ter.operationstate,ter.taskcode,s.customid sitename
+    from taskreportinfo ter
+    left join taskplaninfo t on ter.taskid=t.id
+    left join siteareainfo s on s.id=t.siteid
+    where ter.taskid=#{0} and ter.starttime is not NULL and ter.endtime is not NULL
+  </select>
+
+  <select id="dadiyreportlist" parameterType="com.niule.znxj.web.model.TaskreportinfoExample" resultMap="BaseResultMap">
+    select
+    ter.id,ter.taskid,ter.tasktype,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.starttime,ter.endtime,
+    ter.operationstate,ter.taskcode,ter.areainouttime
+    from taskreportinfo ter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="dadiyreportlist2" parameterType="map" resultMap="BaseResultMap">
+    select ter.id,ter.taskid,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.tasktype,
+    ter.operationstate,ter.taskcode,u.realname,term.customid tercustomid,temp.id tempid,temp.state tempstate,
+    temp.operationstate tempoperationstate,temp.stopstate,temp.taskcode temptaskcode,temp.executetime,
+    st.id stopid,st.reason stopreason,st.content stopcontent,st.stoptime stoptime,st.classname stopclassname,st.directorname stopdirectorname
+    from tasktempinfo temp
+    left join taskreportinfo ter on ter.taskcode=temp.taskcode
+    left join taskstopinfo st on temp.id=st.tasktempid
+    left join taskplaninfo t on t.id=temp.taskid
+    left join userinfo u on t.directorid=u.id
+    left join terminalinfo term on ter.termimalid=term.id
+    left join siteareainfo s on s.id=t.siteid
+    where date_format(temp.executetime, '%Y-%m-%d' )between #{date1} and #{date2}
+    limit #{page},#{size}
+  </select>
+  <select id="huiZong" resultMap="BaseResultMap">
+    select
+    ter.id,ter.taskid,ter.tasktype,ter.donetime,ter.uploadtime,ter.reportstate,ter.worker,ter.termimalid,ter.starttime,ter.endtime,
+    ter.operationstate,ter.taskcode,ter.examtime,ter.examstate,ter.examuser,s.customid sitename,ter.content,temp.executetime,temp.state tempstate,temp.updatetime,
+    temp.operationstate tempoperationstate,temp.stopstate
+    from taskreportinfo ter
+    left join tasktempinfo temp  on ter.taskcode=temp.taskcode
+    left join taskplaninfo t on ter.taskid=t.id
+    left join siteareainfo s on s.id=t.siteid
+    where temp.type=#{0} and temp.taskid=#{1} and
+    date_format(temp.executetime, '%Y-%m-%d' )=#{2}
+  </select>
+</mapper>

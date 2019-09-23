@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.CheckiteminfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Checkiteminfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="customid" property="customid" jdbcType="VARCHAR" />
+    <result column="itemname" property="itemname" jdbcType="VARCHAR" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="normalmin" property="normalmin" jdbcType="DOUBLE" />
+    <result column="normalmax" property="normalmax" jdbcType="DOUBLE" />
+    <result column="upperwarning" property="upperwarning" jdbcType="DOUBLE" />
+    <result column="lowerwarning" property="lowerwarning" jdbcType="DOUBLE" />
+
+    <result column="recordid" property="recordid" jdbcType="BIGINT" />
+    <result column="name" property="daterecord.name" jdbcType="VARCHAR" />
+    <result column="unitname" property="daterecord.unitname" jdbcType="VARCHAR" />
+    <result column="recordType" property="daterecord.recordtype" jdbcType="INTEGER" />
+    <result column="state" property="daterecord.state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, customid, itemname, keyword, type, normalmin, normalmax, upperwarning, lowerwarning, 
+    recordid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.CheckiteminfoExample" >
+    select c.*,d.name,d.unitname,d.recordType,d.state from checkiteminfo c left join daterecordinfo d on c.recordid=d.id
+  </select>
+  <select id="selectByRecordid" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.CheckiteminfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from checkiteminfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <!--select
+    <include refid="Base_Column_List" />
+    from checkiteminfo
+    where id = #{id,jdbcType=BIGINT}-->
+    select c.*,d.name,d.unitname,d.state from checkiteminfo c left join daterecordinfo d on c.recordid=d.id where c.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from checkiteminfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.CheckiteminfoExample" >
+    delete from checkiteminfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Checkiteminfo" >
+    insert into checkiteminfo (id, customid, itemname, 
+      keyword, type, normalmin, 
+      normalmax, upperwarning, lowerwarning, 
+      recordid)
+    values (#{id,jdbcType=BIGINT}, #{customid,jdbcType=VARCHAR}, #{itemname,jdbcType=VARCHAR}, 
+      #{keyword,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{normalmin,jdbcType=DOUBLE}, 
+      #{normalmax,jdbcType=DOUBLE}, #{upperwarning,jdbcType=DOUBLE}, #{lowerwarning,jdbcType=DOUBLE}, 
+      #{recordid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Checkiteminfo" >
+    insert into checkiteminfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customid != null" >
+        customid,
+      </if>
+      <if test="itemname != null" >
+        itemname,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="normalmin != null" >
+        normalmin,
+      </if>
+      <if test="normalmax != null" >
+        normalmax,
+      </if>
+      <if test="upperwarning != null" >
+        upperwarning,
+      </if>
+      <if test="lowerwarning != null" >
+        lowerwarning,
+      </if>
+      <if test="recordid != null" >
+        recordid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customid != null" >
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="normalmin != null" >
+        #{normalmin,jdbcType=DOUBLE},
+      </if>
+      <if test="normalmax != null" >
+        #{normalmax,jdbcType=DOUBLE},
+      </if>
+      <if test="upperwarning != null" >
+        #{upperwarning,jdbcType=DOUBLE},
+      </if>
+      <if test="lowerwarning != null" >
+        #{lowerwarning,jdbcType=DOUBLE},
+      </if>
+      <if test="recordid != null" >
+        #{recordid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.CheckiteminfoExample" resultType="java.lang.Integer" >
+    select count(*) from checkiteminfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update checkiteminfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customid != null" >
+        customid = #{record.customid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemname != null" >
+        itemname = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyword != null" >
+        keyword = #{record.keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.normalmin != null" >
+        normalmin = #{record.normalmin,jdbcType=DOUBLE},
+      </if>
+      <if test="record.normalmax != null" >
+        normalmax = #{record.normalmax,jdbcType=DOUBLE},
+      </if>
+      <if test="record.upperwarning != null" >
+        upperwarning = #{record.upperwarning,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lowerwarning != null" >
+        lowerwarning = #{record.lowerwarning,jdbcType=DOUBLE},
+      </if>
+      <if test="record.recordid != null" >
+        recordid = #{record.recordid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update checkiteminfo
+    set id = #{record.id,jdbcType=BIGINT},
+      customid = #{record.customid,jdbcType=VARCHAR},
+      itemname = #{record.itemname,jdbcType=VARCHAR},
+      keyword = #{record.keyword,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      normalmin = #{record.normalmin,jdbcType=DOUBLE},
+      normalmax = #{record.normalmax,jdbcType=DOUBLE},
+      upperwarning = #{record.upperwarning,jdbcType=DOUBLE},
+      lowerwarning = #{record.lowerwarning,jdbcType=DOUBLE},
+      recordid = #{record.recordid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Checkiteminfo" >
+    update checkiteminfo
+    <set >
+      <if test="customid != null" >
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        itemname = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="normalmin != null" >
+        normalmin = #{normalmin,jdbcType=DOUBLE},
+      </if>
+      <if test="normalmax != null" >
+        normalmax = #{normalmax,jdbcType=DOUBLE},
+      </if>
+      <if test="upperwarning != null" >
+        upperwarning = #{upperwarning,jdbcType=DOUBLE},
+      </if>
+      <if test="lowerwarning != null" >
+        lowerwarning = #{lowerwarning,jdbcType=DOUBLE},
+      </if>
+        recordid = #{recordid,jdbcType=BIGINT}
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Checkiteminfo" >
+    update checkiteminfo
+    set customid = #{customid,jdbcType=VARCHAR},
+      itemname = #{itemname,jdbcType=VARCHAR},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      normalmin = #{normalmin,jdbcType=DOUBLE},
+      normalmax = #{normalmax,jdbcType=DOUBLE},
+      upperwarning = #{upperwarning,jdbcType=DOUBLE},
+      lowerwarning = #{lowerwarning,jdbcType=DOUBLE},
+      recordid = #{recordid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findByPageCheck" resultMap="BaseResultMap" parameterType="int">
+    select
+    c.id,c.customid,c.itemname,c.keyword,c.recordid,c.type,d.name,d.state,d.unitname
+    from checkiteminfo c
+    left join daterecordinfo d
+    on d.id=c.recordid
+    order by c.id desc
+    limit #{0},#{1}
+  </select>
+  <select id="countCheck" resultType="int">
+    select count(id) from checkiteminfo
+  </select>
+  <select id="findByPageCheck2" resultMap="BaseResultMap" parameterType="map">
+    select
+    c.id,c.customid,c.itemname,c.keyword,c.recordid,c.type,d.name,d.state,d.unitname
+    from checkiteminfo c
+    left join daterecordinfo d
+    on d.id=c.recordid
+    <if test="itemname!=''">
+      and itemname like #{itemname}
+    </if>
+    order by c.id desc
+    limit #{page},#{pagesize}
+  </select>
+  <select id="countCheck2" resultType="int">
+    select count(id) from checkiteminfo where 1=1
+    <if test="itemname!=''">
+      and itemname like #{name}
+    </if>
+  </select>
+  <select id="queryByRecord" parameterType="int" resultMap="BaseResultMap">
+    select c.*,d.name,d.unitname from checkiteminfo c left join daterecordinfo d on c.recordid=d.id where d.id=#{0}
+  </select>
+
+  <select id="getcheckinfo" resultMap="BaseResultMap" parameterType="map">
+    select * from checkiteminfo where id in
+    <foreach collection="checkids"  item="checkid" open="(" separator="," close=")" >
+      #{checkid}
+    </foreach>
+  </select>
+
+</mapper>

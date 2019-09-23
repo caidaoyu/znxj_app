@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.KnowledgeMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Knowledge" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="descontent" property="descontent" jdbcType="VARCHAR" />
+
+    <result column="typeid" property="typeid" jdbcType="INTEGER" />
+    <result column="typename" property="ktype.typename" jdbcType="VARCHAR" />
+
+    <result column="equipid" property="equipid" jdbcType="INTEGER" />
+    <result column="name" property="equip.name" jdbcType="VARCHAR" />
+
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, descontent, typeid, equipid, attachment
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+   k.id,k.title,k.descontent,k.attachment,k.equipid,kt.typename,e.name
+    from knowledge k left join knowledgetype kt on kt.typeid=k.typeid
+    left join equipmentinfo e on e.id=k.equipid
+    left join areainfo a on e.areaid=a.id
+    left join siteareainfo s on a.plant=s.id
+    where 1=1
+    <if test="title != null and title!=''" >
+      and k.title=#{title}
+    </if>
+    <if test="siteid != null and siteid!=''" >
+      and s.id=#{siteid}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+     k.id,k.title,k.descontent,k.equipid,k.attachment,kt.typename,e.name
+    from knowledge k left join knowledgetype kt on kt.typeid=k.typeid left join equipmentinfo e on e.id=k.equipid
+    where k.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from knowledge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.KnowledgeExample" >
+    delete from knowledge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Knowledge" >
+    insert into knowledge (id, title, descontent, 
+      typeid, equipid, attachment
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{descontent,jdbcType=VARCHAR}, 
+      #{typeid,jdbcType=INTEGER}, #{equipid,jdbcType=INTEGER}, #{attachment,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Knowledge" >
+    insert into knowledge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="descontent != null" >
+        descontent,
+      </if>
+      <if test="typeid != null" >
+        typeid,
+      </if>
+      <if test="equipid != null" >
+        equipid,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="descontent != null" >
+        #{descontent,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="equipid != null" >
+        #{equipid,jdbcType=INTEGER},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.KnowledgeExample" resultType="java.lang.Integer" >
+    select count(*) from knowledge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update knowledge
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descontent != null" >
+        descontent = #{record.descontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeid != null" >
+        typeid = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipid != null" >
+        equipid = #{record.equipid,jdbcType=INTEGER},
+      </if>
+      <if test="record.attachment != null" >
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update knowledge
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      descontent = #{record.descontent,jdbcType=VARCHAR},
+      typeid = #{record.typeid,jdbcType=INTEGER},
+      equipid = #{record.equipid,jdbcType=INTEGER},
+      attachment = #{record.attachment,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Knowledge" >
+    update knowledge
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="descontent != null" >
+        descontent = #{descontent,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        typeid = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="equipid != null" >
+        equipid = #{equipid,jdbcType=INTEGER},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Knowledge" >
+    update knowledge
+    set title = #{title,jdbcType=VARCHAR},
+      descontent = #{descontent,jdbcType=VARCHAR},
+      typeid = #{typeid,jdbcType=INTEGER},
+      equipid = #{equipid,jdbcType=INTEGER},
+      attachment = #{attachment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getKnowledgeByTypeid" resultMap="BaseResultMap" parameterType="int" >
+    select
+    k.id,k.title,k.descontent,k.attachment,kt.typename,e.name
+    from knowledge k left join knowledgetype kt on kt.typeid=k.typeid left join equipmentinfo e on e.id=k.equipid
+    where k.typeid=#{0}
+  </select>
+  <select id="getKnowledgeByParam" resultMap="BaseResultMap">
+    select
+    k.id,k.title,k.descontent,k.attachment,kt.typename,e.name
+    from knowledge k
+    left join knowledgetype kt on kt.typeid=k.typeid
+    left join equipmentinfo e on e.id=k.equipid
+    left join nfcinfo nfc on nfc.id=e.nfcid
+    where 1=1 and k.title LIKE #{0}
+    or k.descontent LIKE #{0}
+    or e.name LIKE #{0}
+    or nfc.unitcode like #{0};
+  </select>
+
+</mapper>

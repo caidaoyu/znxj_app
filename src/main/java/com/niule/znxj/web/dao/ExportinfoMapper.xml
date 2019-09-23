@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.ExportinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Exportinfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exportName" property="exportname" jdbcType="VARCHAR" />
+    <result column="taskType" property="tasktype" jdbcType="VARCHAR" />
+    <result column="taskId" property="taskid" jdbcType="INTEGER" />
+    <result column="computingTime" property="computingtime" jdbcType="INTEGER" />
+    <result column="consuming" property="consuming" jdbcType="INTEGER" />
+    <result column="updateTimeStamp" property="updatetimestamp" jdbcType="TIMESTAMP" />
+    <result column="createTimeStamp" property="createtimestamp" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.niule.znxj.web.model.Exportinfo" extends="BaseResultMap" >
+    <result column="taskcontent" property="taskcontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, exportName, taskType, taskId, computingTime, consuming, updateTimeStamp, createTimeStamp
+  </sql>
+  <sql id="Blob_Column_List" >
+    taskcontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.niule.znxj.web.model.ExportinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from exportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.ExportinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from exportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from exportinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exportinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.ExportinfoExample" >
+    delete from exportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Exportinfo" >
+    insert into exportinfo (id, exportName, taskType, 
+      taskId, computingTime, consuming, 
+      updateTimeStamp, createTimeStamp, taskcontent
+      )
+    values (#{id,jdbcType=INTEGER}, #{exportname,jdbcType=VARCHAR}, #{tasktype,jdbcType=VARCHAR}, 
+      #{taskid,jdbcType=INTEGER}, #{computingtime,jdbcType=INTEGER}, #{consuming,jdbcType=INTEGER}, 
+      #{updatetimestamp,jdbcType=TIMESTAMP}, #{createtimestamp,jdbcType=TIMESTAMP}, #{taskcontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Exportinfo" >
+    insert into exportinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="exportname != null" >
+        exportName,
+      </if>
+      <if test="tasktype != null" >
+        taskType,
+      </if>
+      <if test="taskid != null" >
+        taskId,
+      </if>
+      <if test="computingtime != null" >
+        computingTime,
+      </if>
+      <if test="consuming != null" >
+        consuming,
+      </if>
+      <if test="updatetimestamp != null" >
+        updateTimeStamp,
+      </if>
+      <if test="createtimestamp != null" >
+        createTimeStamp,
+      </if>
+      <if test="taskcontent != null" >
+        taskcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exportname != null" >
+        #{exportname,jdbcType=VARCHAR},
+      </if>
+      <if test="tasktype != null" >
+        #{tasktype,jdbcType=VARCHAR},
+      </if>
+      <if test="taskid != null" >
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="computingtime != null" >
+        #{computingtime,jdbcType=INTEGER},
+      </if>
+      <if test="consuming != null" >
+        #{consuming,jdbcType=INTEGER},
+      </if>
+      <if test="updatetimestamp != null" >
+        #{updatetimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtimestamp != null" >
+        #{createtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskcontent != null" >
+        #{taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.ExportinfoExample" resultType="java.lang.Integer" >
+    select count(*) from exportinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update exportinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.exportname != null" >
+        exportName = #{record.exportname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tasktype != null" >
+        taskType = #{record.tasktype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskid != null" >
+        taskId = #{record.taskid,jdbcType=INTEGER},
+      </if>
+      <if test="record.computingtime != null" >
+        computingTime = #{record.computingtime,jdbcType=INTEGER},
+      </if>
+      <if test="record.consuming != null" >
+        consuming = #{record.consuming,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetimestamp != null" >
+        updateTimeStamp = #{record.updatetimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtimestamp != null" >
+        createTimeStamp = #{record.createtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskcontent != null" >
+        taskcontent = #{record.taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update exportinfo
+    set id = #{record.id,jdbcType=INTEGER},
+      exportName = #{record.exportname,jdbcType=VARCHAR},
+      taskType = #{record.tasktype,jdbcType=VARCHAR},
+      taskId = #{record.taskid,jdbcType=INTEGER},
+      computingTime = #{record.computingtime,jdbcType=INTEGER},
+      consuming = #{record.consuming,jdbcType=INTEGER},
+      updateTimeStamp = #{record.updatetimestamp,jdbcType=TIMESTAMP},
+      createTimeStamp = #{record.createtimestamp,jdbcType=TIMESTAMP},
+      taskcontent = #{record.taskcontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update exportinfo
+    set id = #{record.id,jdbcType=INTEGER},
+      exportName = #{record.exportname,jdbcType=VARCHAR},
+      taskType = #{record.tasktype,jdbcType=VARCHAR},
+      taskId = #{record.taskid,jdbcType=INTEGER},
+      computingTime = #{record.computingtime,jdbcType=INTEGER},
+      consuming = #{record.consuming,jdbcType=INTEGER},
+      updateTimeStamp = #{record.updatetimestamp,jdbcType=TIMESTAMP},
+      createTimeStamp = #{record.createtimestamp,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Exportinfo" >
+    update exportinfo
+    <set >
+      <if test="exportname != null" >
+        exportName = #{exportname,jdbcType=VARCHAR},
+      </if>
+      <if test="tasktype != null" >
+        taskType = #{tasktype,jdbcType=VARCHAR},
+      </if>
+      <if test="taskid != null" >
+        taskId = #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="computingtime != null" >
+        computingTime = #{computingtime,jdbcType=INTEGER},
+      </if>
+      <if test="consuming != null" >
+        consuming = #{consuming,jdbcType=INTEGER},
+      </if>
+      <if test="updatetimestamp != null" >
+        updateTimeStamp = #{updatetimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtimestamp != null" >
+        createTimeStamp = #{createtimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskcontent != null" >
+        taskcontent = #{taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.niule.znxj.web.model.Exportinfo" >
+    update exportinfo
+    set exportName = #{exportname,jdbcType=VARCHAR},
+      taskType = #{tasktype,jdbcType=VARCHAR},
+      taskId = #{taskid,jdbcType=INTEGER},
+      computingTime = #{computingtime,jdbcType=INTEGER},
+      consuming = #{consuming,jdbcType=INTEGER},
+      updateTimeStamp = #{updatetimestamp,jdbcType=TIMESTAMP},
+      createTimeStamp = #{createtimestamp,jdbcType=TIMESTAMP},
+      taskcontent = #{taskcontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Exportinfo" >
+    update exportinfo
+    set exportName = #{exportname,jdbcType=VARCHAR},
+      taskType = #{tasktype,jdbcType=VARCHAR},
+      taskId = #{taskid,jdbcType=INTEGER},
+      computingTime = #{computingtime,jdbcType=INTEGER},
+      consuming = #{consuming,jdbcType=INTEGER},
+      updateTimeStamp = #{updatetimestamp,jdbcType=TIMESTAMP},
+      createTimeStamp = #{createtimestamp,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectExport" parameterType="map" resultType="com.niule.znxj.web.model.ExprotReportContent">
+select reportid,areaname,equipname,checkname,checktype,checkvalue,con.reportstate,numvalue,video,audio,img
+    ,rep.worker worker,rep.taskcode taskcode,errcontent,enumitem,temp.executetime executetime,
+    uploadtime,equipmentskipdesc
+    from taskreportinfo rep
+    INNER JOIN taskplaninfo plan on rep.taskid=plan.id
+    left join tasktempinfo temp on rep.taskcode = temp.taskcode
+    INNER JOIN reportcontent con ON rep.id = con.reportid
+    <where>
+      <if test="taskId != null" >
+      and rep.taskid = #{taskId,jdbcType=INTEGER}
+    </if>
+      <if test="startTime!= null and endTime!=null" >
+        and date_format(donetime, '%Y-%m-%d') BETWEEN #{startTime,jdbcType=VARCHAR}
+        AND #{endTime,jdbcType=VARCHAR}
+      </if>
+--       and plan.taskversion= substring_index(substring_index(rep.taskcode,'-',2),'-',-1)
+    </where>
+
+--     order by reportid desc
+  </select>
+
+  <select id="selectAreaInoutTime" parameterType="map" resultType="java.util.HashMap">
+    select id,areainouttime from taskreportinfo
+    <where>
+    <if test="taskId != null" >
+      and taskid = #{taskId,jdbcType=INTEGER}
+    </if>
+    <if test="startTime!= null and endTime!=null" >
+      and date_format(donetime, '%Y-%m-%d') BETWEEN #{startTime,jdbcType=VARCHAR}
+      AND #{endTime,jdbcType=VARCHAR}
+    </if>
+    </where>
+  </select>
+
+  <select id="selectShuyouExport" parameterType="map" resultType="com.niule.znxj.web.model.ExprotReport2Content">
+    select reportid,areaname,equipname,checkname,enumitem,starttime,
+    endtime,temp.executetime executetime,worker,equipmentskipdesc,rep.areainouttime,temp.id tempId
+    from taskreportinfo rep
+    INNER JOIN reportcontent con ON rep.id = con.reportid
+    left join tasktempinfo temp on rep.taskcode = temp.taskcode
+    <where>
+      <if test="taskId != null" >
+        and rep.taskid = #{taskId,jdbcType=INTEGER}
+      </if>
+      <if test="startTime!= null and endTime!=null" >
+        and date_format(donetime, '%Y-%m-%d') BETWEEN #{startTime,jdbcType=VARCHAR}
+        AND #{endTime,jdbcType=VARCHAR}
+      </if>
+      <if test="checkname!= null" >
+        and con.checkname=#{checkname,jdbcType=VARCHAR}
+      </if>
+    </where>
+--     order by reportid desc
+  </select>
+
+  <select id="queryCount" parameterType="com.niule.znxj.web.model.ExportinfoExample" resultType="java.lang.Integer" >
+    select count(*) from (select donetime  from taskreportinfo where taskid=#{0} and `donetime`  BETWEEN #{1}  and #{2} GROUP BY  DATE_FORMAT(donetime,'%Y-%m-%d') ) a
+  </select>
+</mapper>

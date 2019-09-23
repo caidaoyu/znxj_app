@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.UserinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Userinfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="birthdate" property="birthdate" jdbcType="TIMESTAMP" />
+    <result column="classid" property="classid" jdbcType="BIGINT" />
+
+    <result column="classid2" property="group.id" jdbcType="BIGINT"></result>
+    <result column="customid" property="group.customid" jdbcType="VARCHAR"></result>
+
+    <result column="positionid" property="positionid" jdbcType="BIGINT" />
+    <result column="posid" property="pos.id" jdbcType="BIGINT" />
+    <result column="positionname" property="pos.positionname" jdbcType="BIGINT" />
+
+    <result column="commonterminalid" property="commonterminalid" jdbcType="BIGINT" />
+    <result column="tercustomid" property="ter.customid" jdbcType="VARCHAR" />
+
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="userstate" property="userstate" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="unenabletime" property="unenabletime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, type, username, password, realname, sex, birthdate, classid, positionid, commonterminalid, 
+    state, userstate, createtime, updatetime, unenabletime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.UserinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from userinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="querybyUserid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    id,realname
+    from userinfo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    u.id,u.type,u.username,u.password,u.commonterminalid,
+    u.birthdate,u.realname,u.sex,u.state,u.userstate,c.id classid2,c.customid,p.id posid,p.positionname,t.customid tercustomid
+    from userinfo u
+    left join classinfo c on u.classid=c.id
+    left join positioninfo p on p.id=u.positionid
+    left join terminalinfo t on t.id=u.commonterminalid
+    where u.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from userinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.UserinfoExample" >
+    delete from userinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Userinfo" >
+    insert into userinfo (id, type, username, 
+      password, realname, sex, 
+      birthdate, classid, positionid, 
+      commonterminalid, state, userstate, 
+      createtime, updatetime, unenabletime
+      )
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{birthdate,jdbcType=TIMESTAMP}, #{classid,jdbcType=BIGINT}, #{positionid,jdbcType=BIGINT}, 
+      #{commonterminalid,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, #{userstate,jdbcType=INTEGER}, 
+      curdate(), curdate(), #{unenabletime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Userinfo" >
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthdate != null" >
+        birthdate,
+      </if>
+      <if test="classid != null" >
+        classid,
+      </if>
+      <if test="positionid != null" >
+        positionid,
+      </if>
+      <if test="commonterminalid != null" >
+        commonterminalid,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="userstate != null" >
+        userstate,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="unenabletime != null" >
+        unenabletime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classid != null" >
+        #{classid,jdbcType=BIGINT},
+      </if>
+      <if test="positionid != null" >
+        #{positionid,jdbcType=BIGINT},
+      </if>
+      <if test="commonterminalid != null" >
+        #{commonterminalid,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="userstate != null" >
+        #{userstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unenabletime != null" >
+        #{unenabletime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.UserinfoExample" resultType="java.lang.Integer" >
+    select count(*) from userinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update userinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.birthdate != null" >
+        birthdate = #{record.birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classid != null" >
+        classid = #{record.classid,jdbcType=BIGINT},
+      </if>
+      <if test="record.positionid != null" >
+        positionid = #{record.positionid,jdbcType=BIGINT},
+      </if>
+      <if test="record.commonterminalid != null" >
+        commonterminalid = #{record.commonterminalid,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.userstate != null" >
+        userstate = #{record.userstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.unenabletime != null" >
+        unenabletime = #{record.unenabletime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update userinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      birthdate = #{record.birthdate,jdbcType=TIMESTAMP},
+      classid = #{record.classid,jdbcType=BIGINT},
+      positionid = #{record.positionid,jdbcType=BIGINT},
+      commonterminalid = #{record.commonterminalid,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=INTEGER},
+      userstate = #{record.userstate,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      unenabletime = #{record.unenabletime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Userinfo" >
+    update userinfo
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null" >
+        birthdate = #{birthdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classid != null" >
+        classid = #{classid,jdbcType=BIGINT},
+      </if>
+      <if test="positionid != null" >
+        positionid = #{positionid,jdbcType=BIGINT},
+      </if>
+      <if test="commonterminalid != null" >
+        commonterminalid = #{commonterminalid,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="userstate != null" >
+        userstate = #{userstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unenabletime != null" >
+        unenabletime = #{unenabletime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Userinfo" >
+    update userinfo
+    set type = #{type,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthdate = #{birthdate,jdbcType=TIMESTAMP},
+      classid = #{classid,jdbcType=BIGINT},
+      positionid = #{positionid,jdbcType=BIGINT},
+      commonterminalid = #{commonterminalid,jdbcType=BIGINT},
+      state = #{state,jdbcType=INTEGER},
+      userstate = #{userstate,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      unenabletime = #{unenabletime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findByPageUser" resultMap="BaseResultMap" parameterType="map">
+    select
+    u.id,u.type,u.username,u.realname,u.sex,u.state,u.userstate,c.id,c.customid,t.customid tercustomid,p.positionname
+    from userinfo u
+    left join classinfo c on u.classid=c.id
+    left join positioninfo p on p.id=u.positionid
+    left join terminalinfo t on t.id=u.commonterminalid
+    where 1=1
+    <if test="classids!=null">
+      and c.siteareaid in
+      <foreach collection="classids"  item="classid" open="(" separator="," close=")" >
+        #{classid}
+      </foreach>
+    </if>
+    order by u.id desc
+     limit  #{page},#{pagesize}
+  </select>
+  <select id="countUser" resultType="int" parameterType="map">
+    select count(u.id) from userinfo u
+    left join classinfo c on u.classid=c.id
+    where 1=1
+    <if test="classids!=null">
+      and c.siteareaid in
+      <foreach collection="classids"  item="classid" open="(" separator="," close=")" >
+        #{classid}
+      </foreach>
+    </if>
+  </select>
+  <select id="findByPageUser2" resultMap="BaseResultMap" parameterType="map">
+    select
+    u.id,u.type,u.username,u.realname,u.sex,u.state,u.userstate,c.id,c.customid,p.positionname,t.customid tercustomid,p.positionname
+    from userinfo u
+    left join classinfo c on u.classid=c.id
+    left join positioninfo p on p.id=u.positionid
+    left join terminalinfo t on t.id=u.commonterminalid
+    where 1=1
+    <if test="classids!=null">
+      and   c.siteareaid in
+      <foreach collection="classids"  item="classid" open="(" separator="," close=")" >
+        #{classid}
+      </foreach>
+    </if>
+    <if test="realname!=''">
+      and u.realname like #{realname}
+    </if>
+    <if test="type!=''">
+      and u.type=#{type}
+    </if>
+    <if test="userstate!=''">
+      and u.userstate=#{userstate}
+    </if>
+    order by u.id desc
+    limit #{page},#{pagesize}
+  </select>
+  <select id="countUser2" resultType="int">
+    select count(u.id) from userinfo u
+    left join classinfo c on u.classid=c.id
+    where 1=1
+    <if test="classids!=null">
+      and c.siteareaid in
+      <foreach collection="classids"  item="classid" open="(" separator="," close=")" >
+        #{classid}
+      </foreach>
+    </if>
+    <if test="realname!=''">
+      and u.realname like #{realname}
+    </if>
+    <if test="type!=''">
+      and u.type=#{type}
+    </if>
+    <if test="userstate!=''">
+      and u.userstate=#{userstate}
+    </if>
+  </select>
+
+  <!-- 用户登陆-->
+  <select id="authUser" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from userinfo
+    where username = #{0} AND  password = #{1}
+  </select>
+  <select id="queryRealname" resultMap="BaseResultMap" >
+    select
+    realname,id
+    from userinfo
+    where id = #{0}
+  </select>
+</mapper>

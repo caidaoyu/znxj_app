@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.TaskstopinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Taskstopinfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="tasktempid" property="tasktempid" jdbcType="BIGINT" />
+    <result column="state" property="tem.state" jdbcType="BIGINT" />
+    <result column="taskcode" property="tem.taskcode" jdbcType="BIGINT" />
+    <result column="state" property="tem.state" jdbcType="BIGINT" />
+
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="stoptime" property="stoptime" jdbcType="TIMESTAMP" />
+    <result column="classname" property="classname" jdbcType="VARCHAR" />
+    <result column="directorname" property="directorname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, tasktempid, reason, content, stoptime, classname, directorname
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.TaskstopinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from taskstopinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from taskstopinfo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from taskstopinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.TaskstopinfoExample" >
+    delete from taskstopinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Taskstopinfo" >
+    insert into taskstopinfo (id, tasktempid, reason, 
+      content, stoptime, classname, 
+      directorname)
+    values (#{id,jdbcType=BIGINT}, #{tasktempid,jdbcType=BIGINT}, #{reason,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{stoptime,jdbcType=TIMESTAMP}, #{classname,jdbcType=VARCHAR}, 
+      #{directorname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Taskstopinfo" >
+    insert into taskstopinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tasktempid != null" >
+        tasktempid,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="stoptime != null" >
+        stoptime,
+      </if>
+      <if test="classname != null" >
+        classname,
+      </if>
+      <if test="directorname != null" >
+        directorname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tasktempid != null" >
+        #{tasktempid,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="stoptime != null" >
+        #{stoptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classname != null" >
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="directorname != null" >
+        #{directorname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.TaskstopinfoExample" resultType="java.lang.Integer" >
+    select count(*) from taskstopinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update taskstopinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.tasktempid != null" >
+        tasktempid = #{record.tasktempid,jdbcType=BIGINT},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stoptime != null" >
+        stoptime = #{record.stoptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classname != null" >
+        classname = #{record.classname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.directorname != null" >
+        directorname = #{record.directorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update taskstopinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      tasktempid = #{record.tasktempid,jdbcType=BIGINT},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      stoptime = #{record.stoptime,jdbcType=TIMESTAMP},
+      classname = #{record.classname,jdbcType=VARCHAR},
+      directorname = #{record.directorname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Taskstopinfo" >
+    update taskstopinfo
+    <set >
+      <if test="tasktempid != null" >
+        tasktempid = #{tasktempid,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="stoptime != null" >
+        stoptime = #{stoptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classname != null" >
+        classname = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="directorname != null" >
+        directorname = #{directorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Taskstopinfo" >
+    update taskstopinfo
+    set tasktempid = #{tasktempid,jdbcType=BIGINT},
+      reason = #{reason,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      stoptime = #{stoptime,jdbcType=TIMESTAMP},
+      classname = #{classname,jdbcType=VARCHAR},
+      directorname = #{directorname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getStopTask" resultMap="BaseResultMap" parameterType="int">
+    select ts.id,ts.tasktempid,ts.reason,ts.content,ts.stoptime,ts.classname,ts.directorname,temp.taskcode,temp.state
+    from taskstopinfo ts
+    left join tasktempinfo temp on temp.id=ts.tasktempid
+    where temp.state=#{0} and temp.type=#{1}
+  </select>
+  <select id="queryStopByTempid" resultMap="BaseResultMap" parameterType="int">
+    select * from taskstopinfo where tasktempid=#{0}
+  </select>
+</mapper>

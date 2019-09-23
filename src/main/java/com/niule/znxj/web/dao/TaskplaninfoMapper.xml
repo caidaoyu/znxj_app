@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.TaskplaninfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Taskplaninfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="identifyingid" property="identifyingid" jdbcType="VARCHAR" />
+    <result column="customid" property="customid" jdbcType="VARCHAR" />
+    <result column="taskdesc" property="taskdesc" jdbcType="VARCHAR" />
+    <result column="issequentially" property="issequentially" jdbcType="INTEGER" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="auditstatus" property="auditstatus" jdbcType="INTEGER" />
+    <result column="revieweduser" property="revieweduser" jdbcType="VARCHAR" />
+    <result column="reviewedtime" property="reviewedtime" jdbcType="TIMESTAMP" />
+    <result column="approveuser" property="approveuser" jdbcType="VARCHAR" />
+    <result column="approvetime" property="approvetime" jdbcType="TIMESTAMP" />
+    <result column="taskversion" property="taskversion" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="classid" property="classid" jdbcType="BIGINT" />
+    <result column="directorid" property="directorid" jdbcType="BIGINT" />
+    <result column="maxduration" property="maxduration" jdbcType="INTEGER" />
+    <result column="issingletime" property="issingletime" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+    <result column="implementtime" property="implementtime" jdbcType="VARCHAR" />
+    <result column="weeklytime" property="weeklytime" jdbcType="VARCHAR" />
+    <result column="siteid" property="siteid" jdbcType="BIGINT" />
+
+    <result column="username" property="username" jdbcType="VARCHAR"></result>
+
+    <result column="sitename" property="site.customid" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.niule.znxj.web.model.Taskplaninfo" extends="BaseResultMap" >
+    <result column="taskcontent" property="taskcontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <resultMap id="TaskResultMap" type="com.niule.znxj.web.model.taskresponse.TaskTempRes" >
+    <id column="tempid" property="tempid" jdbcType="BIGINT" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="executetime" property="executetime" jdbcType="TIMESTAMP" />
+    <result column="taskcode" property="taskcode" jdbcType="VARCHAR" />
+    <result column="operationstate" property="operationstate" jdbcType="INTEGER" />
+    <result column="stopstate" property="stopstate" jdbcType="INTEGER" />
+
+
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="identifyingid" property="identifyingid" jdbcType="VARCHAR" />
+    <result column="customid" property="customid" jdbcType="VARCHAR" />
+    <result column="taskdesc" property="taskdesc" jdbcType="VARCHAR" />
+    <result column="issequentially" property="issequentially" jdbcType="INTEGER" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="auditstatus" property="auditstatus" jdbcType="INTEGER" />
+    <result column="revieweduser" property="revieweduser" jdbcType="VARCHAR" />
+    <result column="reviewedtime" property="reviewedtime" jdbcType="TIMESTAMP" />
+    <result column="approveuser" property="approveuser" jdbcType="VARCHAR" />
+    <result column="approvetime" property="approvetime" jdbcType="TIMESTAMP" />
+    <result column="taskversion" property="taskversion" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="taskcontent" property="taskcontent" jdbcType="VARCHAR" />
+
+    <result column="classid" property="classid" jdbcType="BIGINT" />
+    <result column="classname" property="classname" jdbcType="BIGINT" />
+
+    <result column="directorid" property="directorid" jdbcType="BIGINT" />
+    <result column="realname" property="directorname" jdbcType="BIGINT" />
+
+    <result column="maxduration" property="maxduration" jdbcType="INTEGER" />
+    <result column="issingletime" property="issingletime" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+    <result column="implementtime" property="implementtime" jdbcType="VARCHAR" />
+    <result column="weeklytime" property="weeklytime" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, type, identifyingid, customid, taskdesc, issequentially, createuser, createtime, 
+    state, auditstatus, revieweduser, reviewedtime, approveuser, approvetime, taskversion, 
+    updatetime, classid, directorid, maxduration, issingletime, starttime, endtime, implementtime, 
+    weeklytime, siteid
+  </sql>
+  <sql id="Blob_Column_List" >
+    taskcontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.niule.znxj.web.model.TaskplaninfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from taskplaninfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.TaskplaninfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from taskplaninfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectTempResByExample" resultMap="TaskResultMap" parameterType="com.niule.znxj.web.model.TaskplaninfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from taskplaninfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectTaskTempRes" resultMap="TaskResultMap" parameterType="map">
+    select tp.*,u.realname,u.id,c.id,c.customid as classname from taskplaninfo tp LEFT JOIN userinfo u on u.id = tp.directorid
+    left join classinfo c on c.id = tp.classid
+    <where>
+      <if test="type!=null">
+        and tp.type = #{type}
+      </if>
+      <if test="classId!=null">
+        and tp.classid = #{classId}
+      </if>
+      and  tp.state = 1  and tp.implementtime = '[]' and tp.weeklytime = '[]' order by tp.updatetime desc
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from taskplaninfo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from taskplaninfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.TaskplaninfoExample" >
+    delete from taskplaninfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Taskplaninfo"  useGeneratedKeys="true" keyProperty="id">
+    insert into taskplaninfo (id, type, identifyingid, 
+      customid, taskdesc, issequentially, 
+      createuser, createtime, state, 
+      auditstatus, revieweduser, reviewedtime, 
+      approveuser, approvetime, taskversion, 
+      updatetime, classid, directorid, 
+      maxduration, issingletime, starttime, 
+      endtime, implementtime, weeklytime, 
+      siteid, taskcontent)
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{identifyingid,jdbcType=VARCHAR}, 
+      #{customid,jdbcType=VARCHAR}, #{taskdesc,jdbcType=VARCHAR}, #{issequentially,jdbcType=INTEGER}, 
+      #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
+      #{auditstatus,jdbcType=INTEGER}, #{revieweduser,jdbcType=VARCHAR}, #{reviewedtime,jdbcType=TIMESTAMP}, 
+      #{approveuser,jdbcType=VARCHAR}, #{approvetime,jdbcType=TIMESTAMP}, #{taskversion,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{classid,jdbcType=BIGINT}, #{directorid,jdbcType=BIGINT}, 
+      #{maxduration,jdbcType=INTEGER}, #{issingletime,jdbcType=INTEGER}, #{starttime,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=VARCHAR}, #{implementtime,jdbcType=VARCHAR}, #{weeklytime,jdbcType=VARCHAR}, 
+      #{siteid,jdbcType=BIGINT}, #{taskcontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Taskplaninfo"  useGeneratedKeys="true" keyProperty="id">
+    insert into taskplaninfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="identifyingid != null" >
+        identifyingid,
+      </if>
+      <if test="customid != null" >
+        customid,
+      </if>
+      <if test="taskdesc != null" >
+        taskdesc,
+      </if>
+      <if test="issequentially != null" >
+        issequentially,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="auditstatus != null" >
+        auditstatus,
+      </if>
+      <if test="revieweduser != null" >
+        revieweduser,
+      </if>
+      <if test="reviewedtime != null" >
+        reviewedtime,
+      </if>
+      <if test="approveuser != null" >
+        approveuser,
+      </if>
+      <if test="approvetime != null" >
+        approvetime,
+      </if>
+      <if test="taskversion != null" >
+        taskversion,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="classid != null" >
+        classid,
+      </if>
+      <if test="directorid != null" >
+        directorid,
+      </if>
+      <if test="maxduration != null" >
+        maxduration,
+      </if>
+      <if test="issingletime != null" >
+        issingletime,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="implementtime != null" >
+        implementtime,
+      </if>
+      <if test="weeklytime != null" >
+        weeklytime,
+      </if>
+      <if test="siteid != null" >
+        siteid,
+      </if>
+      <if test="taskcontent != null" >
+        taskcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="identifyingid != null" >
+        #{identifyingid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null" >
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="taskdesc != null" >
+        #{taskdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="issequentially != null" >
+        #{issequentially,jdbcType=INTEGER},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="auditstatus != null" >
+        #{auditstatus,jdbcType=INTEGER},
+      </if>
+      <if test="revieweduser != null" >
+        #{revieweduser,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewedtime != null" >
+        #{reviewedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveuser != null" >
+        #{approveuser,jdbcType=VARCHAR},
+      </if>
+      <if test="approvetime != null" >
+        #{approvetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskversion != null" >
+        #{taskversion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classid != null" >
+        #{classid,jdbcType=BIGINT},
+      </if>
+      <if test="directorid != null" >
+        #{directorid,jdbcType=BIGINT},
+      </if>
+      <if test="maxduration != null" >
+        #{maxduration,jdbcType=INTEGER},
+      </if>
+      <if test="issingletime != null" >
+        #{issingletime,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="implementtime != null" >
+        #{implementtime,jdbcType=VARCHAR},
+      </if>
+      <if test="weeklytime != null" >
+        #{weeklytime,jdbcType=VARCHAR},
+      </if>
+      <if test="siteid != null" >
+        #{siteid,jdbcType=BIGINT},
+      </if>
+      <if test="taskcontent != null" >
+        #{taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.TaskplaninfoExample" resultType="java.lang.Integer" >
+    select count(*) from taskplaninfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update taskplaninfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.identifyingid != null" >
+        identifyingid = #{record.identifyingid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customid != null" >
+        customid = #{record.customid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskdesc != null" >
+        taskdesc = #{record.taskdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issequentially != null" >
+        issequentially = #{record.issequentially,jdbcType=INTEGER},
+      </if>
+      <if test="record.createuser != null" >
+        createuser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditstatus != null" >
+        auditstatus = #{record.auditstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.revieweduser != null" >
+        revieweduser = #{record.revieweduser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reviewedtime != null" >
+        reviewedtime = #{record.reviewedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.approveuser != null" >
+        approveuser = #{record.approveuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvetime != null" >
+        approvetime = #{record.approvetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskversion != null" >
+        taskversion = #{record.taskversion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classid != null" >
+        classid = #{record.classid,jdbcType=BIGINT},
+      </if>
+      <if test="record.directorid != null" >
+        directorid = #{record.directorid,jdbcType=BIGINT},
+      </if>
+      <if test="record.maxduration != null" >
+        maxduration = #{record.maxduration,jdbcType=INTEGER},
+      </if>
+      <if test="record.issingletime != null" >
+        issingletime = #{record.issingletime,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null" >
+        starttime = #{record.starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endtime != null" >
+        endtime = #{record.endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.implementtime != null" >
+        implementtime = #{record.implementtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weeklytime != null" >
+        weeklytime = #{record.weeklytime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteid != null" >
+        siteid = #{record.siteid,jdbcType=BIGINT},
+      </if>
+      <if test="record.taskcontent != null" >
+        taskcontent = #{record.taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update taskplaninfo
+    set id = #{record.id,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      identifyingid = #{record.identifyingid,jdbcType=VARCHAR},
+      customid = #{record.customid,jdbcType=VARCHAR},
+      taskdesc = #{record.taskdesc,jdbcType=VARCHAR},
+      issequentially = #{record.issequentially,jdbcType=INTEGER},
+      createuser = #{record.createuser,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      auditstatus = #{record.auditstatus,jdbcType=INTEGER},
+      revieweduser = #{record.revieweduser,jdbcType=VARCHAR},
+      reviewedtime = #{record.reviewedtime,jdbcType=TIMESTAMP},
+      approveuser = #{record.approveuser,jdbcType=VARCHAR},
+      approvetime = #{record.approvetime,jdbcType=TIMESTAMP},
+      taskversion = #{record.taskversion,jdbcType=VARCHAR},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      classid = #{record.classid,jdbcType=BIGINT},
+      directorid = #{record.directorid,jdbcType=BIGINT},
+      maxduration = #{record.maxduration,jdbcType=INTEGER},
+      issingletime = #{record.issingletime,jdbcType=INTEGER},
+      starttime = #{record.starttime,jdbcType=VARCHAR},
+      endtime = #{record.endtime,jdbcType=VARCHAR},
+      implementtime = #{record.implementtime,jdbcType=VARCHAR},
+      weeklytime = #{record.weeklytime,jdbcType=VARCHAR},
+      siteid = #{record.siteid,jdbcType=BIGINT},
+      taskcontent = #{record.taskcontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update taskplaninfo
+    set id = #{record.id,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      identifyingid = #{record.identifyingid,jdbcType=VARCHAR},
+      customid = #{record.customid,jdbcType=VARCHAR},
+      taskdesc = #{record.taskdesc,jdbcType=VARCHAR},
+      issequentially = #{record.issequentially,jdbcType=INTEGER},
+      createuser = #{record.createuser,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      auditstatus = #{record.auditstatus,jdbcType=INTEGER},
+      revieweduser = #{record.revieweduser,jdbcType=VARCHAR},
+      reviewedtime = #{record.reviewedtime,jdbcType=TIMESTAMP},
+      approveuser = #{record.approveuser,jdbcType=VARCHAR},
+      approvetime = #{record.approvetime,jdbcType=TIMESTAMP},
+      taskversion = #{record.taskversion,jdbcType=VARCHAR},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      classid = #{record.classid,jdbcType=BIGINT},
+      directorid = #{record.directorid,jdbcType=BIGINT},
+      maxduration = #{record.maxduration,jdbcType=INTEGER},
+      issingletime = #{record.issingletime,jdbcType=INTEGER},
+      starttime = #{record.starttime,jdbcType=VARCHAR},
+      endtime = #{record.endtime,jdbcType=VARCHAR},
+      implementtime = #{record.implementtime,jdbcType=VARCHAR},
+      weeklytime = #{record.weeklytime,jdbcType=VARCHAR},
+      siteid = #{record.siteid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Taskplaninfo" >
+    update taskplaninfo
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="identifyingid != null" >
+        identifyingid = #{identifyingid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null" >
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="taskdesc != null" >
+        taskdesc = #{taskdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="issequentially != null" >
+        issequentially = #{issequentially,jdbcType=INTEGER},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="auditstatus != null" >
+        auditstatus = #{auditstatus,jdbcType=INTEGER},
+      </if>
+      <if test="revieweduser != null" >
+        revieweduser = #{revieweduser,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewedtime != null" >
+        reviewedtime = #{reviewedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveuser != null" >
+        approveuser = #{approveuser,jdbcType=VARCHAR},
+      </if>
+      <if test="approvetime != null" >
+        approvetime = #{approvetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskversion != null" >
+        taskversion = #{taskversion,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classid != null" >
+        classid = #{classid,jdbcType=BIGINT},
+      </if>
+      <if test="directorid != null" >
+        directorid = #{directorid,jdbcType=BIGINT},
+      </if>
+      <if test="maxduration != null" >
+        maxduration = #{maxduration,jdbcType=INTEGER},
+      </if>
+      <if test="issingletime != null" >
+        issingletime = #{issingletime,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="implementtime != null" >
+        implementtime = #{implementtime,jdbcType=VARCHAR},
+      </if>
+      <if test="weeklytime != null" >
+        weeklytime = #{weeklytime,jdbcType=VARCHAR},
+      </if>
+      <if test="siteid != null" >
+        siteid = #{siteid,jdbcType=BIGINT},
+      </if>
+      <if test="taskcontent != null" >
+        taskcontent = #{taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.niule.znxj.web.model.Taskplaninfo" >
+    update taskplaninfo
+    set type = #{type,jdbcType=INTEGER},
+      identifyingid = #{identifyingid,jdbcType=VARCHAR},
+      customid = #{customid,jdbcType=VARCHAR},
+      taskdesc = #{taskdesc,jdbcType=VARCHAR},
+      issequentially = #{issequentially,jdbcType=INTEGER},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      auditstatus = #{auditstatus,jdbcType=INTEGER},
+      revieweduser = #{revieweduser,jdbcType=VARCHAR},
+      reviewedtime = #{reviewedtime,jdbcType=TIMESTAMP},
+      approveuser = #{approveuser,jdbcType=VARCHAR},
+      approvetime = #{approvetime,jdbcType=TIMESTAMP},
+      taskversion = #{taskversion,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      classid = #{classid,jdbcType=BIGINT},
+      directorid = #{directorid,jdbcType=BIGINT},
+      maxduration = #{maxduration,jdbcType=INTEGER},
+      issingletime = #{issingletime,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=VARCHAR},
+      implementtime = #{implementtime,jdbcType=VARCHAR},
+      weeklytime = #{weeklytime,jdbcType=VARCHAR},
+      siteid = #{siteid,jdbcType=BIGINT},
+      taskcontent = #{taskcontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Taskplaninfo" >
+    update taskplaninfo
+    set type = #{type,jdbcType=INTEGER},
+      identifyingid = #{identifyingid,jdbcType=VARCHAR},
+      customid = #{customid,jdbcType=VARCHAR},
+      taskdesc = #{taskdesc,jdbcType=VARCHAR},
+      issequentially = #{issequentially,jdbcType=INTEGER},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      auditstatus = #{auditstatus,jdbcType=INTEGER},
+      revieweduser = #{revieweduser,jdbcType=VARCHAR},
+      reviewedtime = #{reviewedtime,jdbcType=TIMESTAMP},
+      approveuser = #{approveuser,jdbcType=VARCHAR},
+      approvetime = #{approvetime,jdbcType=TIMESTAMP},
+      taskversion = #{taskversion,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      classid = #{classid,jdbcType=BIGINT},
+      directorid = #{directorid,jdbcType=BIGINT},
+      maxduration = #{maxduration,jdbcType=INTEGER},
+      issingletime = #{issingletime,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=VARCHAR},
+      implementtime = #{implementtime,jdbcType=VARCHAR},
+      weeklytime = #{weeklytime,jdbcType=VARCHAR},
+      siteid = #{siteid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findByPageTask" resultMap="BaseResultMap" parameterType="map">
+    select t.*,s.customid sitename,u.realname username
+    <!--<include refid="Base_Column_List" />-->
+    from taskplaninfo t left join siteareainfo s on s.id=t.siteid
+    left join userinfo u on t.directorid=u.id
+    where t.type=#{type} and t.state>0
+    <if test="ids!=null">
+      and t.siteid in
+      <foreach collection="ids"  item="sid" open="(" separator="," close=")" >
+        #{sid}
+      </foreach>
+    </if>
+    order by t.id DESC limit #{page},#{size}
+  </select>
+  <select id="countTask" resultType="int" parameterType="map">
+    select count(t.id) from taskplaninfo t
+    left join userinfo u on t.directorid=u.id
+    where t.type=#{type} and t.state>0
+    <if test="ids!=null">
+      and t.siteid in
+      <foreach collection="ids"  item="sid" open="(" separator="," close=")" >
+        #{sid}
+      </foreach>
+    </if>
+
+  </select>
+  <select id="findByPageTask2" resultMap="BaseResultMap" parameterType="map">
+    select t.*,s.customid sitename,u.realname username
+    <!--<include refid="Base_Column_List" />-->
+    from taskplaninfo t left join siteareainfo s on s.id=t.siteid
+    left join userinfo u on t.directorid=u.id where 1=1
+    <if test="identifyingid!=''">
+      and t.identifyingid like #{identifyingid}
+    </if>
+    <if test="state!=''">
+      and t.state=#{state}
+    </if>
+    and t.type=#{type} and t.state>0
+    <if test="ids!=null">
+      and t.siteid in
+      <foreach collection="ids"  item="sid" open="(" separator="," close=")" >
+        #{sid}
+      </foreach>
+    </if>
+    order by t.id DESC
+    limit #{page},#{size}
+  </select>
+  <select id="countTask2" resultType="int" parameterType="map">
+    select count(t.id) from taskplaninfo t
+    left join userinfo u on t.directorid=u.id
+    where 1=1
+    <if test="customid!=''">
+      and t.identifyingid like #{identifyingid}
+    </if>
+    <if test="state!=''">
+      and t.state=#{state}
+    </if>
+    and t.type=#{type} and t.state>0
+    <if test="ids!=null">
+      and t.siteid in
+      <foreach collection="ids"  item="sid" open="(" separator="," close=")" >
+        #{sid}
+      </foreach>
+    </if>
+  </select>
+
+
+  <select id="getTakTemps" resultMap="TaskResultMap">
+    SELECT t1.id AS tempid,t1.executetime,t1.taskcode,t1.operationstate,t1.stopstate,
+    t2.id,t2.customid,t2.type,t2.taskdesc,t2.taskcontent,t2.starttime,t2.endtime,t2.classid,t2.identifyingid,t2.issequentially,t2.maxduration,
+    t2.directorid,c.customid classname,u.realname
+    FROM tasktempinfo t1
+    LEFT JOIN taskplaninfo t2 ON t1.`taskid` = t2.`id`
+    left join classinfo c on t2.classid=c.id
+    left join userinfo u on t2.directorid=u.id
+    WHERE t2.`classid` = #{0} AND t2.`type`=#{1} AND t1.`state`=#{2}
+  </select>
+
+  <select id="getTakTempsExecuting" resultMap="TaskResultMap" >
+    SELECT t1.id AS tempid,t1.executetime ,t1.taskcode,t1.operationstate,t1.stopstate,
+    t2.id,t2.identifyingid,t2.customid,t2.type,t2.taskcontent,t2.taskdesc,t2.starttime,t2.endtime,t2.classid,t2.issequentially,t2.maxduration,
+    t2.directorid,c.customid classname,u.realname
+    FROM tasktempinfo t1 LEFT JOIN taskplaninfo t2 ON t1.`taskid` = t2.`id`
+    left join classinfo c on t2.classid=c.id
+    left join userinfo u on t2.directorid=u.id
+    WHERE t2.`classid` = #{0} AND t2.`type`=#{1} AND t1.`state`=#{2} AND t1.userid = #{3}
+  </select>
+
+
+  <select id="getTakTempsExecutingByExample" resultMap="TaskResultMap" parameterType="com.niule.znxj.web.model.TasktempinfoExample" >
+    SELECT t1.id AS tempid,t1.executetime ,t1.taskcode,t1.operationstate,t1.stopstate,
+    t2.id,t2.identifyingid,t2.customid,t2.type,t2.taskcontent,t2.taskdesc,t2.starttime,t2.endtime,
+    t2.classid,t2.issequentially,t2.maxduration,
+    t2.directorid,c.customid classname,u.realname
+    FROM tasktempinfo t1 LEFT JOIN taskplaninfo t2 ON t1.`taskid` = t2.`id`
+    left join classinfo c on t2.classid=c.id
+    left join userinfo u on t2.directorid=u.id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="getPartTask" resultMap="TaskResultMap" parameterType="map">
+    SELECT t1.id AS tempid,t1.executetime ,t1.taskcode,t1.operationstate,t1.stopstate,
+    t2.id,t2.identifyingid,t2.customid,t2.type,t2.taskcontent,t2.taskdesc,t2.starttime,t2.endtime,
+    t2.classid,t2.issequentially,t2.maxduration,
+    t2.directorid,c.customid classname,u.realname
+    FROM tasktempinfo t1 LEFT JOIN taskplaninfo t2 ON t1.`taskid` = t2.`id`
+    left join classinfo c on t2.classid=c.id
+    left join userinfo u on t2.directorid=u.id
+    <where>
+      <if test="type!=null">
+        and t2.type=#{type}
+      </if>
+      <if test="classId!=null">
+        and t2.classid=#{classId}
+      </if>
+      <if test="state!=null">
+        and t1.state=#{state}
+      </if>
+        and t1.operationstate=5
+    </where>
+  </select>
+
+  <update id="updatestate" parameterType="int">
+    update taskplaninfo set state=0 where id=#{0}
+  </update>
+
+    <select id="selectTaskId" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.TaskplaninfoExample">
+    select taskcontent from taskplaninfo where ( id = #{0} and state =1)
+    </select>
+</mapper>
