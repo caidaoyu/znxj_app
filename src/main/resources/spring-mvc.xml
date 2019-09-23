@@ -16,43 +16,10 @@
 
     <!-- 扫描controller（controller层注入） -->
     <context:component-scan base-package="com.niule.znxj.web.controller"/>
-    <!-- 静态资源映射-->
-    <mvc:resources mapping="/charisma/**" location="/charisma/"/>
-    <mvc:resources mapping="/js/**" location="/js/"/>
-    <mvc:resources mapping="/SimpleTree/**" location="/SimpleTree/"/>
-    <mvc:resources mapping="/apk/**" location="/apk/"/>
-    <mvc:resources mapping="/testCss/**" location="/testCss/"/>
-    <mvc:resources mapping="/testJs/**" location="/testJs/"/>
     <mvc:annotation-driven/>
 
-    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
-    <task:scheduler id="qbScheduler" pool-size="10"/>
-    <context:component-scan base-package=" com.niule.znxj.web.task" />
 
-    <!-- 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的 -->
-    <!-- 指定自己定义的validator -->
-    <!--<mvc:annotation-driven validator="validator"/>-->
-
-    <!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
-    <!--<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
-        <!--<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>-->
-        <!--&lt;!&ndash; 如果不加默认到 使用classpath下的 ValidationMessages.properties &ndash;&gt;-->
-        <!--<property name="validationMessageSource" ref="messageSource"/>-->
-    <!--</bean>-->
     <bean id="commonService" class="com.niule.znxj.web.service.impl.CommonServiceImpl" />
-    <!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
-    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
-        <!--<property name="basenames">-->
-            <!--<list>-->
-                <!--&lt;!&ndash; 在web环境中一定要定位到classpath 否则默认到当前web应用下找 &ndash;&gt;-->
-                <!--<value>classpath:messages</value>-->
-                <!--<value>classpath:org/hibernate/validator/ValidationMessages</value>-->
-            <!--</list>-->
-        <!--</property>-->
-        <!--<property name="useCodeAsDefaultMessage" value="false"/>-->
-        <!--<property name="defaultEncoding" value="UTF-8"/>-->
-        <!--<property name="cacheSeconds" value="60"/>-->
-    <!--</bean>-->
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
@@ -78,22 +45,5 @@
                 <value>application/json;charset=UTF-8</value>
             </list>
         </property>
-    </bean>
-    <!-- 支持返回json -->
-
-    <!-- 对模型视图添加前后缀 -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/" p:suffix=".jsp" p:contentType="text/html"/>
-
-    <!-- 配置springMVC处理上传文件的信息 -->
-    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-        <!--<property name="defaultEncoding" value="utf-8"/>-->
-        <!--<property name="maxUploadSize" value="10485760000"/>-->
-        <!--<property name="maxInMemorySize" value="40960"/>-->
-    <!--</bean>-->
-    <!-- 启用shrio授权注解拦截方式 -->
-    <aop:config proxy-target-class="true"></aop:config>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
     </bean>
 </beans>

@@ -3,7 +3,6 @@ package com.niule.znxj.core.util;
 import com.niule.znxj.core.common.Resources;
 import com.niule.znxj.core.entity.JSONResult;
 import com.niule.znxj.core.entity.Result;
-import com.niule.znxj.web.security.Resource;
 import sun.misc.BASE64Decoder;
 
 import java.io.File;

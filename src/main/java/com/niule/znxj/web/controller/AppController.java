@@ -33,7 +33,6 @@ import java.util.*;
  * Created by MrD on 2017/3/22.
  */
 @Controller
-//@RequestMapping("/app")
 public class AppController {
     @Resource
     private CommonService commonService;
