@@ -10,6 +10,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath*:applicationContext.xml
+      classpath*:applicationContext-shiro.xml
     </param-value>
   </context-param>
   <!-- 配置Spring上下文监听器 -->
@@ -38,6 +39,20 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <!-- shiro 安全过滤器 -->
+  <filter>
+  <filter-name>shiroFilter</filter-name>
+  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  <async-supported>true</async-supported>
+  <init-param>
+  <param-name>targetFilterLifecycle</param-name>
+  <param-value>true</param-value>
+  </init-param>
+  </filter>
+  <filter-mapping>
+  <filter-name>shiroFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <!-- 配置log4j配置文件路径 -->
   <context-param>
@@ -60,10 +75,6 @@
     <listener-class>com.niule.znxj.core.common.MyServletContextListener</listener-class>
   </listener>
 
-  <!--&lt;!&ndash; 初始化 监听&ndash;&gt;-->
-  <!--<listener>-->
-  <!--<listener-class>com.niule.znxj.core.common.FangBangDaiInitListner</listener-class>-->
-  <!--</listener>-->
 
   <!-- Spring MVC 核心控制器 DispatcherServlet 配置 -->
   <servlet>
@@ -77,7 +88,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
-    <!-- 拦截所有/rest/* 的请求,交给DispatcherServlet处理,性能最好 -->
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
