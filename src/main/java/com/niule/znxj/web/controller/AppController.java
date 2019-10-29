@@ -40,7 +40,7 @@ public class AppController {
      * 获取登录设置
      * @return
      */
-    @RequestMapping(value = "/getLoginConfig ",method = RequestMethod.GET)
+    @RequestMapping(value = "/getLoginConfig",method = RequestMethod.GET)
     @ResponseBody
     public Result getLoginConfig(){
         return commonService.getLoginConfig();
