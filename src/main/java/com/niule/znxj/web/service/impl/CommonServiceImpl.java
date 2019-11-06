@@ -30,6 +30,8 @@ import java.util.*;
 @Service(value = "commonService")
 public class CommonServiceImpl implements CommonService {
 
+    private String ip = Resources.ApplicationResources.getString("ip");
+
     @Resource
     private UserinfoMapper userinfoMapper;
     @Resource
@@ -54,17 +56,17 @@ public class CommonServiceImpl implements CommonService {
     private KnowledgeMapper knowledgeMapper;
     @Resource
     private SendEmailService sendEmailService;
-    private String ip = Resources.ApplicationResources.getString("ip");
+    @Resource
+    private ReportcontentMapper reportcontentMapper;
+    @Resource
+    private ContactinfoMapper contactinfoMapper;
+    @Resource
+    private  ExceptionhandlerinfoMapper exceptionhandlerinfoMapper;
 
     @Override
     public Userinfo userLogin(String username, String password) {
         return userinfoMapper.authUser(username, password);
     }
-
-    @Resource
-    private ReportcontentMapper reportcontentMapper;
-    @Resource
-    private ContactinfoMapper contactinfoMapper;
 
     @Override
     public Result getLoginConfig() {
@@ -84,17 +86,8 @@ public class CommonServiceImpl implements CommonService {
     public Result getExceptionReport(String taskCode) {
         TaskreportinfoExample example = new TaskreportinfoExample();
         example.createCriteria().andTaskcode2EqualTo(taskCode);
-      /*  Taskreportinfo taskreportinfos = taskreportinfoMapper.selectByExample(example).get(0);
-
-        ReportcontentExample reportcontentExample = new ReportcontentExample();
-        reportcontentExample.createCriteria().andReportidEqualTo(taskreportinfos.getId());
-        List<Reportcontent> reportcontents = reportcontentMapper.selectByExample(reportcontentExample);*/
         List<Taskreportinfo> taskreportinfos = taskreportinfoMapper.selectByExample(example);
-
-
         List<Reportcontent> reportcontents = ReportContentUtils.getReportConentList(reportcontentMapper, taskreportinfos.get(0).getId());
-      /*  String content = "{" + "\"res\":" + taskreportinfoMapper.selectByExample(example).get(0).getContent() + "}";
-        TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);*/
 
         ArrayList list = new ArrayList();
         for (int i = 0; i < reportcontents.size(); i++) {
@@ -104,13 +97,6 @@ public class CommonServiceImpl implements CommonService {
                 list.add(aa);
             }
         }
-       /* for (int i = 0; i < res.getRes().size(); i++) {
-            String ss = res.getRes().get(i).getReportstate();
-            if (ss.equals("1")) {
-                TaskReportContent aa = res.getRes().get(i);
-                list.add(aa);
-            }
-        }*/
         return new JSONResult<>(list);
     }
 
@@ -124,8 +110,6 @@ public class CommonServiceImpl implements CommonService {
         int areaCnt = 0, equipmentCnt = 0, itemCnt = 0, errorCnt = 0;
         TaskSimpleReport simpleReport = new TaskSimpleReport();
         //获取任务
-        /*TaskplaninfoExample example=new TaskplaninfoExample();
-        example.createCriteria().andIdEqualTo(taskid);*/
         Taskplaninfo taskplaninfo = taskplaninfoMapper.selectByPrimaryKey(taskid);
         TaskContent taskcontent = JsonUtil.toObject(taskplaninfo.getTaskcontent(), TaskContent.class);
         //赋值任务名
@@ -167,21 +151,6 @@ public class CommonServiceImpl implements CommonService {
                 simpleReport.setEndtime(taskreportinfo.getEndtime());
                 simpleReport.setExecuteState(taskreportinfo.getReportstate());
                 simpleReport.setUploadState(1);
-
-//                String content = "{" + "\"res\":" + taskreportinfo.getContent() + "}";
-//                TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);
-//                //异常数
-//                for (TaskReportContent reportContent : res.getRes()) {
-//                    if ("1".equals(reportContent.getReportstate())) {
-//                        errorCnt++;
-//                    }
-//                }
-//                simpleReport.setErrorCnt(errorCnt);
-//                simpleReport.setTaskcode(taskCode);
-//                simpleReport.setStarttime(taskreportinfo.getStarttime());
-//                simpleReport.setEndtime(taskreportinfo.getEndtime());
-//                simpleReport.setExecuteState(taskreportinfo.getReportstate());
-//                simpleReport.setUploadState(1);
                 return new JSONResult<>(simpleReport);
             }
         }
@@ -208,8 +177,6 @@ public class CommonServiceImpl implements CommonService {
             criteria.andExecutetimeGreaterThan(DateUtils.getWholePointDate(7));
             example.setOrderByClause("t1.executetime desc");
         }
-//        if(state == 0)
-//            criteria.andExecutetimeGreaterThan(new Date());
         criteria.andStateEqualTo(state);
         criteria.andTypeEqualTo(type);
         criteria.andClassIdEqualto(classId);
@@ -224,13 +191,6 @@ public class CommonServiceImpl implements CommonService {
         }
         PageHelper.startPage(page, size);
         List<TaskTempRes> list1 = taskplaninfoMapper.getTakTempsExecutingByExample(example);
-
-//        for(int i=0;i<list1.size();i++){
-//            TaskTempRes taskTempRes=list1.get(i);
-//            if(taskTempRes.getOperationstate()==5){
-//                list1.remove(i);
-//            }
-//        }
         if (list2 != null && list2.size() > 0) {
             //2018年7月23日11:28:24  去掉迭代  因为迭代会卡
             List<TaskTempRes> list3 = new ArrayList<>();
@@ -239,13 +199,7 @@ public class CommonServiceImpl implements CommonService {
                     list3.add(taskTempRes);
                 }
             }
-//            Iterator<TaskTempRes> iterator = list1.iterator();
-//            while (iterator.hasNext()) {
-//                TaskTempRes taskTempRes = iterator.next();
-//                if (taskTempRes.getOperationstate() == 5) {
-//                    iterator.remove();
-//                }
-//            }
+
             if (list3.size() > 0)
                 list1.removeAll(list3);
             list1.addAll(list2);
@@ -266,14 +220,8 @@ public class CommonServiceImpl implements CommonService {
             });
         }
 
-//        List<TaskTempRes> taskplaninfos = taskplaninfoMapper.getTakTempsExecutingByExample(example);
-
         //获取任务--未按时间生成的 待执行
         if (state == 0) {
-           /* TaskplaninfoExample taskplaninfoExample = new TaskplaninfoExample();
-            taskplaninfoExample.createCriteria().andClassidEqualTo(classId).andStateEqualTo(1).
-                    andTypeEqualTo(type).andImplementtimeEqualTo("[]").andWeeklytimeEqualTo("[]");
-            taskplaninfoExample.setOrderByClause("updatetime desc");*/
             HashMap<String, Object> map1 = new HashMap<>();
             map1.put("type", type);
             map1.put("classId", classId);
@@ -314,10 +262,7 @@ public class CommonServiceImpl implements CommonService {
             List<TaskreportinfoWithBLOBs> list = taskreportinfoMapper.selectByExampleWithBLOBs(example);
             if (list != null && list.size() > 0) { //继续执行分段任务taskreportinfo.getContent()
                 taskreportinfo = list.get(0);
-//                List<Reportcontent> reportcontentList = ReportContentUtils.getReportConentList(reportcontentMapper,taskreportinfo.getId());
                 if (taskreportinfo.getContent() != null && !taskreportinfo.getContent().isEmpty()) {
-//                if (reportcontentList.size() !=0 && reportcontentList!=null){
-//                    return new JSONResult<>(state == 1 ? (reportcontentList) : null);
                     Object o = JSONUtils.parse(taskreportinfo.getContent());
                     JSONObject jsonObject = JSONObject.fromObject(o);
                     jsonObject.put("logcat", taskreportinfo.getLogcat());
@@ -370,7 +315,7 @@ public class CommonServiceImpl implements CommonService {
     }
 
     /**
-     * 生成任务附表
+     * 生成任务附表(taskteminfo)
      *
      * @return
      */
@@ -397,17 +342,6 @@ public class CommonServiceImpl implements CommonService {
                     tasktempinfoMapper.insertSelective(temp);
                     System.out.println("生成任务附表:" + code);
                 }
-                //设置 当天执行时间 时 分
-                //当前时间小于待执行时间  生成对应参数
-//                if (DateUtils.getCurrentHour() < StringUtils.getHours(str)) {
-//                    ++i;
-//                    temp = new Tasktempinfo(info.getId(), DateUtils.setTime(StringUtils.getHours(str), StringUtils.getMinutes(str)), 0, code, info.getType(), new Date());
-//                    tasktempinfoMapper.insertSelective(temp);
-//                } else if (DateUtils.getCurrentHour() == StringUtils.getHours(str) && DateUtils.getCurrentMinute() < StringUtils.getMinutes(str)) {
-//                    ++i;
-//                    temp = new Tasktempinfo(info.getId(), DateUtils.setTime(StringUtils.getHours(str), StringUtils.getMinutes(str)), 0, code, info.getType(), new Date());
-//                    tasktempinfoMapper.insertSelective(temp);
-//                }
             }
         }
     }
@@ -415,14 +349,8 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public void doGenerate() {
         System.out.println("xianshishengchengrenwu");
-//        TasktempinfoExample example = new TasktempinfoExample();
-//        example.createCriteria().andUpdatetimeBetween(DateUtils.getWholePointDate(0), DateUtils.getWholePointDate(-1));
-//        if (tasktempinfoMapper.countByExample(example) == 0) {
         generate();
-//        }
-
     }
-
 
     /**
      * 查看任务的执行状态
@@ -455,21 +383,14 @@ public class CommonServiceImpl implements CommonService {
             ++i;
             temp = new Tasktempinfo(info.getId(), DateUtils.setTime(StringUtils.getHours(str), StringUtils.getMinutes(str)), 0, code, info.getType(), new Date());
             tasktempinfoMapper.insertSelective(temp);
-//            //设置 当天执行时间 时 分
-//            //当前时间小于待执行时间  生成对应参数
-//            if (DateUtils.getCurrentHour() < StringUtils.getHours(str)) {
-//                ++i;
-//                temp = new Tasktempinfo(info.getId(), DateUtils.setTime(StringUtils.getHours(str), StringUtils.getMinutes(str)), 0, code, info.getType(), new Date());
-//                tasktempinfoMapper.insertSelective(temp);
-//            } else if (DateUtils.getCurrentHour() == StringUtils.getHours(str) && DateUtils.getCurrentMinute() < StringUtils.getMinutes(str)) {
-//                ++i;
-//                temp = new Tasktempinfo(info.getId(), DateUtils.setTime(StringUtils.getHours(str), StringUtils.getMinutes(str)), 0, code, info.getType(), new Date());
-//                tasktempinfoMapper.insertSelective(temp);
-//            }
         }
     }
 
-
+    /**
+     * 上传任务报告
+     *
+     * @return
+     */
     @Override
     public Result uploadReport(final Taskreportinfo taskreportinfo) throws Exception {
         System.out.print("taskreportinfo:" + taskreportinfo.toString());
@@ -505,13 +426,28 @@ public class CommonServiceImpl implements CommonService {
         taskreportinfo.setContent(null);   //任务上传完成后，去掉这个值，节省空间
         result = taskreportinfoMapper.insert(taskreportinfo) == 1 ? new JSONResult<>() : new JSONResult<>("操作失败");
 
+        List<Taskreportinfo> taskreportinfos = null;
+        try {
+            taskreportinfos = getTaskCode2(taskreportinfo.getTaskcode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //删除已有的相同exceptionhandlerinfo
+        ExceptionhandlerinfoExample exceptionhandlerinfoExample = new ExceptionhandlerinfoExample();
+        exceptionhandlerinfoExample.createCriteria().andTaskcodeEqualTo(taskreportinfo.getTaskcode());
+        exceptionhandlerinfoMapper.deleteByExample(exceptionhandlerinfoExample);
+        final Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
+        exceptionhandlerinfo.setReportid(taskreportinfos.get(0).getId().intValue());
+        exceptionhandlerinfo.setTaskcode(taskreportinfo.getTaskcode());
+        exceptionhandlerinfo.setReporttime(new Date());
+
         ThreadPoolExecutorFactory.getInstance().run(new Runnable() {
             @Override
             public void run() {
                 Boolean hasException = false;
                 String content = "{" + "\"res\":" + content1 + "}";
                 if (content != null) {
-                    //插入报告内容单项 到 taskreport
+                    //插入报告内容单项 到 reportcontent
                     TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);
                     for (TaskReportContent item : res.getRes()) {
 
@@ -590,16 +526,13 @@ public class CommonServiceImpl implements CommonService {
                 }
                 //存在异常发送邮件
                 if (hasException) {
+                    //初始化任务报告异常汇总表（exceptionhandlerinfo） qbxu add 20191106
+                    exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
                     sendExceptionEmail(taskreportinfo.getId(), taskreportinfo.getTaskid());
                 }
             }
         });
-        List<Taskreportinfo> taskreportinfos = null;
-        try {
-            taskreportinfos = getTaskCode2(taskreportinfo.getTaskcode());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (taskreportinfos != null && taskreportinfos.size() > 0) {
             TaskreportinfoWithBLOBs taskreportinfoWithBLOBs = new TaskreportinfoWithBLOBs();
             taskreportinfoWithBLOBs.setId(taskreportinfos.get(0).getId());
@@ -622,7 +555,6 @@ public class CommonServiceImpl implements CommonService {
     /**
      * 发送异常邮件
      */
-
     public void sendExceptionEmail(Long reportId, Long taskId) {
         try {
             //获取发件人邮箱和授权码
@@ -660,7 +592,7 @@ public class CommonServiceImpl implements CommonService {
         } else {
             //如果当前子任务是第一次执行，获取到昨天当前任务最后一次执行的任务报告
             int index = taskCode.indexOf("-");
-//            //根据第一个点的位置 获得第二个点的位置
+            //根据第一个点的位置 获得第二个点的位置
             index = taskCode.indexOf("-", index + 1);
             int taskNameIndex = taskCode.indexOf("-");
             String taskName = taskCode.substring(0, taskNameIndex);//截取任务号
@@ -709,7 +641,7 @@ public class CommonServiceImpl implements CommonService {
 
         //如果当前子任务是第一次执行，获取到昨天当前任务最后一次执行的任务报告
         int index = taskCode.indexOf("-");
-//            //根据第一个点的位置 获得第二个点的位置
+        //根据第一个点的位置 获得第二个点的位置
         index = taskCode.indexOf("-", index + 1);
         int taskNameIndex = taskCode.indexOf("-");
         String taskName = taskCode.substring(0, taskNameIndex);//截取任务号
@@ -1008,9 +940,6 @@ public class CommonServiceImpl implements CommonService {
         String codeStr = taskplaninfo.getIdentifyingid() + "-" + taskplaninfo.getTaskversion() + "-" + dtf.format(new Date()) + "-" + code;
         Tasktempinfo temp = new Tasktempinfo(taskplaninfo.getId(), userId, new Date(), 1, codeStr, taskplaninfo.getType(), new Date());
         tasktempinfoMapper.insertSelective(temp);
-//        DoTaskResponse response = new DoTaskResponse();
-
-//        example.createCriteria().andTaskcodeEqualTo(codeStr);
         TasktempinfoExample example1 = new TasktempinfoExample();
         TasktempinfoExample.Criteria criteria = example1.createCriteria();
         criteria.andUseridEqualTo(userId);
@@ -1019,15 +948,11 @@ public class CommonServiceImpl implements CommonService {
         criteria.andTypeEqualTo(taskplaninfo.getType());
         criteria.andClassIdEqualto(taskplaninfo.getClassid());
         List<TaskTempRes> list1 = taskplaninfoMapper.getTakTempsExecutingByExample(example1);
-//        response.setTaskCode(codeStr);
-//        response.setTaskplaninfos(taskplaninfo);
         if (list1 != null && list1.size() > 0) {
             return new JSONResult<>(list1.get(list1.size() - 1));
         } else {
             return new JSONResult<>("没有子任务");
         }
-
     }
-
 
 }
