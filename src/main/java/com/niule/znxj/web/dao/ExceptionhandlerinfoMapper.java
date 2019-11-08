@@ -11,7 +11,7 @@ public interface ExceptionhandlerinfoMapper {
 
     int deleteByExample(ExceptionhandlerinfoExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Exceptionhandlerinfo record);
 
@@ -19,7 +19,7 @@ public interface ExceptionhandlerinfoMapper {
 
     List<Exceptionhandlerinfo> selectByExample(ExceptionhandlerinfoExample example);
 
-    Exceptionhandlerinfo selectByPrimaryKey(Integer id);
+    Exceptionhandlerinfo selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Exceptionhandlerinfo record, @Param("example") ExceptionhandlerinfoExample example);
 

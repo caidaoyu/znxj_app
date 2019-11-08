@@ -115,52 +115,52 @@ public class ExceptionhandlerinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
@@ -175,52 +175,52 @@ public class ExceptionhandlerinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andReportidEqualTo(Integer value) {
+        public Criteria andReportidEqualTo(Long value) {
             addCriterion("reportid =", value, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidNotEqualTo(Integer value) {
+        public Criteria andReportidNotEqualTo(Long value) {
             addCriterion("reportid <>", value, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidGreaterThan(Integer value) {
+        public Criteria andReportidGreaterThan(Long value) {
             addCriterion("reportid >", value, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andReportidGreaterThanOrEqualTo(Long value) {
             addCriterion("reportid >=", value, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidLessThan(Integer value) {
+        public Criteria andReportidLessThan(Long value) {
             addCriterion("reportid <", value, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidLessThanOrEqualTo(Integer value) {
+        public Criteria andReportidLessThanOrEqualTo(Long value) {
             addCriterion("reportid <=", value, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidIn(List<Integer> values) {
+        public Criteria andReportidIn(List<Long> values) {
             addCriterion("reportid in", values, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidNotIn(List<Integer> values) {
+        public Criteria andReportidNotIn(List<Long> values) {
             addCriterion("reportid not in", values, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidBetween(Integer value1, Integer value2) {
+        public Criteria andReportidBetween(Long value1, Long value2) {
             addCriterion("reportid between", value1, value2, "reportid");
             return (Criteria) this;
         }
 
-        public Criteria andReportidNotBetween(Integer value1, Integer value2) {
+        public Criteria andReportidNotBetween(Long value1, Long value2) {
             addCriterion("reportid not between", value1, value2, "reportid");
             return (Criteria) this;
         }
@@ -305,52 +305,52 @@ public class ExceptionhandlerinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridEqualTo(Integer value) {
+        public Criteria andCheckuseridEqualTo(Long value) {
             addCriterion("checkuserid =", value, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridNotEqualTo(Integer value) {
+        public Criteria andCheckuseridNotEqualTo(Long value) {
             addCriterion("checkuserid <>", value, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridGreaterThan(Integer value) {
+        public Criteria andCheckuseridGreaterThan(Long value) {
             addCriterion("checkuserid >", value, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridGreaterThanOrEqualTo(Integer value) {
+        public Criteria andCheckuseridGreaterThanOrEqualTo(Long value) {
             addCriterion("checkuserid >=", value, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridLessThan(Integer value) {
+        public Criteria andCheckuseridLessThan(Long value) {
             addCriterion("checkuserid <", value, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridLessThanOrEqualTo(Integer value) {
+        public Criteria andCheckuseridLessThanOrEqualTo(Long value) {
             addCriterion("checkuserid <=", value, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridIn(List<Integer> values) {
+        public Criteria andCheckuseridIn(List<Long> values) {
             addCriterion("checkuserid in", values, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridNotIn(List<Integer> values) {
+        public Criteria andCheckuseridNotIn(List<Long> values) {
             addCriterion("checkuserid not in", values, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridBetween(Integer value1, Integer value2) {
+        public Criteria andCheckuseridBetween(Long value1, Long value2) {
             addCriterion("checkuserid between", value1, value2, "checkuserid");
             return (Criteria) this;
         }
 
-        public Criteria andCheckuseridNotBetween(Integer value1, Integer value2) {
+        public Criteria andCheckuseridNotBetween(Long value1, Long value2) {
             addCriterion("checkuserid not between", value1, value2, "checkuserid");
             return (Criteria) this;
         }
@@ -505,52 +505,62 @@ public class ExceptionhandlerinfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameEqualTo(Integer value) {
+        public Criteria andOperatornameEqualTo(String value) {
             addCriterion("operatorname =", value, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameNotEqualTo(Integer value) {
+        public Criteria andOperatornameNotEqualTo(String value) {
             addCriterion("operatorname <>", value, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameGreaterThan(Integer value) {
+        public Criteria andOperatornameGreaterThan(String value) {
             addCriterion("operatorname >", value, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameGreaterThanOrEqualTo(Integer value) {
+        public Criteria andOperatornameGreaterThanOrEqualTo(String value) {
             addCriterion("operatorname >=", value, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameLessThan(Integer value) {
+        public Criteria andOperatornameLessThan(String value) {
             addCriterion("operatorname <", value, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameLessThanOrEqualTo(Integer value) {
+        public Criteria andOperatornameLessThanOrEqualTo(String value) {
             addCriterion("operatorname <=", value, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameIn(List<Integer> values) {
+        public Criteria andOperatornameLike(String value) {
+            addCriterion("operatorname like", value, "operatorname");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatornameNotLike(String value) {
+            addCriterion("operatorname not like", value, "operatorname");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatornameIn(List<String> values) {
             addCriterion("operatorname in", values, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameNotIn(List<Integer> values) {
+        public Criteria andOperatornameNotIn(List<String> values) {
             addCriterion("operatorname not in", values, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameBetween(Integer value1, Integer value2) {
+        public Criteria andOperatornameBetween(String value1, String value2) {
             addCriterion("operatorname between", value1, value2, "operatorname");
             return (Criteria) this;
         }
 
-        public Criteria andOperatornameNotBetween(Integer value1, Integer value2) {
+        public Criteria andOperatornameNotBetween(String value1, String value2) {
             addCriterion("operatorname not between", value1, value2, "operatorname");
             return (Criteria) this;
         }
@@ -792,6 +802,66 @@ public class ExceptionhandlerinfoExample {
 
         public Criteria andExceptionclosetimeNotBetween(Date value1, Date value2) {
             addCriterion("exceptionclosetime not between", value1, value2, "exceptionclosetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateIsNull() {
+            addCriterion("exceptionstate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateIsNotNull() {
+            addCriterion("exceptionstate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateEqualTo(Integer value) {
+            addCriterion("exceptionstate =", value, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateNotEqualTo(Integer value) {
+            addCriterion("exceptionstate <>", value, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateGreaterThan(Integer value) {
+            addCriterion("exceptionstate >", value, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("exceptionstate >=", value, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateLessThan(Integer value) {
+            addCriterion("exceptionstate <", value, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateLessThanOrEqualTo(Integer value) {
+            addCriterion("exceptionstate <=", value, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateIn(List<Integer> values) {
+            addCriterion("exceptionstate in", values, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateNotIn(List<Integer> values) {
+            addCriterion("exceptionstate not in", values, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateBetween(Integer value1, Integer value2) {
+            addCriterion("exceptionstate between", value1, value2, "exceptionstate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExceptionstateNotBetween(Integer value1, Integer value2) {
+            addCriterion("exceptionstate not between", value1, value2, "exceptionstate");
             return (Criteria) this;
         }
     }

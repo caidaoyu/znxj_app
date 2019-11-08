@@ -61,7 +61,7 @@ public class CommonServiceImpl implements CommonService {
     @Resource
     private ContactinfoMapper contactinfoMapper;
     @Resource
-    private  ExceptionhandlerinfoMapper exceptionhandlerinfoMapper;
+    private ExceptionhandlerinfoMapper exceptionhandlerinfoMapper;
 
     @Override
     public Userinfo userLogin(String username, String password) {
@@ -346,12 +346,6 @@ public class CommonServiceImpl implements CommonService {
         }
     }
 
-    @Override
-    public void doGenerate() {
-        System.out.println("xianshishengchengrenwu");
-        generate();
-    }
-
     /**
      * 查看任务的执行状态
      *
@@ -437,7 +431,7 @@ public class CommonServiceImpl implements CommonService {
         exceptionhandlerinfoExample.createCriteria().andTaskcodeEqualTo(taskreportinfo.getTaskcode());
         exceptionhandlerinfoMapper.deleteByExample(exceptionhandlerinfoExample);
         final Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
-        exceptionhandlerinfo.setReportid(taskreportinfos.get(0).getId().intValue());
+        exceptionhandlerinfo.setReportid(taskreportinfos.get(0).getId());
         exceptionhandlerinfo.setTaskcode(taskreportinfo.getTaskcode());
         exceptionhandlerinfo.setReporttime(new Date());
 
@@ -874,12 +868,19 @@ public class CommonServiceImpl implements CommonService {
         return contactinfoMapper.selectByExample(example);
     }
 
+    public List<Sendemail> querySendEmailByTypeAndTask(int type, Long taskid) {
+        SendemailExample sendemailExample = new SendemailExample();
+        sendemailExample.createCriteria().andTypeEqualTo(type).andTaskidEqualTo(taskid);
+        List<Sendemail> sendemails = sendEmailService.selectByExample(sendemailExample);
+        return sendemails;
+    }
+
     public List<Sendemail> querySendEmailByType(int type) {
         SendemailExample sendemailExample = new SendemailExample();
         sendemailExample.createCriteria().andTypeEqualTo(type);
         List<Sendemail> sendemails = sendEmailService.selectByExample(sendemailExample);
         return sendemails;
-    }
+     }
 
     /**
      * 获取需要发送异常的邮箱
@@ -924,6 +925,34 @@ public class CommonServiceImpl implements CommonService {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void sendReportEmail(Long taskid, Long reportid) {
+        try {
+            //获取发件人邮箱和授权码
+            List<Sendemail> sendemails = querySendEmailByTypeAndTask(3,taskid);
+            for (Sendemail send : sendemails) {
+                //获取要发送的邮箱列表
+                String[] contactidsstr = send.getContactid().split(",");
+                List<Long> contactids = new ArrayList<>();
+                for (String contactid : contactidsstr) {
+                    contactids.add(Long.parseLong(contactid));
+                }
+                List<Contactinfo> contactinfolist = queryContactEmail(contactids);
+                List<String> emails = new ArrayList<>();
+                for (Contactinfo item : contactinfolist) {
+                    emails.add(item.getEmail());
+                }
+                String content = "http://" + ip + "/exceptionReport?reportId=" + reportid;
+                String res = HttpRequestUtil.get(content, null, 3000, 60000, "utf-8");
+                EmailUtils.sendEmails(send.getEmail(), send.getPwd(), send.getSmtpAddress(), send.getSmtpPort(), (String[]) emails.toArray(new String[emails.size()]), "智能巡检异常报告", res);
+            }
+        } catch (Exception ex) {
+            System.err.println("邮件发送失败的原因是：" + ex.getMessage());
+            System.err.println("具体的错误原因");
+            ex.printStackTrace(System.err);
         }
     }
 

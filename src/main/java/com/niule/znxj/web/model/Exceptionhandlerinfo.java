@@ -3,19 +3,19 @@ package com.niule.znxj.web.model;
 import java.util.Date;
 
 public class Exceptionhandlerinfo {
-    private Integer id;
+    private Long id;
 
-    private Integer reportid;
+    private Long reportid;
 
     private String taskcode;
 
-    private Integer checkuserid;
+    private Long checkuserid;
 
     private String descontent;
 
     private String attachment;
 
-    private Integer operatorname;
+    private String operatorname;
 
     private Date reporttime;
 
@@ -27,19 +27,19 @@ public class Exceptionhandlerinfo {
 
     private Integer exceptionstate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getReportid() {
+    public Long getReportid() {
         return reportid;
     }
 
-    public void setReportid(Integer reportid) {
+    public void setReportid(Long reportid) {
         this.reportid = reportid;
     }
 
@@ -51,11 +51,11 @@ public class Exceptionhandlerinfo {
         this.taskcode = taskcode == null ? null : taskcode.trim();
     }
 
-    public Integer getCheckuserid() {
+    public Long getCheckuserid() {
         return checkuserid;
     }
 
-    public void setCheckuserid(Integer checkuserid) {
+    public void setCheckuserid(Long checkuserid) {
         this.checkuserid = checkuserid;
     }
 
@@ -75,12 +75,12 @@ public class Exceptionhandlerinfo {
         this.attachment = attachment == null ? null : attachment.trim();
     }
 
-    public Integer getOperatorname() {
+    public String getOperatorname() {
         return operatorname;
     }
 
-    public void setOperatorname(Integer operatorname) {
-        this.operatorname = operatorname;
+    public void setOperatorname(String operatorname) {
+        this.operatorname = operatorname == null ? null : operatorname.trim();
     }
 
     public Date getReporttime() {

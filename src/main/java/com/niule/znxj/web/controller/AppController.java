@@ -256,25 +256,6 @@ public class AppController {
                         //使用FileOutputStream输出流将缓冲区的数据写入到指定的目录(savePath + "\\" + filename)当中
                         fos.write(buffer, 0, length);
                     }
-
-//                    //获取读通道
-//                    FileChannel readChannel = ((FileInputStream) fis).getChannel();
-//                    //获取读通道
-//                    FileChannel writeChannel = fos.getChannel();
-//                    //创建一个缓冲区
-//                    ByteBuffer buffer = ByteBuffer.allocate(1024);
-//                    //判断输入流中的数据是否已经读完的标识
-//                    int length = 0;
-//                    //循环将输入流读入到缓冲区当中，(len=in.read(buffer))>0就表示in里面还有数据
-//                    while (true) {
-//                        buffer.clear();
-//                        int len = readChannel.read(buffer);//读入数据
-//                        if (len < 0) {
-//                            break;//读取完毕
-//                        }
-//                        buffer.flip();
-//                        writeChannel.write(buffer);//写入数据
-//                    }
                     //关闭输入流
                     is.close();
                     //关闭输出流
@@ -323,10 +304,6 @@ public class AppController {
                 url.append("/images/");
                 break;
         }
-//        //得到文件名的hashCode的值，得到的就是filename这个字符串对象在内存中的地址
-//        int hashcode = fileName.hashCode();
-//        int dir1 = hashcode&0xf;
-//        int dir2 = (hashcode&0xf0)>>4;
         Calendar now = Calendar.getInstance();
         int dir1 = now.get(Calendar.YEAR);
         int dir2 = now.get(Calendar.MONTH) + 1;
@@ -335,7 +312,6 @@ public class AppController {
         String dir = savePath + "//" + dir1 + "//" + dir2 + "//" + dir3 + "//";
         String dirpath1 = savePath + "//" + dir1 + "//";
         String dirpath2 = savePath + "//" + dir1 + "//" + dir2 + "//";
-//        String dir = savePath + "\\" + dir1 + "\\" + dir2 + "\\" + dir3 + "\\";
         url.append(dir1).append("/").append(dir2).append("/").append(dir3);
         //File既可以代表文件也可以代表目录
         File file = new File(dir);
