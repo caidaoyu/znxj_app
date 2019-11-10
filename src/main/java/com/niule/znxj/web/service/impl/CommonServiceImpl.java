@@ -426,14 +426,6 @@ public class CommonServiceImpl implements CommonService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //删除已有的相同exceptionhandlerinfo
-        ExceptionhandlerinfoExample exceptionhandlerinfoExample = new ExceptionhandlerinfoExample();
-        exceptionhandlerinfoExample.createCriteria().andTaskcodeEqualTo(taskreportinfo.getTaskcode());
-        exceptionhandlerinfoMapper.deleteByExample(exceptionhandlerinfoExample);
-        final Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
-        exceptionhandlerinfo.setReportid(taskreportinfos.get(0).getId());
-        exceptionhandlerinfo.setTaskcode(taskreportinfo.getTaskcode());
-        exceptionhandlerinfo.setReporttime(new Date());
 
         ThreadPoolExecutorFactory.getInstance().run(new Runnable() {
             @Override
@@ -444,7 +436,7 @@ public class CommonServiceImpl implements CommonService {
                     //插入报告内容单项 到 reportcontent
                     TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);
                     for (TaskReportContent item : res.getRes()) {
-
+                        System.out.println("============reportcontent:"+item.toString());
                         if (!hasException && "1".equals(item.getReportstate())) {
                             hasException = true;
                         }
@@ -521,7 +513,12 @@ public class CommonServiceImpl implements CommonService {
                 //存在异常发送邮件
                 if (hasException) {
                     //初始化任务报告异常汇总表（exceptionhandlerinfo） qbxu add 20191106
+                    Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
+                    exceptionhandlerinfo.setReportid(taskreportinfo.getId());
+                    exceptionhandlerinfo.setTaskcode(taskreportinfo.getTaskcode());
+                    exceptionhandlerinfo.setReporttime(new Date());
                     exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
+                    System.out.println("================exceptionhandler:"+exceptionhandlerinfo.toString());
                     sendExceptionEmail(taskreportinfo.getId(), taskreportinfo.getTaskid());
                 }
             }
