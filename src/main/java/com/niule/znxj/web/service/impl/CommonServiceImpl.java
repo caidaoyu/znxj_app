@@ -444,6 +444,7 @@ public class CommonServiceImpl implements CommonService {
             uploadtaskinfo.setAddress(address);
             uploadtaskinfo.setEmail(taskuploadconfig.getEmail());
             uploadtaskinfo.setCreatetime(new Date());
+            uploadtaskinfo.setState(0);
             uploadtaskinfoMapper.insert(uploadtaskinfo);
             System.out.println("======初始化巡检记录表，报告ID:"+taskreportinfo.getId());
         }
@@ -543,6 +544,8 @@ public class CommonServiceImpl implements CommonService {
                                 exceptionhandlerinfo.setReportid(taskreportinfo.getId());
                                 exceptionhandlerinfo.setReportcontentid(reportcontent.getId().longValue());
                                 exceptionhandlerinfo.setReporttime(new Date());
+                                exceptionhandlerinfo.setExceptionstate(0);
+                                exceptionhandlerinfo.setUploadstate(0);
                                 exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
                             }
                         }
