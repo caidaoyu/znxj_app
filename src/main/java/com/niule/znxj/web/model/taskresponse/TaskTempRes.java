@@ -11,7 +11,7 @@ public class TaskTempRes extends Taskplaninfo {
     private Long tempid;
     private Date executetime;
     private String classname;
-    private String directorname;//负责人名字
+    private String directorname;
     private Long userid;
     private String taskcode;
     private Integer operationstate;
