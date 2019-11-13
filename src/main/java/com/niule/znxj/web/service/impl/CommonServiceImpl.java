@@ -427,6 +427,14 @@ public class CommonServiceImpl implements CommonService {
         //判断任务是否需要上传，如果需要则初始化巡检记录上传情况表（uploadtaskinfo）
         final Taskuploadconfig taskuploadconfig = taskuploadconfigMapper.selectByReportId(taskreportinfo.getId());
         if(taskuploadconfig!=null){
+            //删除已有的上传记录（reportid）
+            UploadtaskinfoExample exampleupload = new UploadtaskinfoExample();
+            exampleupload.createCriteria().andReportidEqualTo(taskreportinfo.getId());
+            uploadtaskinfoMapper.deleteByExample(exampleupload);
+            ExceptionhandlerinfoExample examplehandler = new ExceptionhandlerinfoExample();
+            examplehandler.createCriteria().andReportidEqualTo(taskreportinfo.getId());
+            exceptionhandlerinfoMapper.deleteByExample(examplehandler);
+
             Uploadtaskinfo uploadtaskinfo = new Uploadtaskinfo();
             uploadtaskinfo.setSiteid(taskuploadconfig.getSiteid());
             uploadtaskinfo.setTaskid(taskuploadconfig.getTaskid());
