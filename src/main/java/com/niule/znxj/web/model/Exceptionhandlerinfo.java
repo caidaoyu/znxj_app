@@ -7,13 +7,15 @@ public class Exceptionhandlerinfo {
 
     private Long reportid;
 
-    private String taskcode;
+    private Long reportcontentid;
 
     private Long checkuserid;
 
     private String descontent;
 
     private String attachment;
+
+    private Long operatorid;
 
     private String operatorname;
 
@@ -26,6 +28,16 @@ public class Exceptionhandlerinfo {
     private Date exceptionclosetime;
 
     private Integer exceptionstate;
+
+    private Integer exceptiontype;
+
+    private Integer exceptionlever;
+
+    private Integer frequency;
+
+    private Integer uploadstate;
+
+    private Date uploadtime;
 
     public Long getId() {
         return id;
@@ -43,12 +55,12 @@ public class Exceptionhandlerinfo {
         this.reportid = reportid;
     }
 
-    public String getTaskcode() {
-        return taskcode;
+    public Long getReportcontentid() {
+        return reportcontentid;
     }
 
-    public void setTaskcode(String taskcode) {
-        this.taskcode = taskcode == null ? null : taskcode.trim();
+    public void setReportcontentid(Long reportcontentid) {
+        this.reportcontentid = reportcontentid;
     }
 
     public Long getCheckuserid() {
@@ -73,6 +85,14 @@ public class Exceptionhandlerinfo {
 
     public void setAttachment(String attachment) {
         this.attachment = attachment == null ? null : attachment.trim();
+    }
+
+    public Long getOperatorid() {
+        return operatorid;
+    }
+
+    public void setOperatorid(Long operatorid) {
+        this.operatorid = operatorid;
     }
 
     public String getOperatorname() {
@@ -121,5 +141,45 @@ public class Exceptionhandlerinfo {
 
     public void setExceptionstate(Integer exceptionstate) {
         this.exceptionstate = exceptionstate;
+    }
+
+    public Integer getExceptiontype() {
+        return exceptiontype;
+    }
+
+    public void setExceptiontype(Integer exceptiontype) {
+        this.exceptiontype = exceptiontype;
+    }
+
+    public Integer getExceptionlever() {
+        return exceptionlever;
+    }
+
+    public void setExceptionlever(Integer exceptionlever) {
+        this.exceptionlever = exceptionlever;
+    }
+
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
+    public Integer getUploadstate() {
+        return uploadstate;
+    }
+
+    public void setUploadstate(Integer uploadstate) {
+        this.uploadstate = uploadstate;
+    }
+
+    public Date getUploadtime() {
+        return uploadtime;
+    }
+
+    public void setUploadtime(Date uploadtime) {
+        this.uploadtime = uploadtime;
     }
 }

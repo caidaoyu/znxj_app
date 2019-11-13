@@ -4,16 +4,22 @@
   <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Exceptionhandlerinfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="reportid" property="reportid" jdbcType="BIGINT" />
-    <result column="taskcode" property="taskcode" jdbcType="VARCHAR" />
+    <result column="reportcontentid" property="reportcontentid" jdbcType="BIGINT" />
     <result column="checkuserid" property="checkuserid" jdbcType="BIGINT" />
     <result column="descontent" property="descontent" jdbcType="VARCHAR" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="operatorid" property="operatorid" jdbcType="BIGINT" />
     <result column="operatorname" property="operatorname" jdbcType="VARCHAR" />
     <result column="reporttime" property="reporttime" jdbcType="TIMESTAMP" />
     <result column="confirmtime" property="confirmtime" jdbcType="TIMESTAMP" />
     <result column="appointedtime" property="appointedtime" jdbcType="TIMESTAMP" />
     <result column="exceptionclosetime" property="exceptionclosetime" jdbcType="TIMESTAMP" />
     <result column="exceptionstate" property="exceptionstate" jdbcType="INTEGER" />
+    <result column="exceptiontype" property="exceptiontype" jdbcType="INTEGER" />
+    <result column="exceptionlever" property="exceptionlever" jdbcType="INTEGER" />
+    <result column="frequency" property="frequency" jdbcType="INTEGER" />
+    <result column="uploadstate" property="uploadstate" jdbcType="INTEGER" />
+    <result column="uploadtime" property="uploadtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,8 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, reportid, taskcode, checkuserid, descontent, attachment, operatorname, reporttime, 
-    confirmtime, appointedtime, exceptionclosetime, exceptionstate
+    id, reportid, reportcontentid, checkuserid, descontent, attachment, operatorid, operatorname, 
+    reporttime, confirmtime, appointedtime, exceptionclosetime, exceptionstate, exceptiontype, 
+    exceptionlever, frequency, uploadstate, uploadtime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.ExceptionhandlerinfoExample" >
     select
@@ -108,16 +115,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.niule.znxj.web.model.Exceptionhandlerinfo" >
-    insert into exceptionhandlerinfo (id, reportid, taskcode, 
+    insert into exceptionhandlerinfo (id, reportid, reportcontentid, 
       checkuserid, descontent, attachment, 
-      operatorname, reporttime, confirmtime, 
-      appointedtime, exceptionclosetime, 
-      exceptionstate)
-    values (#{id,jdbcType=BIGINT}, #{reportid,jdbcType=BIGINT}, #{taskcode,jdbcType=VARCHAR}, 
+      operatorid, operatorname, reporttime, 
+      confirmtime, appointedtime, exceptionclosetime, 
+      exceptionstate, exceptiontype, exceptionlever, 
+      frequency, uploadstate, uploadtime
+      )
+    values (#{id,jdbcType=BIGINT}, #{reportid,jdbcType=BIGINT}, #{reportcontentid,jdbcType=BIGINT}, 
       #{checkuserid,jdbcType=BIGINT}, #{descontent,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, 
-      #{operatorname,jdbcType=VARCHAR}, #{reporttime,jdbcType=TIMESTAMP}, #{confirmtime,jdbcType=TIMESTAMP}, 
-      #{appointedtime,jdbcType=TIMESTAMP}, #{exceptionclosetime,jdbcType=TIMESTAMP}, 
-      #{exceptionstate,jdbcType=INTEGER})
+      #{operatorid,jdbcType=BIGINT}, #{operatorname,jdbcType=VARCHAR}, #{reporttime,jdbcType=TIMESTAMP}, 
+      #{confirmtime,jdbcType=TIMESTAMP}, #{appointedtime,jdbcType=TIMESTAMP}, #{exceptionclosetime,jdbcType=TIMESTAMP}, 
+      #{exceptionstate,jdbcType=INTEGER}, #{exceptiontype,jdbcType=INTEGER}, #{exceptionlever,jdbcType=INTEGER}, 
+      #{frequency,jdbcType=INTEGER}, #{uploadstate,jdbcType=INTEGER}, #{uploadtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Exceptionhandlerinfo" >
     insert into exceptionhandlerinfo
@@ -128,8 +139,8 @@
       <if test="reportid != null" >
         reportid,
       </if>
-      <if test="taskcode != null" >
-        taskcode,
+      <if test="reportcontentid != null" >
+        reportcontentid,
       </if>
       <if test="checkuserid != null" >
         checkuserid,
@@ -139,6 +150,9 @@
       </if>
       <if test="attachment != null" >
         attachment,
+      </if>
+      <if test="operatorid != null" >
+        operatorid,
       </if>
       <if test="operatorname != null" >
         operatorname,
@@ -158,6 +172,21 @@
       <if test="exceptionstate != null" >
         exceptionstate,
       </if>
+      <if test="exceptiontype != null" >
+        exceptiontype,
+      </if>
+      <if test="exceptionlever != null" >
+        exceptionlever,
+      </if>
+      <if test="frequency != null" >
+        frequency,
+      </if>
+      <if test="uploadstate != null" >
+        uploadstate,
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -166,8 +195,8 @@
       <if test="reportid != null" >
         #{reportid,jdbcType=BIGINT},
       </if>
-      <if test="taskcode != null" >
-        #{taskcode,jdbcType=VARCHAR},
+      <if test="reportcontentid != null" >
+        #{reportcontentid,jdbcType=BIGINT},
       </if>
       <if test="checkuserid != null" >
         #{checkuserid,jdbcType=BIGINT},
@@ -177,6 +206,9 @@
       </if>
       <if test="attachment != null" >
         #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        #{operatorid,jdbcType=BIGINT},
       </if>
       <if test="operatorname != null" >
         #{operatorname,jdbcType=VARCHAR},
@@ -196,6 +228,21 @@
       <if test="exceptionstate != null" >
         #{exceptionstate,jdbcType=INTEGER},
       </if>
+      <if test="exceptiontype != null" >
+        #{exceptiontype,jdbcType=INTEGER},
+      </if>
+      <if test="exceptionlever != null" >
+        #{exceptionlever,jdbcType=INTEGER},
+      </if>
+      <if test="frequency != null" >
+        #{frequency,jdbcType=INTEGER},
+      </if>
+      <if test="uploadstate != null" >
+        #{uploadstate,jdbcType=INTEGER},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.niule.znxj.web.model.ExceptionhandlerinfoExample" resultType="java.lang.Integer" >
@@ -213,8 +260,8 @@
       <if test="record.reportid != null" >
         reportid = #{record.reportid,jdbcType=BIGINT},
       </if>
-      <if test="record.taskcode != null" >
-        taskcode = #{record.taskcode,jdbcType=VARCHAR},
+      <if test="record.reportcontentid != null" >
+        reportcontentid = #{record.reportcontentid,jdbcType=BIGINT},
       </if>
       <if test="record.checkuserid != null" >
         checkuserid = #{record.checkuserid,jdbcType=BIGINT},
@@ -224,6 +271,9 @@
       </if>
       <if test="record.attachment != null" >
         attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorid != null" >
+        operatorid = #{record.operatorid,jdbcType=BIGINT},
       </if>
       <if test="record.operatorname != null" >
         operatorname = #{record.operatorname,jdbcType=VARCHAR},
@@ -243,6 +293,21 @@
       <if test="record.exceptionstate != null" >
         exceptionstate = #{record.exceptionstate,jdbcType=INTEGER},
       </if>
+      <if test="record.exceptiontype != null" >
+        exceptiontype = #{record.exceptiontype,jdbcType=INTEGER},
+      </if>
+      <if test="record.exceptionlever != null" >
+        exceptionlever = #{record.exceptionlever,jdbcType=INTEGER},
+      </if>
+      <if test="record.frequency != null" >
+        frequency = #{record.frequency,jdbcType=INTEGER},
+      </if>
+      <if test="record.uploadstate != null" >
+        uploadstate = #{record.uploadstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.uploadtime != null" >
+        uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -252,16 +317,22 @@
     update exceptionhandlerinfo
     set id = #{record.id,jdbcType=BIGINT},
       reportid = #{record.reportid,jdbcType=BIGINT},
-      taskcode = #{record.taskcode,jdbcType=VARCHAR},
+      reportcontentid = #{record.reportcontentid,jdbcType=BIGINT},
       checkuserid = #{record.checkuserid,jdbcType=BIGINT},
       descontent = #{record.descontent,jdbcType=VARCHAR},
       attachment = #{record.attachment,jdbcType=VARCHAR},
+      operatorid = #{record.operatorid,jdbcType=BIGINT},
       operatorname = #{record.operatorname,jdbcType=VARCHAR},
       reporttime = #{record.reporttime,jdbcType=TIMESTAMP},
       confirmtime = #{record.confirmtime,jdbcType=TIMESTAMP},
       appointedtime = #{record.appointedtime,jdbcType=TIMESTAMP},
       exceptionclosetime = #{record.exceptionclosetime,jdbcType=TIMESTAMP},
-      exceptionstate = #{record.exceptionstate,jdbcType=INTEGER}
+      exceptionstate = #{record.exceptionstate,jdbcType=INTEGER},
+      exceptiontype = #{record.exceptiontype,jdbcType=INTEGER},
+      exceptionlever = #{record.exceptionlever,jdbcType=INTEGER},
+      frequency = #{record.frequency,jdbcType=INTEGER},
+      uploadstate = #{record.uploadstate,jdbcType=INTEGER},
+      uploadtime = #{record.uploadtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,8 +343,8 @@
       <if test="reportid != null" >
         reportid = #{reportid,jdbcType=BIGINT},
       </if>
-      <if test="taskcode != null" >
-        taskcode = #{taskcode,jdbcType=VARCHAR},
+      <if test="reportcontentid != null" >
+        reportcontentid = #{reportcontentid,jdbcType=BIGINT},
       </if>
       <if test="checkuserid != null" >
         checkuserid = #{checkuserid,jdbcType=BIGINT},
@@ -283,6 +354,9 @@
       </if>
       <if test="attachment != null" >
         attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        operatorid = #{operatorid,jdbcType=BIGINT},
       </if>
       <if test="operatorname != null" >
         operatorname = #{operatorname,jdbcType=VARCHAR},
@@ -302,22 +376,43 @@
       <if test="exceptionstate != null" >
         exceptionstate = #{exceptionstate,jdbcType=INTEGER},
       </if>
+      <if test="exceptiontype != null" >
+        exceptiontype = #{exceptiontype,jdbcType=INTEGER},
+      </if>
+      <if test="exceptionlever != null" >
+        exceptionlever = #{exceptionlever,jdbcType=INTEGER},
+      </if>
+      <if test="frequency != null" >
+        frequency = #{frequency,jdbcType=INTEGER},
+      </if>
+      <if test="uploadstate != null" >
+        uploadstate = #{uploadstate,jdbcType=INTEGER},
+      </if>
+      <if test="uploadtime != null" >
+        uploadtime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Exceptionhandlerinfo" >
     update exceptionhandlerinfo
     set reportid = #{reportid,jdbcType=BIGINT},
-      taskcode = #{taskcode,jdbcType=VARCHAR},
+      reportcontentid = #{reportcontentid,jdbcType=BIGINT},
       checkuserid = #{checkuserid,jdbcType=BIGINT},
       descontent = #{descontent,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
+      operatorid = #{operatorid,jdbcType=BIGINT},
       operatorname = #{operatorname,jdbcType=VARCHAR},
       reporttime = #{reporttime,jdbcType=TIMESTAMP},
       confirmtime = #{confirmtime,jdbcType=TIMESTAMP},
       appointedtime = #{appointedtime,jdbcType=TIMESTAMP},
       exceptionclosetime = #{exceptionclosetime,jdbcType=TIMESTAMP},
-      exceptionstate = #{exceptionstate,jdbcType=INTEGER}
+      exceptionstate = #{exceptionstate,jdbcType=INTEGER},
+      exceptiontype = #{exceptiontype,jdbcType=INTEGER},
+      exceptionlever = #{exceptionlever,jdbcType=INTEGER},
+      frequency = #{frequency,jdbcType=INTEGER},
+      uploadstate = #{uploadstate,jdbcType=INTEGER},
+      uploadtime = #{uploadtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.TaskuploadconfigMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Taskuploadconfig" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="siteid" property="siteid" jdbcType="BIGINT" />
+    <result column="taskid" property="taskid" jdbcType="BIGINT" />
+    <result column="contactid" property="contactid" jdbcType="BIGINT" />
+    <result column="uploadstate" property="uploadstate" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="NewBaseResultMap" type="com.niule.znxj.web.model.Taskuploadconfig" extends="BaseResultMap">
+    <result column="identifyingid" property="identifyingid" jdbcType="VARCHAR" />
+    <result column="sitename" property="sitename" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="port" property="port" jdbcType="VARCHAR" />
+    <result column="enginetype" property="enginetype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, siteid, taskid, contactid, uploadstate, createtime, updatetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.TaskuploadconfigExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from taskuploadconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from taskuploadconfig
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByReportId" resultMap="NewBaseResultMap" parameterType="java.lang.Long" >
+    SELECT u.*,p.identifyingid,s.customid sitename,c.email,f.ip,f.port,f.enginetype
+      from taskuploadconfig u
+      LEFT JOIN taskplaninfo p ON u.taskid = p.id
+      LEFT JOIN taskreportinfo r ON p.id = r.taskid
+      LEFT JOIN siteareainfo s ON u.siteid = s.id
+      LEFT JOIN contactinfo c ON u.contactid = c.id
+      LEFT JOIN interfaceengine f ON u.siteid = f.siteid
+      WHERE u.uploadstate=1 and f.state = 1 AND r.id=#{reportid,jdbcType=BIGINT}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from taskuploadconfig
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.TaskuploadconfigExample" >
+    delete from taskuploadconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Taskuploadconfig" >
+    insert into taskuploadconfig (id, siteid, taskid, 
+      contactid, uploadstate, createtime, 
+      updatetime)
+    values (#{id,jdbcType=BIGINT}, #{siteid,jdbcType=BIGINT}, #{taskid,jdbcType=BIGINT}, 
+      #{contactid,jdbcType=BIGINT}, #{uploadstate,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Taskuploadconfig" >
+    insert into taskuploadconfig
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="siteid != null" >
+        siteid,
+      </if>
+      <if test="taskid != null" >
+        taskid,
+      </if>
+      <if test="contactid != null" >
+        contactid,
+      </if>
+      <if test="uploadstate != null" >
+        uploadstate,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="siteid != null" >
+        #{siteid,jdbcType=BIGINT},
+      </if>
+      <if test="taskid != null" >
+        #{taskid,jdbcType=BIGINT},
+      </if>
+      <if test="contactid != null" >
+        #{contactid,jdbcType=BIGINT},
+      </if>
+      <if test="uploadstate != null" >
+        #{uploadstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.TaskuploadconfigExample" resultType="java.lang.Integer" >
+    select count(*) from taskuploadconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update taskuploadconfig
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.siteid != null" >
+        siteid = #{record.siteid,jdbcType=BIGINT},
+      </if>
+      <if test="record.taskid != null" >
+        taskid = #{record.taskid,jdbcType=BIGINT},
+      </if>
+      <if test="record.contactid != null" >
+        contactid = #{record.contactid,jdbcType=BIGINT},
+      </if>
+      <if test="record.uploadstate != null" >
+        uploadstate = #{record.uploadstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update taskuploadconfig
+    set id = #{record.id,jdbcType=BIGINT},
+      siteid = #{record.siteid,jdbcType=BIGINT},
+      taskid = #{record.taskid,jdbcType=BIGINT},
+      contactid = #{record.contactid,jdbcType=BIGINT},
+      uploadstate = #{record.uploadstate,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Taskuploadconfig" >
+    update taskuploadconfig
+    <set >
+      <if test="siteid != null" >
+        siteid = #{siteid,jdbcType=BIGINT},
+      </if>
+      <if test="taskid != null" >
+        taskid = #{taskid,jdbcType=BIGINT},
+      </if>
+      <if test="contactid != null" >
+        contactid = #{contactid,jdbcType=BIGINT},
+      </if>
+      <if test="uploadstate != null" >
+        uploadstate = #{uploadstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Taskuploadconfig" >
+    update taskuploadconfig
+    set siteid = #{siteid,jdbcType=BIGINT},
+      taskid = #{taskid,jdbcType=BIGINT},
+      contactid = #{contactid,jdbcType=BIGINT},
+      uploadstate = #{uploadstate,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

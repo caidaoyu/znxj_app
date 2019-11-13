@@ -128,7 +128,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.niule.znxj.web.model.Reportcontent" >
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Reportcontent" useGeneratedKeys="true" keyProperty="id">
     insert into reportcontent (id, areaname, equipname, 
       checkname, checktype, numvalue, 
       recordname, unitname, reportstate, 

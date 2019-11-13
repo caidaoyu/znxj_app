@@ -39,7 +39,9 @@
             <property name="enableSubPackages" value="ture"/>
         </javaClientGenerator>
         <!--对应数据库表名 -->
-<table tableName="sendemail">
-</table>
+        <table tableName="uploadtaskinfo"></table>
+        <table tableName="interfaceengine"></table>
+        <table tableName="exceptionhandlerinfo"></table>
+        <table tableName="taskuploadconfig"></table>
         </context>
         </generatorConfiguration>

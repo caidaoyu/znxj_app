@@ -62,6 +62,10 @@ public class CommonServiceImpl implements CommonService {
     private ContactinfoMapper contactinfoMapper;
     @Resource
     private ExceptionhandlerinfoMapper exceptionhandlerinfoMapper;
+    @Resource
+    private UploadtaskinfoMapper uploadtaskinfoMapper;
+    @Resource
+    private  TaskuploadconfigMapper taskuploadconfigMapper;
 
     @Override
     public Userinfo userLogin(String username, String password) {
@@ -420,6 +424,23 @@ public class CommonServiceImpl implements CommonService {
         taskreportinfo.setContent(null);   //任务上传完成后，去掉这个值，节省空间
         result = taskreportinfoMapper.insert(taskreportinfo) == 1 ? new JSONResult<>() : new JSONResult<>("操作失败");
 
+        //判断任务是否需要上传，如果需要则初始化巡检记录上传情况表（uploadtaskinfo）
+        final Taskuploadconfig taskuploadconfig = taskuploadconfigMapper.selectByReportId(taskreportinfo.getId());
+        if(taskuploadconfig!=null){
+            Uploadtaskinfo uploadtaskinfo = new Uploadtaskinfo();
+            uploadtaskinfo.setSiteid(taskuploadconfig.getSiteid());
+            uploadtaskinfo.setTaskid(taskuploadconfig.getTaskid());
+            uploadtaskinfo.setReportid(taskreportinfo.getId());
+            uploadtaskinfo.setEnginetype(taskuploadconfig.getEnginetype());
+            String address = "http://"+taskuploadconfig.getIp()+":"+taskuploadconfig.getPort()+"/";
+            uploadtaskinfo.setAddress(address);
+            uploadtaskinfo.setEmail(taskuploadconfig.getEmail());
+            uploadtaskinfo.setCreatetime(new Date());
+            uploadtaskinfoMapper.insert(uploadtaskinfo);
+            System.out.println("======初始化巡检记录表，报告ID:"+taskreportinfo.getId());
+        }
+
+        //查询历史报告（自动复核）
         List<Taskreportinfo> taskreportinfos = null;
         try {
             taskreportinfos = getTaskCode2(taskreportinfo.getTaskcode());
@@ -436,7 +457,6 @@ public class CommonServiceImpl implements CommonService {
                     //插入报告内容单项 到 reportcontent
                     TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);
                     for (TaskReportContent item : res.getRes()) {
-                        System.out.println("============reportcontent:"+item.toString());
                         if (!hasException && "1".equals(item.getReportstate())) {
                             hasException = true;
                         }
@@ -508,17 +528,20 @@ public class CommonServiceImpl implements CommonService {
                         );
                         reportcontent.setReportid(taskreportinfo.getId());
                         reportcontentMapper.insert(reportcontent);
+                        if(taskuploadconfig!=null){
+                            //初始化异常巡检项汇总表（exceptionhandlerinfo） qbxu add 20191113
+                            if(reportcontent.getReportstate()!=null && "1".equals(reportcontent.getReportstate())){
+                                Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
+                                exceptionhandlerinfo.setReportid(taskreportinfo.getId());
+                                exceptionhandlerinfo.setReportcontentid(reportcontent.getId().longValue());
+                                exceptionhandlerinfo.setReporttime(new Date());
+                                exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
+                            }
+                        }
                     }
                 }
                 //存在异常发送邮件
                 if (hasException) {
-                    //初始化任务报告异常汇总表（exceptionhandlerinfo） qbxu add 20191106
-                    Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
-                    exceptionhandlerinfo.setReportid(taskreportinfo.getId());
-                    exceptionhandlerinfo.setTaskcode(taskreportinfo.getTaskcode());
-                    exceptionhandlerinfo.setReporttime(new Date());
-                    exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
-                    System.out.println("================exceptionhandler:"+exceptionhandlerinfo.toString());
                     sendExceptionEmail(taskreportinfo.getId(), taskreportinfo.getTaskid());
                 }
             }
