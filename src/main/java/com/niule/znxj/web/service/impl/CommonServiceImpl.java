@@ -537,17 +537,15 @@ public class CommonServiceImpl implements CommonService {
                         );
                         reportcontent.setReportid(taskreportinfo.getId());
                         reportcontentMapper.insert(reportcontent);
-                        if(taskuploadconfig!=null){
-                            //初始化异常巡检项汇总表（exceptionhandlerinfo） qbxu add 20191113
-                            if(reportcontent.getReportstate()!=null && "1".equals(reportcontent.getReportstate())){
-                                Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
-                                exceptionhandlerinfo.setReportid(taskreportinfo.getId());
-                                exceptionhandlerinfo.setReportcontentid(reportcontent.getId().longValue());
-                                exceptionhandlerinfo.setReporttime(new Date());
-                                exceptionhandlerinfo.setExceptionstate(0);
-                                exceptionhandlerinfo.setUploadstate(0);
-                                exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
-                            }
+                        //初始化异常巡检项汇总表（exceptionhandlerinfo） qbxu add 20191113
+                        if(reportcontent.getReportstate()!=null && "1".equals(reportcontent.getReportstate())){
+                            Exceptionhandlerinfo exceptionhandlerinfo = new Exceptionhandlerinfo();
+                            exceptionhandlerinfo.setReportid(taskreportinfo.getId());
+                            exceptionhandlerinfo.setReportcontentid(reportcontent.getId().longValue());
+                            exceptionhandlerinfo.setReporttime(new Date());
+                            exceptionhandlerinfo.setExceptionstate(0);
+                            exceptionhandlerinfo.setUploadstate(0);
+                            exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
                         }
                     }
                 }
