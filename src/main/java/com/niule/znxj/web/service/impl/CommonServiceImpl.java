@@ -495,6 +495,10 @@ public class CommonServiceImpl implements CommonService {
                                 d = "-";
                             } else
                                 d = upperwarning + "";
+                            Float numvalue = Float.valueOf(item.getNumvalue());
+                            if(numvalue >normalmax || numvalue<normalmin){
+                                item.setReportstate("1");
+                            }
                         } else if (checkitype.equals("状态项")) {
                             a = "-";
                             e = "-";
@@ -918,7 +922,7 @@ public class CommonServiceImpl implements CommonService {
      */
     public List<Sendemail> getSendExceptionList(Long taskId) {
         SendemailExample sendemailExample = new SendemailExample();
-        sendemailExample.createCriteria().andSendexceptionEqualTo(1).andTaskidEqualTo(taskId);
+        sendemailExample.createCriteria().andTypeEqualTo(3).andTaskidEqualTo(taskId);
         List<Sendemail> sendemails = sendEmailService.selectByExample(sendemailExample);
         return sendemails;
     }
