@@ -123,7 +123,7 @@
       #{video,jdbcType=VARCHAR}, #{uploadtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER}, #{upload,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Quickreport" >
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Quickreport" useGeneratedKeys="true" keyProperty="id">
     insert into quickreport
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

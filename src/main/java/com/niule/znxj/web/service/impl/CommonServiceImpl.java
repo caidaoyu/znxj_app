@@ -66,6 +66,8 @@ public class CommonServiceImpl implements CommonService {
     private UploadtaskinfoMapper uploadtaskinfoMapper;
     @Resource
     private  TaskuploadconfigMapper taskuploadconfigMapper;
+    @Resource
+    private  DangerhandlerinfoMapper dangerhandlerinfoMapper;
 
     @Override
     public Userinfo userLogin(String username, String password) {
@@ -708,7 +710,14 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public Result uploadQuickReport(Quickreport quickreport) {
-        return quickreportMapper.insertSelective(quickreport) == 1 ? new JSONResult<>() : new JSONResult<>("上传失败");
+        Result result = quickreportMapper.insertSelective(quickreport) == 1 ? new JSONResult<>() : new JSONResult<>("上传失败");
+        //add qbxu 20191119(上传隐患报告时初始化隐患闭环处理表)
+        Dangerhandlerinfo dangerhandlerinfo = new Dangerhandlerinfo();
+        dangerhandlerinfo.setReportid(quickreport.getId());
+        dangerhandlerinfo.setReporttime(new Date());
+        dangerhandlerinfo.setDangerstate(0);
+        dangerhandlerinfoMapper.insertSelective(dangerhandlerinfo);
+        return  result;
     }
 
     @Override

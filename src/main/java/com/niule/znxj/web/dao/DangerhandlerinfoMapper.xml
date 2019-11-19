@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niule.znxj.web.dao.DangerhandlerinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.niule.znxj.web.model.Dangerhandlerinfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="reportid" property="reportid" jdbcType="BIGINT" />
+    <result column="checkuserid" property="checkuserid" jdbcType="BIGINT" />
+    <result column="descontent" property="descontent" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="operatorid" property="operatorid" jdbcType="BIGINT" />
+    <result column="operatorname" property="operatorname" jdbcType="VARCHAR" />
+    <result column="reporttime" property="reporttime" jdbcType="TIMESTAMP" />
+    <result column="appointedtime" property="appointedtime" jdbcType="TIMESTAMP" />
+    <result column="dangerclosetime" property="dangerclosetime" jdbcType="TIMESTAMP" />
+    <result column="dangerstate" property="dangerstate" jdbcType="INTEGER" />
+    <result column="reportcode" property="reportcode" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, reportid, checkuserid, descontent, attachment, operatorid, operatorname, reporttime, 
+    appointedtime, dangerclosetime, dangerstate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.DangerhandlerinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dangerhandlerinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from dangerhandlerinfo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from dangerhandlerinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niule.znxj.web.model.DangerhandlerinfoExample" >
+    delete from dangerhandlerinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niule.znxj.web.model.Dangerhandlerinfo" >
+    insert into dangerhandlerinfo (id, reportid, checkuserid, 
+      descontent, attachment, operatorid, 
+      operatorname, reporttime, appointedtime, 
+      dangerclosetime, dangerstate)
+    values (#{id,jdbcType=BIGINT}, #{reportid,jdbcType=BIGINT}, #{checkuserid,jdbcType=BIGINT}, 
+      #{descontent,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{operatorid,jdbcType=BIGINT}, 
+      #{operatorname,jdbcType=VARCHAR}, #{reporttime,jdbcType=TIMESTAMP}, #{appointedtime,jdbcType=TIMESTAMP}, 
+      #{dangerclosetime,jdbcType=TIMESTAMP}, #{dangerstate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Dangerhandlerinfo" >
+    insert into dangerhandlerinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportid != null" >
+        reportid,
+      </if>
+      <if test="checkuserid != null" >
+        checkuserid,
+      </if>
+      <if test="descontent != null" >
+        descontent,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="operatorid != null" >
+        operatorid,
+      </if>
+      <if test="operatorname != null" >
+        operatorname,
+      </if>
+      <if test="reporttime != null" >
+        reporttime,
+      </if>
+      <if test="appointedtime != null" >
+        appointedtime,
+      </if>
+      <if test="dangerclosetime != null" >
+        dangerclosetime,
+      </if>
+      <if test="dangerstate != null" >
+        dangerstate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="reportid != null" >
+        #{reportid,jdbcType=BIGINT},
+      </if>
+      <if test="checkuserid != null" >
+        #{checkuserid,jdbcType=BIGINT},
+      </if>
+      <if test="descontent != null" >
+        #{descontent,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        #{operatorid,jdbcType=BIGINT},
+      </if>
+      <if test="operatorname != null" >
+        #{operatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null" >
+        #{reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appointedtime != null" >
+        #{appointedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dangerclosetime != null" >
+        #{dangerclosetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dangerstate != null" >
+        #{dangerstate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niule.znxj.web.model.DangerhandlerinfoExample" resultType="java.lang.Integer" >
+    select count(*) from dangerhandlerinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dangerhandlerinfo
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.reportid != null" >
+        reportid = #{record.reportid,jdbcType=BIGINT},
+      </if>
+      <if test="record.checkuserid != null" >
+        checkuserid = #{record.checkuserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.descontent != null" >
+        descontent = #{record.descontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachment != null" >
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorid != null" >
+        operatorid = #{record.operatorid,jdbcType=BIGINT},
+      </if>
+      <if test="record.operatorname != null" >
+        operatorname = #{record.operatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reporttime != null" >
+        reporttime = #{record.reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.appointedtime != null" >
+        appointedtime = #{record.appointedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dangerclosetime != null" >
+        dangerclosetime = #{record.dangerclosetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dangerstate != null" >
+        dangerstate = #{record.dangerstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dangerhandlerinfo
+    set id = #{record.id,jdbcType=BIGINT},
+      reportid = #{record.reportid,jdbcType=BIGINT},
+      checkuserid = #{record.checkuserid,jdbcType=BIGINT},
+      descontent = #{record.descontent,jdbcType=VARCHAR},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
+      operatorid = #{record.operatorid,jdbcType=BIGINT},
+      operatorname = #{record.operatorname,jdbcType=VARCHAR},
+      reporttime = #{record.reporttime,jdbcType=TIMESTAMP},
+      appointedtime = #{record.appointedtime,jdbcType=TIMESTAMP},
+      dangerclosetime = #{record.dangerclosetime,jdbcType=TIMESTAMP},
+      dangerstate = #{record.dangerstate,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niule.znxj.web.model.Dangerhandlerinfo" >
+    update dangerhandlerinfo
+    <set >
+      <if test="reportid != null" >
+        reportid = #{reportid,jdbcType=BIGINT},
+      </if>
+      <if test="checkuserid != null" >
+        checkuserid = #{checkuserid,jdbcType=BIGINT},
+      </if>
+      <if test="descontent != null" >
+        descontent = #{descontent,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        operatorid = #{operatorid,jdbcType=BIGINT},
+      </if>
+      <if test="operatorname != null" >
+        operatorname = #{operatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null" >
+        reporttime = #{reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appointedtime != null" >
+        appointedtime = #{appointedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dangerclosetime != null" >
+        dangerclosetime = #{dangerclosetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dangerstate != null" >
+        dangerstate = #{dangerstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niule.znxj.web.model.Dangerhandlerinfo" >
+    update dangerhandlerinfo
+    set reportid = #{reportid,jdbcType=BIGINT},
+      checkuserid = #{checkuserid,jdbcType=BIGINT},
+      descontent = #{descontent,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      operatorid = #{operatorid,jdbcType=BIGINT},
+      operatorname = #{operatorname,jdbcType=VARCHAR},
+      reporttime = #{reporttime,jdbcType=TIMESTAMP},
+      appointedtime = #{appointedtime,jdbcType=TIMESTAMP},
+      dangerclosetime = #{dangerclosetime,jdbcType=TIMESTAMP},
+      dangerstate = #{dangerstate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectInfoByReportId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT
+     d.* ,q.reportcode,a.username
+    FROM
+        dangerhandlerinfo d
+    LEFT JOIN quickreport q ON d.reportid= q.id
+    LEFT JOIN admininfo a ON d.checkuserid = a.id
+    WHERE d.reportid = #{id}
+  </select>
+</mapper>
