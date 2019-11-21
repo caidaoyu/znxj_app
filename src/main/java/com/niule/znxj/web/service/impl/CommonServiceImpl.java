@@ -68,6 +68,8 @@ public class CommonServiceImpl implements CommonService {
     private  TaskuploadconfigMapper taskuploadconfigMapper;
     @Resource
     private  DangerhandlerinfoMapper dangerhandlerinfoMapper;
+    @Resource
+    private  AdmininfoMapper admininfoMapper;
 
     @Override
     public Userinfo userLogin(String username, String password) {
@@ -393,7 +395,7 @@ public class CommonServiceImpl implements CommonService {
      */
     @Override
     public Result uploadReport(final Taskreportinfo taskreportinfo) throws Exception {
-        System.out.print("taskreportinfo:" + taskreportinfo.toString());
+        System.out.print("====================taskcode:" + taskreportinfo.getTaskcode());
         if (taskreportinfo.getEndtime() == null)
             taskreportinfo.setDonetime(new Date());
         else
@@ -717,7 +719,38 @@ public class CommonServiceImpl implements CommonService {
         dangerhandlerinfo.setReporttime(new Date());
         dangerhandlerinfo.setDangerstate(0);
         dangerhandlerinfoMapper.insertSelective(dangerhandlerinfo);
+        //发送邮件给厂区复核员
+        sendDangerEmail(quickreport.getId());
         return  result;
+    }
+
+    public void sendDangerEmail(Long reportid) {
+        try {
+            Quickreport quickreport = quickreportMapper.selectByPrimaryKey2(reportid);
+            //查询对应厂区的复核员email
+            AdmininfoExample example = new AdmininfoExample();
+            example.createCriteria().andRoleidEqualTo(7).andSiteidEqualTo(quickreport.getSite().getId().intValue());
+            List<Admininfo>  userList =admininfoMapper.selectByExample(example);
+
+            //获取发件人邮箱和授权码
+            List<Sendemail> sendemails = querySendEmailByType(0); //按照日报的获取
+            List<String> emails = new ArrayList<>();
+            if(sendemails!=null && sendemails.size()>0){
+                Sendemail sendemail = sendemails.get(0);
+                for (Admininfo item : userList) {
+                    if(!item.getEmail().isEmpty()){
+                        emails.add(item.getEmail());
+                    }
+                }
+                String content = "隐患任务报告为："+quickreport.getReportcode()+" 的任务已上传，请及时登录巡检系统查看！";
+                EmailUtils.sendEmails(sendemail.getEmail(), sendemail.getPwd(), sendemail.getSmtpAddress(), sendemail.getSmtpPort(), (String[]) emails.toArray(new String[emails.size()]), "隐患巡检报告", content);
+            }
+
+        } catch (Exception ex) {
+            System.err.println("邮件发送失败的原因是：" + ex.getMessage());
+            System.err.println("具体的错误原因");
+            ex.printStackTrace(System.err);
+        }
     }
 
     @Override

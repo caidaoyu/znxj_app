@@ -8,6 +8,7 @@
     <result column="realname" property="u.realname" jdbcType="BIGINT" />
     <result column="classname" property="group.customid" jdbcType="VARCHAR" />
     <result column="sitename" property="site.customid" jdbcType="VARCHAR" />
+    <result column="siteid" property="site.id" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="img" property="img" jdbcType="VARCHAR" />
     <result column="audio" property="audio" jdbcType="VARCHAR" />
@@ -103,6 +104,20 @@
     from quickreport
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByPrimaryKey2" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select q.*,u.realname,c.customid classname,s.customid sitename,s.id siteid from quickreport q
+    left join userinfo u on u.id=q.userid
+    left join classinfo c on u.classid=c.id
+    left join siteareainfo s on c.siteareaid=s.id
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  select q.*,u.realname,c.customid classname,s.customid sitename from quickreport q
+  left join userinfo u on u.id=q.userid
+  left join classinfo c on u.classid=c.id
+  left join siteareainfo s on c.siteareaid=s.id
+  where 1=1
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from quickreport
     where id = #{id,jdbcType=BIGINT}

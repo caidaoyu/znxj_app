@@ -16,6 +16,8 @@
     <result column="customid" property="site.customid" jdbcType="VARCHAR" />
     <result column="failnums" property="failnums" jdbcType="INTEGER" />
     <result column="freezetime" property="freezetime" jdbcType="TIMESTAMP" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="realname" property="realname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,14 +78,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, state, createuser, createdate, expirydate, roleid, siteid
+    id, username, password, state, createuser, createdate, expirydate, roleid, siteid, failnums, freezetime, email
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niule.znxj.web.model.AdmininfoExample" >
     select
     <if test="distinct" >
       distinct
     </if>
-    a.id,a.username,a.password,a.state,a.createuser,a.createdate,a.expirydate,a.roleid,r.rolename,s.customid
+    a.id,a.username,a.password,a.state,a.createuser,a.createdate,a.expirydate,a.roleid,a.failnums,
+    a.freezetime,a.email,r.rolename,s.customid
     from admininfo a
     left join roles r on a.roleid=r.roleid
     left join siteareainfo s on s.id=a.siteid
@@ -96,7 +99,8 @@
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
-    a.id,a.username,a.password,a.state,a.createuser,a.createdate,a.expirydate,a.roleid,a.siteid,r.rolename,s.customid
+    a.id,a.username,a.password,a.state,a.createuser,a.createdate,a.expirydate,a.roleid,a.siteid,a.failnums,
+    a.freezetime,a.email,r.rolename,s.customid
     from admininfo a left join roles r on a.roleid=r.roleid left join siteareainfo s on s.id=a.siteid
     where a.id = #{id,jdbcType=BIGINT}
   </select>
@@ -113,11 +117,11 @@
   <insert id="insert" parameterType="com.niule.znxj.web.model.Admininfo" >
     insert into admininfo (id, username, password, 
       state, createuser, createdate, 
-      expirydate, roleid, siteid
+      expirydate, roleid, siteid, email
       )
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{state,jdbcType=INTEGER}, #{createuser,jdbcType=BIGINT}, now(),
-      #{expirydate,jdbcType=TIMESTAMP}, #{roleid,jdbcType=INTEGER}, #{siteid,jdbcType=INTEGER}
+      #{expirydate,jdbcType=TIMESTAMP}, #{roleid,jdbcType=INTEGER}, #{siteid,jdbcType=INTEGER},#{email,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.niule.znxj.web.model.Admininfo" >
@@ -150,6 +154,9 @@
       <if test="siteid != null" >
         siteid,
       </if>
+      <if test="email != null" >
+        email,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -178,6 +185,9 @@
       </if>
       <if test="siteid != null" >
         #{siteid,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -217,6 +227,9 @@
       <if test="record.siteid != null" >
         siteid = #{record.siteid,jdbcType=INTEGER},
       </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -232,7 +245,8 @@
       createdate = #{record.createdate,jdbcType=TIMESTAMP},
       expirydate = #{record.expirydate,jdbcType=TIMESTAMP},
       roleid = #{record.roleid,jdbcType=INTEGER},
-      siteid = #{record.siteid,jdbcType=INTEGER}
+      siteid = #{record.siteid,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR},
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -265,7 +279,10 @@
       <if test="failnums != null" >
         failnums = #{failnums,jdbcType=INTEGER},
       </if>
-      freezetime = #{freezetime,jdbcType=TIMESTAMP},  
+      freezetime = #{freezetime,jdbcType=TIMESTAMP},
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -278,7 +295,8 @@
       createdate = #{createdate,jdbcType=TIMESTAMP},
       expirydate = #{expirydate,jdbcType=TIMESTAMP},
       roleid = #{roleid,jdbcType=INTEGER},
-      siteid = #{siteid,jdbcType=INTEGER}
+      siteid = #{siteid,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="login" parameterType="com.niule.znxj.web.model.AdmininfoExample" resultMap="BaseResultMap">
@@ -293,4 +311,9 @@
   <select id="queryUserIsExistPower" parameterType="string" resultMap="BaseResultMap">
     select * from admininfo where username=#{0} and password=#{1}
   </select>
+  <select id="selectByRoleId" parameterType="int" resultMap="BaseResultMap">
+    SELECT a.*,c.name realname from admininfo a,contactinfo c WHERE a.email=c.email and a.roleid=#{roleid}
+    and a.state=1 and a.expirydate>now()
+  </select>
+
 </mapper>

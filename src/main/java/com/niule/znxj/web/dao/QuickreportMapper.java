@@ -23,6 +23,7 @@ public interface QuickreportMapper {
  /*   List<Quickreport> selectByExample(QuickreportExample example);*/
     List<Quickreport> selectByExample(int page, int pagesize, int type);
     Quickreport selectByPrimaryKey(Long id);
+    Quickreport selectByPrimaryKey2(Long id);
 
     int updateByExampleSelective(@Param("record") Quickreport record, @Param("example") QuickreportExample example);
 
