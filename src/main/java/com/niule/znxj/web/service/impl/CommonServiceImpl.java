@@ -499,9 +499,13 @@ public class CommonServiceImpl implements CommonService {
                                 d = "-";
                             } else
                                 d = upperwarning + "";
-                            Float numvalue = Float.valueOf(item.getNumvalue());
-                            if(numvalue >normalmax || numvalue<normalmin){
-                                item.setReportstate("1");
+                            if(item.getNumvalue()!=null && !"".equals(item.getNumvalue())){
+                                Float numvalue = Float.valueOf(item.getNumvalue());
+                                if (normalmin != null && normalmin != 0 && normalmax != null && normalmax != 0){
+                                    if(numvalue >normalmax || numvalue<normalmin){
+                                        item.setReportstate("1");
+                                    }
+                                }
                             }
                         } else if (checkitype.equals("状态项")) {
                             a = "-";
