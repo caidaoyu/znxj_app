@@ -501,7 +501,7 @@ public class CommonServiceImpl implements CommonService {
                                 d = upperwarning + "";
                             if(item.getNumvalue()!=null && !"".equals(item.getNumvalue())){
                                 Float numvalue = Float.valueOf(item.getNumvalue());
-                                if (!"-".equals(a) && !"-".equals(e)){
+                                if (!"".equals(a) && !"-".equals(a) && !"".equals(e) && !"-".equals(e)){
                                     if(numvalue >normalmax || numvalue<normalmin){
                                         item.setReportstate("1");
                                     }
