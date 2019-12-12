@@ -396,6 +396,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public Result uploadReport(final Taskreportinfo taskreportinfo) throws Exception {
         System.out.print("====================taskcode:" + taskreportinfo.getTaskcode());
+        System.out.print("====================content:" + taskreportinfo.getContent());
         if (taskreportinfo.getEndtime() == null)
             taskreportinfo.setDonetime(new Date());
         else
