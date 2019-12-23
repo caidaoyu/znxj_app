@@ -471,9 +471,6 @@ public class CommonServiceImpl implements CommonService {
                     //插入报告内容单项 到 reportcontent
                     TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);
                     for (TaskReportContent item : res.getRes()) {
-                        if (!hasException && "1".equals(item.getReportstate())) {
-                            hasException = true;
-                        }
                         String checkitype = item.getChecktype();
                         Float normalmin = item.getNormalmin();
                         Float normalmax = item.getNormalmax();
@@ -559,6 +556,10 @@ public class CommonServiceImpl implements CommonService {
                             exceptionhandlerinfo.setExceptionstate(0);
                             exceptionhandlerinfo.setUploadstate(0);
                             exceptionhandlerinfoMapper.insert(exceptionhandlerinfo);
+                        }
+
+                        if (!hasException && "1".equals(item.getReportstate())) {
+                            hasException = true;
                         }
                     }
                 }
