@@ -85,18 +85,6 @@
     left join classinfo c on u.classid=c.id
     left join siteareainfo s on c.siteareaid=s.id
     where q.type=#{0} limit #{1},#{2}
-    <!--select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from quickreport
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>-->
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -109,7 +97,7 @@
     left join userinfo u on u.id=q.userid
     left join classinfo c on u.classid=c.id
     left join siteareainfo s on c.siteareaid=s.id
-    where id = #{id,jdbcType=BIGINT}
+    where q.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from quickreport
@@ -206,10 +194,6 @@
   </insert>
   <select id="countByExample" parameterType="int" resultType="java.lang.Integer">
     select count(*) from quickreport where type=#{0}
-    <!--select count(*) from quickreport
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>-->
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update quickreport
@@ -335,14 +319,7 @@
       <if test="siteid!=null and siteid!=''">
         and s.id =#{siteid}
       </if>
-        and q.type=0 order BY  id desc
+        and q.type=0 order BY q.id desc
   </select>
-  <!--<select id="showQuickreport2" resultMap="BaseResultMap"  parameterType="int" >-->
-      <!--select q.*,u.realname,c.customid classname,s.customid sitename  from quickreport q-->
-      <!--left join userinfo u on u.id=q.userid-->
-      <!--left join classinfo c on u.classid=c.id-->
-      <!--left join siteareainfo s on c.siteareaid=s.id-->
-      <!--where q.type=0-->
-  <!--</select>-->
 
 </mapper>

@@ -123,15 +123,18 @@ public class CommonServiceImpl implements CommonService {
         //赋值任务名
         simpleReport.setTaskname(taskplaninfo.getCustomid());
         //区域数
-        areaCnt = taskcontent.getAreas().size();
-        for (TaskArea area : taskcontent.getAreas()) {
-            //设备数
-            equipmentCnt += area.getEquipments().size();
-            //巡检项数
-            for (TaskEquipment equipment : area.getEquipments()) {
-                itemCnt += equipment.getCheckItems().size();
+        if(taskcontent!=null && taskcontent.getAreas()!=null){
+            areaCnt = taskcontent.getAreas().size();
+            for (TaskArea area : taskcontent.getAreas()) {
+                //设备数
+                equipmentCnt += area.getEquipments().size();
+                //巡检项数
+                for (TaskEquipment equipment : area.getEquipments()) {
+                    itemCnt += equipment.getCheckItems().size();
+                }
             }
         }
+
         //设置区域数 设备数 项目数
         simpleReport.setAreaCnt(areaCnt);
         simpleReport.setEquipmentCnt(equipmentCnt);
