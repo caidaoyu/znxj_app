@@ -20,6 +20,8 @@ public interface AdmininfoMapper {
 
     List<Admininfo> selectByExample(AdmininfoExample example);
 
+    List<Admininfo> selectByExampleBySiteId(Long siteid);
+
     Admininfo selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Admininfo record, @Param("example") AdmininfoExample example);

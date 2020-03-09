@@ -97,6 +97,20 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="selectByExampleBySiteId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    a.id,a.username,a.password,a.state,a.createuser,a.createdate,a.expirydate,a.roleid,a.failnums,
+    a.freezetime,a.email,r.rolename,s.customid
+    from admininfo a
+    left join roles r on a.roleid=r.roleid
+    left join siteareainfo s on s.id=a.siteid
+    where r.roleid=7 AND a.siteid = #{siteid,jdbcType=BIGINT}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     a.id,a.username,a.password,a.state,a.createuser,a.createdate,a.expirydate,a.roleid,a.siteid,a.failnums,

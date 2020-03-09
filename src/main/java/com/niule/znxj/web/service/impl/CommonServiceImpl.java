@@ -737,9 +737,7 @@ public class CommonServiceImpl implements CommonService {
         try {
             Quickreport quickreport = quickreportMapper.selectByPrimaryKey2(reportid);
             //查询对应厂区的复核员email
-            AdmininfoExample example = new AdmininfoExample();
-            example.createCriteria().andRoleidEqualTo(7).andSiteidEqualTo(quickreport.getSite().getId().intValue());
-            List<Admininfo>  userList =admininfoMapper.selectByExample(example);
+            List<Admininfo>  userList =admininfoMapper.selectByExampleBySiteId(quickreport.getSite().getId());
 
             //获取发件人邮箱和授权码
             List<Sendemail> sendemails = querySendEmailByType(0); //按照日报的获取
