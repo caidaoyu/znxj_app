@@ -101,15 +101,14 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <select id="selectByReportId" resultMap="NewBaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByTaskId" resultMap="NewBaseResultMap" parameterType="java.lang.Long" >
     SELECT u.*,p.identifyingid,s.customid sitename,c.email,f.ip,f.port,f.enginetype
       from taskuploadconfig u
       LEFT JOIN taskplaninfo p ON u.taskid = p.id
-      LEFT JOIN taskreportinfo r ON p.id = r.taskid
       LEFT JOIN siteareainfo s ON u.siteid = s.id
       LEFT JOIN contactinfo c ON u.contactid = c.id
       LEFT JOIN interfaceengine f ON u.siteid = f.siteid
-      WHERE u.uploadstate=1 and f.state = 1 AND r.id=#{reportid,jdbcType=BIGINT}
+      WHERE u.uploadstate=1 and f.state = 1 AND u.taskid=#{taskid,jdbcType=BIGINT}
   </select>
 
 

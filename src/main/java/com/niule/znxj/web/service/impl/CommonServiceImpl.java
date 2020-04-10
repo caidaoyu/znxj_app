@@ -413,10 +413,20 @@ public class CommonServiceImpl implements CommonService {
         taskreportinfo.setExamstate(0);
         taskreportinfo.setExamtime(null);
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //删除已有的相同 taskckcode 报告
+
+        //删除已有的相同 taskckcode 报告和 reportContent
         TaskreportinfoExample example = new TaskreportinfoExample();
         example.createCriteria().andTaskcodeEqualTo(taskreportinfo.getTaskcode());
-        taskreportinfoMapper.deleteByExample(example);
+        List<Taskreportinfo> oldReportInfoList = taskreportinfoMapper.selectByExample(example);
+        if(oldReportInfoList!=null && oldReportInfoList.size()>0){
+            taskreportinfoMapper.deleteByExample(example);
+            for(Taskreportinfo info : oldReportInfoList){
+                ReportcontentExample reportcontentExample = new ReportcontentExample();
+                reportcontentExample.createCriteria().andReportidEqualTo(info.getId());
+                reportcontentMapper.deleteByExample(reportcontentExample);
+            }
+        }
+
         //不存在子任务 上传失败
         TasktempinfoExample example1 = new TasktempinfoExample();
         example1.createCriteria().andTaskcodeEqualTo(taskreportinfo.getTaskcode());
@@ -433,7 +443,7 @@ public class CommonServiceImpl implements CommonService {
         result = taskreportinfoMapper.insert(taskreportinfo) == 1 ? new JSONResult<>() : new JSONResult<>("操作失败");
 
         //判断任务是否需要上传，如果需要则初始化巡检记录上传情况表（uploadtaskinfo）
-        final Taskuploadconfig taskuploadconfig = taskuploadconfigMapper.selectByReportId(taskreportinfo.getId());
+        final Taskuploadconfig taskuploadconfig = taskuploadconfigMapper.selectByTaskId(taskreportinfo.getTaskid());
         if(taskuploadconfig!=null){
             //删除已有的上传记录（reportid）
             UploadtaskinfoExample exampleupload = new UploadtaskinfoExample();

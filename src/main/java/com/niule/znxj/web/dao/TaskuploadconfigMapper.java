@@ -22,7 +22,7 @@ public interface TaskuploadconfigMapper {
 
     Taskuploadconfig selectByPrimaryKey(Long id);
 
-    Taskuploadconfig selectByReportId(Long reportid);
+    Taskuploadconfig selectByTaskId(Long taskid);
 
     int updateByExampleSelective(@Param("record") Taskuploadconfig record, @Param("example") TaskuploadconfigExample example);
 
