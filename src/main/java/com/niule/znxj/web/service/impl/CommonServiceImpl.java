@@ -70,6 +70,8 @@ public class CommonServiceImpl implements CommonService {
     private  DangerhandlerinfoMapper dangerhandlerinfoMapper;
     @Resource
     private  AdmininfoMapper admininfoMapper;
+    @Resource
+    private SiteareainfoMapper siteareainfoMapper;
 
     @Override
     public Userinfo userLogin(String username, String password) {
@@ -80,7 +82,21 @@ public class CommonServiceImpl implements CommonService {
     public Result getLoginConfig() {
         SystemsettinginfoExample systemsettinginfoExample = new SystemsettinginfoExample();
         systemsettinginfoExample.createCriteria().andKeynameIn(Arrays.asList("REMEMBER_NAME", "REMEMBER_PSW", "SHOW_COPYRIGHT", "COPYRIGHT_CONTENT", "REPORTCACHE", "WIFIUPLOAD", "SYSTEMVERSION", "APPVERSION"));
+
+
         return new JSONResult<>(systemsettinginfoMapper.selectByExample(systemsettinginfoExample));
+    }
+
+    @Override
+    public Result getSiteList(Long userId) {
+        Siteareainfo siteareainfo = siteareainfoMapper.selectByUserId(userId);
+        List<Siteareainfo> siteareainfoList =  siteareainfoMapper.selectSiteListByDistrictId(siteareainfo.getDistrictid());
+        for(Siteareainfo info: siteareainfoList){
+            if(info.getId()==siteareainfo.getId()){
+                info.setCurrentSite("1");
+            }
+        }
+        return new JSONResult<>(siteareainfoList);
     }
 
     @Override

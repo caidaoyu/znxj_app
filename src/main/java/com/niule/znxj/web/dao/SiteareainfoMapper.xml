@@ -6,6 +6,7 @@
     <result column="customid" property="customid" jdbcType="VARCHAR" />
     <result column="desccontent" property="desccontent" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="districtid" property="districtid" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -202,6 +203,15 @@
     <if test="siteid!=null and siteid!=''">
       and id=#{siteid}
     </if>
+  </select>
+
+  <select id="selectSiteListByDistrictId" resultMap="BaseResultMap" parameterType="Long">
+    SELECT * FROM siteareainfo WHERE districtid =#{districtid}
+	)
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="Long">
+    SELECT s.* from siteareainfo s LEFT JOIN classinfo c ON s.id = c.siteareaid
+    LEFT JOIN userinfo u ON u.classid = c.id WHERE u.id=#{userId}
   </select>
   <!--<select id="countSite" resultType="int">-->
     <!--select count(id) from siteareainfo-->

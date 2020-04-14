@@ -55,14 +55,29 @@ public class AppController {
     @ResponseBody
     public Result userLogin(String username, String password){
         LoginResponse response = new LoginResponse();
-        Userinfo userinfo = commonService.userLogin(username,password);
-        if (userinfo==null)
-            return new JSONResult<>("用户名或密码错误");
-        response.setUserinfo(userinfo);
-        response.setWarningtypes(commonService.getWarningTypeOrLevels(0));
-        response.setWarninglevels(commonService.getWarningTypeOrLevels(1));
-        response.setStopreasons(commonService.getWarningTypeOrLevels(2));
-        return new JSONResult<>(response);
+        try {
+            Userinfo userinfo = commonService.userLogin(username, password);
+            if (userinfo == null)
+                return new JSONResult<>("用户名或密码错误");
+            response.setUserinfo(userinfo);
+            response.setWarningtypes(commonService.getWarningTypeOrLevels(0));
+            response.setWarninglevels(commonService.getWarningTypeOrLevels(1));
+            response.setStopreasons(commonService.getWarningTypeOrLevels(2));
+            return new JSONResult<>(response);
+        }catch (Exception e){
+            return new JSONResult<>("用户重复");
+           // e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取用户厂区集合
+     * @return
+     */
+    @RequestMapping(value = "/getSiteList",method = RequestMethod.GET)
+    @ResponseBody
+    public Result getSiteList(Long userId){
+        return commonService.getSiteList(userId);
     }
 
     /**

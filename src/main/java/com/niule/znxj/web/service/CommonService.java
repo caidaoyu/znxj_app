@@ -15,6 +15,8 @@ public interface CommonService {
     Userinfo userLogin(String username, String password);
     //获取登陆配置
     Result getLoginConfig();
+    //获取厂区集合
+    Result getSiteList(Long userId);
     //获取任务列表
     Result getTasks(Long userId, Long classId, Integer type, Integer state, Integer page, Integer size);
     //设置任务状态

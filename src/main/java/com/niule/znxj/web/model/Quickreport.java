@@ -7,6 +7,8 @@ import java.util.Date;
 public class Quickreport {
     private Long id;
 
+    private Long siteid; //厂区ID
+
     private String reportcode;
 
     private Long userid;
@@ -139,5 +141,13 @@ public class Quickreport {
 
     public void setUpload(String upload) {
         this.upload = upload == null ? null : upload.trim();
+    }
+
+    public Long getSiteid() {
+        return siteid;
+    }
+
+    public void setSiteid(Long siteid) {
+        this.siteid = siteid;
     }
 }

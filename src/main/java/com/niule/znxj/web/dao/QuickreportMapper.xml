@@ -8,7 +8,7 @@
     <result column="realname" property="u.realname" jdbcType="BIGINT" />
     <result column="classname" property="group.customid" jdbcType="VARCHAR" />
     <result column="sitename" property="site.customid" jdbcType="VARCHAR" />
-    <result column="siteid" property="site.id" jdbcType="VARCHAR" />
+    <result column="siteid" property="siteid" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="img" property="img" jdbcType="VARCHAR" />
     <result column="audio" property="audio" jdbcType="VARCHAR" />
@@ -124,6 +124,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="siteid != null" >
+        siteid,
       </if>
       <if test="reportcode != null" >
         reportcode,

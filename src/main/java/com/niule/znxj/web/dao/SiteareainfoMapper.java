@@ -22,6 +22,10 @@ public interface SiteareainfoMapper {
 
     List<Siteareainfo> selectByExample(SiteareainfoExample example);
 
+    List<Siteareainfo> selectSiteListByDistrictId(Long districtid);
+
+    Siteareainfo selectByUserId(Long userId);
+
     Siteareainfo selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Siteareainfo record, @Param("example") SiteareainfoExample example);
