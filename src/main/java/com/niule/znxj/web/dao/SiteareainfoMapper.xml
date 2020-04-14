@@ -207,7 +207,6 @@
 
   <select id="selectSiteListByDistrictId" resultMap="BaseResultMap" parameterType="Long">
     SELECT * FROM siteareainfo WHERE districtid =#{districtid}
-	)
   </select>
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="Long">
     SELECT s.* from siteareainfo s LEFT JOIN classinfo c ON s.id = c.siteareaid
