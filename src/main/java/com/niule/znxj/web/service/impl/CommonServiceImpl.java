@@ -184,6 +184,7 @@ public class CommonServiceImpl implements CommonService {
         return new JSONResult<>("没查到数据");
     }
 
+
     /**
      * 获取任务列表
      *
@@ -195,68 +196,28 @@ public class CommonServiceImpl implements CommonService {
     public Result getTasks(Long userId, Long classId, Integer type, Integer state, Integer page, Integer size) {
         TasktempinfoExample example = new TasktempinfoExample();
         TasktempinfoExample.Criteria criteria = example.createCriteria();
-        if (state == 1) {
-            criteria.andUseridEqualTo(userId);
-        }
-        if (state == 0 || state == 1) {
-            example.setOrderByClause("t1.executetime asc");
-        } else {
-            criteria.andExecutetimeGreaterThan(DateUtils.getWholePointDate(7));
-            example.setOrderByClause("t1.executetime desc");
-        }
         criteria.andStateEqualTo(state);
         criteria.andTypeEqualTo(type);
         criteria.andClassIdEqualto(classId);
-        List<TaskTempRes> list2 = null;
-        if (state == 0 || state == 1) {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("state", state);
-            map.put("type", type);
-            map.put("classId", classId);
-            list2 = taskplaninfoMapper.getPartTask(map);
-
-        }
         PageHelper.startPage(page, size);
-        List<TaskTempRes> list1 = taskplaninfoMapper.getTakTempsExecutingByExample(example);
-        if (list2 != null && list2.size() > 0) {
-            //2018年7月23日11:28:24  去掉迭代  因为迭代会卡
-            List<TaskTempRes> list3 = new ArrayList<>();
-            for (TaskTempRes taskTempRes : list1) {
-                if (taskTempRes.getOperationstate() == 5) {
-                    list3.add(taskTempRes);
-                }
-            }
-
-            if (list3.size() > 0)
-                list1.removeAll(list3);
-            list1.addAll(list2);
-        }
-        if (state == 0 || state == 1) {
-            Collections.sort(list1, new Comparator<TaskTempRes>() {
-                @Override
-                public int compare(TaskTempRes o1, TaskTempRes o2) {
-                    //按照executetime进行升序排列
-                    if (o1.getExecutetime().after(o2.getExecutetime())) {
-                        return 1;
-                    }
-                    if (o1.getExecutetime().equals(o2.getExecutetime())) {
-                        return 0;
-                    }
-                    return -1;
-                }
-            });
-        }
-
-        //获取任务--未按时间生成的 待执行
+        List<TaskTempRes> dataList = null;
         if (state == 0) {
             HashMap<String, Object> map1 = new HashMap<>();
+            map1.put("state",state);
             map1.put("type", type);
-            map1.put("classId", classId);
-            List<TaskTempRes> taskplaninfoList = taskplaninfoMapper.selectTaskTempRes(map1);
-            list1.addAll(0, taskplaninfoList);
+            map1.put("classid", classId);
+            dataList= taskplaninfoMapper.getTakTempsExecutingByExample2(map1);
+        } else if(state==1) {
+            criteria.andUseridEqualTo(userId);
+            dataList= taskplaninfoMapper.getTakTempsExecutingByExample(example);
+        }else{
+            criteria.andExecutetimeGreaterThan(DateUtils.getWholePointDate(7));
+            example.setOrderByClause("t1.executetime desc");
+            dataList= taskplaninfoMapper.getTakTempsExecutingByExample(example);
         }
-        return new JSONResult<>(new PageInfo<>(list1));
+        return new JSONResult<>(new PageInfo<>(dataList));
     }
+
 
     /**
      * 设置任务状态

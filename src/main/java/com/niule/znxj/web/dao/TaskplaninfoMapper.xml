@@ -192,7 +192,7 @@
   </select>
 
   <select id="selectTaskTempRes" resultMap="TaskResultMap" parameterType="map">
-    select tp.*,u.realname,u.id,c.id,c.customid as classname from taskplaninfo tp LEFT JOIN userinfo u on u.id = tp.directorid
+    select tp.*,u.realname,c.customid as classname from taskplaninfo tp LEFT JOIN userinfo u on u.id = tp.directorid
     left join classinfo c on c.id = tp.classid
     <where>
       <if test="type!=null">
@@ -802,6 +802,20 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+  </select>
+
+  <select id="getTakTempsExecutingByExample2" resultMap="TaskResultMap" parameterType="map" >
+    select * FROM (SELECT t1.id AS tempid,t1.executetime,t1.taskcode,t1.operationstate,t1.stopstate,t2.id,t2.identifyingid,t2.customid,
+    t2.type,t2.taskcontent,t2.taskdesc,t2.starttime,t2.endtime,t2.classid,t2.issequentially,t2.maxduration,t2.directorid,t2.updatetime,
+    c.customid classname,u.realname FROM taskplaninfo t2 LEFT JOIN tasktempinfo t1 ON t1.`taskid` = t2.`id`
+    LEFT JOIN classinfo c ON t2.classid = c.id LEFT JOIN userinfo u ON t2.directorid = u.id
+    WHERE t1.state = ${state} AND t2.type = ${type}	AND t2.classid = ${classid}
+    UNION (SELECT null as tempid,null as executetime,null as taskcode,null as operationstate,null as stopstate,t3.id,t3.identifyingid,
+        t3.customid,t3.type,t3.taskcontent,t3.taskdesc,t3.starttime,t3.endtime,t3.classid,t3.issequentially,t3.maxduration,t3.directorid,
+        t3.updatetime,c.customid AS classname,u.realname FROM taskplaninfo t3
+      LEFT JOIN userinfo u ON u.id = t3.directorid LEFT JOIN classinfo c ON c.id = t3.classid
+      WHERE	t3.type = ${type} AND t3.classid = ${classid} AND t3.state = 1 AND t3.implementtime = '[]' AND t3.weeklytime = '[]')) t5
+      ORDER BY	t5.updatetime DESC,t5.executetime asc
   </select>
 
   <select id="getPartTask" resultMap="TaskResultMap" parameterType="map">

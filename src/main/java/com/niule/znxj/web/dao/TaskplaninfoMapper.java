@@ -60,6 +60,8 @@ public interface TaskplaninfoMapper {
 
     List<TaskTempRes> getTakTempsExecutingByExample(TasktempinfoExample example);
 
+    List<TaskTempRes> getTakTempsExecutingByExample2(Map map);
+
     List<TaskTempRes> getPartTask(Map map);
 
     int updatestate(Long id);
