@@ -18,6 +18,7 @@ import com.niule.znxj.web.model.taskresponse.TaskTempRes;
 import com.niule.znxj.web.service.CommonService;
 import com.niule.znxj.web.service.SendEmailService;
 import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -77,6 +78,7 @@ public class CommonServiceImpl implements CommonService {
     public Userinfo userLogin(String username, String password) {
         return userinfoMapper.authUser(username, password);
     }
+    private static Logger logger = Logger.getLogger(HttpRequestUtil.class);
 
     @Override
     public Result getLoginConfig() {
@@ -461,6 +463,16 @@ public class CommonServiceImpl implements CommonService {
                     //插入报告内容单项 到 reportcontent
                     TaskReportRes res = JsonUtil.toObject(content, TaskReportRes.class);
                     for (TaskReportContent item : res.getRes()) {
+                        //寻找错误的状态项数据
+                        if ("1".equals(item.getReportstate()) && "状态项".equals(item.getChecktype()) &&
+                                (item.getErrcontent() == null || item.getErrcontent().isEmpty())){
+                            logger.debug("app端上传了错误的状态项数据->errcontent为空,reportid->" + taskreportinfo.getId());
+                        }
+                        //寻找normalmax和normalmin相同的数据
+                        if (!"-".equals(item.getNormalmax()) && "记录项".equals(item.getChecktype()) &&
+                                item.getNormalmax() == item.getNormalmin()){
+                            logger.debug("app端上传了错误的记录项数据->normalmax和normalmin相同,reportid->" + taskreportinfo.getId());
+                        }
                         String checkitype = item.getChecktype();
                         Float normalmin = item.getNormalmin();
                         Float normalmax = item.getNormalmax();
